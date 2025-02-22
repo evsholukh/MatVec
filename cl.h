@@ -227,7 +227,7 @@ inline void OpenCLHelper::print_info() {
 const std::string OpenCLHelper::source = R"(
     __kernel void vector_add(__global float* a,
                              __global const float* b,
-                            const unsigned int n) {
+                            const uint n) {
         int i = get_global_id(0);
         if (i < n) {
             a[i] = a[i] + b[i];

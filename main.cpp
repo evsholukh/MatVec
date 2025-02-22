@@ -10,26 +10,21 @@
 #include "vector.h"
 #include "cl.h"
 #include "measured.h"
+#include "experiments.h"
 
 
 int main(int argc, char **argv) {
-    const int array_size = pow(10, 7);
-
-    Vector a = Vector::generate(array_size);
-    Vector b = Vector::generate(array_size);
-
-    std::cout << "Vector size: " << a.size_mb() << " MB" << std::endl;
+    const int N = pow(10, 7);
 
     try {
-        OpenCLHelper helper;
-        helper.print_info();
-        // helper.vector_add(a.data(), b.data());
-        std::cout << std::left << std::setw(20) << "Runtime vector sum: " << std::fixed << a.sum() << std::endl;
+        VectorAdd add(N);
+        float add_time = add.measure();
+        std::cout << std::left << std::setw(20) << "OpenCL vector add: " << std::fixed << add_time << "s" << std::endl;
 
-        auto cl_vector_sum = helper.vector_sum(a.data());
-        std::cout << std::left << std::setw(20) << "OpenCL vector sum: " << std::fixed << cl_vector_sum << std::endl;
+        VectorSum sum(N);
+        float sum_time = sum.measure();
+        std::cout << std::left << std::setw(20) << "OpenCL vector sum: " << std::fixed << sum_time << "s" << std::endl;
 
-        helper.close();
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
