@@ -5,6 +5,7 @@
 #include <chrono>
 
 #define CL_HPP_TARGET_OPENCL_VERSION 300
+#define __CL_ENABLE_EXCEPTIONS // Включаем исключения
 
 #include <CL/opencl.hpp>
 
@@ -118,35 +119,34 @@ inline void OpenCLHelper::vector_add(std::vector<float> &x, std::vector<float> &
     }
 }
 
-// https://dournac.org/info/gpu_sum_reduction
-
 inline float OpenCLHelper::vector_sum(std::vector<float> &x) {
     // Код ошибки
     cl_int err = CL_SUCCESS;
 
     // Узнать максимальный размер группы
-    size_t group_size = this->device.getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>(&err);
-    if (err != CL_SUCCESS) {
-        throw std::runtime_error("Getting max group size error: "+ this->decodeError(err));
-    }
+    // size_t group_size = this->device.getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>(&err);
+    // if (err != CL_SUCCESS) {
+    //     throw std::runtime_error("Getting max group size error: "+ this->decodeError(err));
+    // }
+    const size_t group_size = 256;
+
     // Расширяем глобальный размер до ближайшего кратного max_work_group_size
     size_t N = x.size();
     if (N % group_size != 0) {
         N = ((N / group_size) + 1) * group_size;
     }
-    // Количество групп
-    size_t reduction_size = N / group_size;
+    // Выравнивание вектора
+    x.resize(N, 0.0f);
 
-    // Размер вектора в байтах
-    size_t vector_bytes = sizeof(float) * x.size();
-    size_t reduction_bytes = sizeof(float) * reduction_size;
+    // Количество групп
+    size_t groups_count = N / group_size;
 
     // Создание буферов на устройстве
-    cl::Buffer buffer_x(*this->context, CL_MEM_READ_WRITE, vector_bytes);
-    cl::Buffer buffer_reduction(*this->context, CL_MEM_WRITE_ONLY, reduction_bytes);
+    cl::Buffer buffer_x(*this->context, CL_MEM_READ_ONLY, sizeof(float) * x.size());
+    cl::Buffer buffer_result(*this->context, CL_MEM_WRITE_ONLY, sizeof(float) * groups_count);
 
     // Копирование массивов на устройство
-    err = this->queue->enqueueWriteBuffer(buffer_x, CL_TRUE, 0, vector_bytes, x.data());
+    err = this->queue->enqueueWriteBuffer(buffer_x, CL_TRUE, 0, sizeof(float) * x.size(), x.data());
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Copying buf x to device error: "+ this->decodeError(err));
     }
@@ -162,11 +162,11 @@ inline float OpenCLHelper::vector_sum(std::vector<float> &x) {
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
     }
-    err = kernel.setArg(2, buffer_reduction);
+    err = kernel.setArg(2, buffer_result);
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
     }
-    err = kernel.setArg(3, static_cast<int>(x.size()));
+    err = kernel.setArg(3, static_cast<int>(N));
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
     }
@@ -182,8 +182,8 @@ inline float OpenCLHelper::vector_sum(std::vector<float> &x) {
         throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
     }
     // Чтение результата
-    std::vector<float> reduction_vec(reduction_size);
-    err = this->queue->enqueueReadBuffer(buffer_reduction, CL_TRUE, 0, reduction_bytes, reduction_vec.data());
+    std::vector<float> reduction_vec(groups_count);
+    err = this->queue->enqueueReadBuffer(buffer_result, CL_TRUE, 0, sizeof(float)*groups_count, reduction_vec.data());
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
     }
@@ -243,6 +243,7 @@ const std::string OpenCLHelper::source = R"(
         uint group_size = get_local_size(0);
 
         local_data[lid] = (gid < n) ? data[gid] : 0.0f;
+        barrier(CLK_LOCAL_MEM_FENCE);
 
         for (uint i = group_size >> 1; i > 0; i >>= 1) {
             if (lid < i) {
