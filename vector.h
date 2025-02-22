@@ -13,8 +13,11 @@ public:
 
     static Vector generate(size_t size);
 
-    float size_mb();
     float sum();
+    void add(Vector &o);
+    float dot(Vector &o);
+
+    float size_mb();
     void print();
 
     std::vector<float>& data();
@@ -39,6 +42,23 @@ inline float Vector::sum() {
     float res = 0.0f;
     for (size_t i = 0; i < this->_data.size(); i++) {
         res += this->_data.at(i);
+    }
+    return res;
+}
+
+inline void Vector::add(Vector &o) {
+    auto o_data = o.data();
+
+    for (size_t i = 0; i < this->_data.size(); i++) {
+        this->_data[i] += o_data[i];
+    }
+}
+
+inline float Vector::dot(Vector &o) {
+    float res = 0.0f;
+    auto o_data = o.data();
+    for (size_t i = 0; i < this->_data.size(); i++) {
+        res += this->_data.at(i) * o_data.at(i);
     }
     return res;
 }

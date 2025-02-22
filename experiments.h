@@ -1,41 +1,77 @@
+#pragma once
 
 #include "measured.h"
 #include "vector.h"
 #include "cl.h"
 
 
-class VectorAdd : public TimeMeasured {
-private:
-    Vector x;
-    Vector y;
+class VectorAddRuntime : public TimeMeasured {
+protected:
+    Vector x, y;
+public:
+    VectorAddRuntime(std::vector<float> x, std::vector<float> y): x(x), y(y) {}
+    VectorAddRuntime(const size_t size) : x(Vector::generate(size)), y(Vector::generate(size)) {};
+
+    virtual void perform() override {
+        this->x.add(y);
+    }
+};
+
+class VectorSumRuntime : public TimeMeasured {
+protected:
+    Vector vec;
+public:
+    VectorSumRuntime(std::vector<float> vec): vec(vec) {}
+    VectorSumRuntime(const size_t size) : vec(Vector::generate(size)) {};
+
+    virtual void perform() override {
+        this->vec.sum();
+    }
+};
+
+class VectorDotRuntime : public VectorAddRuntime {
+public:
+    VectorDotRuntime(std::vector<float> x, std::vector<float> y): VectorAddRuntime(x, y) {}
+    VectorDotRuntime(size_t size) : VectorAddRuntime(size) {}
+
+    virtual void perform() override {
+        this->x.dot(this->y);
+    }
+};
+
+class VectorAddOpenCL : public VectorAddRuntime {
+protected:
     OpenCLHelper helper;
 
 public:
-    VectorAdd(const size_t size) : x(Vector::generate(size)),
-                                   y(Vector::generate(size)),
-                                   helper(OpenCLHelper()) {}
-    ~VectorAdd() {};
-    virtual void perform();
+    VectorAddOpenCL(std::vector<float> x, std::vector<float> y): VectorAddRuntime(x, y) {}
+    VectorAddOpenCL(size_t size) : VectorAddRuntime(size) {}
+
+    virtual void perform() override {
+        helper.vector_add(this->x.data(), this->y.data());
+    }
 };
 
-inline void VectorAdd::perform() {
-    helper.vector_add(this->x.data(), this->y.data());
-}
+class VectorSumOpenCL : public VectorSumRuntime {
+protected:
+    OpenCLHelper helper;
 
-class VectorSum : public TimeMeasured {
-    private:
-        Vector x;
-        Vector y;
-        OpenCLHelper helper;
-    
-    public:
-        VectorSum(const size_t size) : x(Vector::generate(size)),
-                                       y(Vector::generate(size)),
-                                       helper(OpenCLHelper()) {}
-        ~VectorSum() {};
-        virtual void perform();
+public:
+    VectorSumOpenCL(std::vector<float> vec) : VectorSumRuntime(vec), helper(OpenCLHelper()) {}
+    VectorSumOpenCL(const size_t size) : VectorSumRuntime(size), helper(OpenCLHelper()) {}
+
+    virtual void perform() override {
+        this->helper.vector_sum(this->vec.data());
+    };
 };
-    
-inline void VectorSum::perform() {
-    helper.vector_sum(this->x.data());
-}
+
+class VectorDotOpenCL : public VectorAddOpenCL {
+public:
+    VectorDotOpenCL(std::vector<float> x, std::vector<float> y): VectorAddOpenCL(x, y) {}
+    VectorDotOpenCL(size_t size) : VectorAddOpenCL(size) {}
+
+    virtual void perform() override {
+        helper.vector_dot(this->x.data(), this->y.data());
+    }
+};
+
