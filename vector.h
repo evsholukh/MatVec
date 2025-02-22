@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <random>
 
@@ -12,6 +14,9 @@ public:
     static Vector generate(size_t size);
 
     float size_mb();
+    float sum();
+    void print();
+
     std::vector<float>& data();
 };
 
@@ -30,6 +35,26 @@ float Vector::size_mb() {
     return (sizeof(float) * this->_data.size()) / (1024 * 1024);
 }
 
+inline float Vector::sum() {
+    float res = 0.0f;
+    for (size_t i = 0; i < this->_data.size(); i++) {
+        res += this->_data.at(i);
+    }
+    return res;
+}
+
+inline void Vector::print() {
+    for (size_t i = 0; i < this->_data.size(); i++) {
+        std::cout << this->_data.at(i);
+        if (i < this->_data.size() - 2)  {
+            std::cout << ",";
+        } else {
+            std::cout << std::endl;
+        }
+    }
+}
+
 inline std::vector<float>& Vector::data() {
     return this->_data;
 }
+

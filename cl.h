@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <random>
 #include <chrono>
@@ -6,6 +8,7 @@
 
 #include <CL/opencl.hpp>
 
+#include "vector.h"
 
 class OpenCLHelper {
 
@@ -23,7 +26,8 @@ public:
     OpenCLHelper();
     ~OpenCLHelper();
 
-    void vector_sum(std::vector<float> &x, std::vector<float> &y);
+    void vector_add(std::vector<float> &x, std::vector<float> &y);
+    float vector_sum(std::vector<float> &x);
     float vector_scalar_product(std::vector<float> &x, std::vector<float> &y);
 
     void close();
@@ -62,7 +66,7 @@ OpenCLHelper::OpenCLHelper() {
 
 OpenCLHelper::~ OpenCLHelper() {}
 
-inline void OpenCLHelper::vector_sum(std::vector<float> &x, std::vector<float> &y) {
+inline void OpenCLHelper::vector_add(std::vector<float> &x, std::vector<float> &y) {
     if (x.size() != y.size()) {
         throw std::runtime_error("Invalid vector sizes " + std::to_string(x.size()) + " " + std::to_string(y.size()));
     }
@@ -76,22 +80,28 @@ inline void OpenCLHelper::vector_sum(std::vector<float> &x, std::vector<float> &
     // Копирование массивов на устройство
     err = this->queue->enqueueWriteBuffer(buffer_x, CL_TRUE, 0, bytes_count, x.data());
     if (err != CL_SUCCESS) {
-        throw std::runtime_error("Copying buf to device error: "+ this->decodeError(err));
+        throw std::runtime_error("Copying buf x to device error: "+ this->decodeError(err));
     }
     err = this->queue->enqueueWriteBuffer(buffer_y, CL_TRUE, 0, bytes_count, y.data());
     if (err != CL_SUCCESS) {
-        throw std::runtime_error("Copying buf to device error: "+ this->decodeError(err));
+        throw std::runtime_error("Copying buf y to device error: "+ this->decodeError(err));
     }
 
-    // Задание аргументов ядра
+    // Создание ядра
     cl::Kernel kernel(*this->program, "vector_add");
+
+    // Задание аргументов ядра
     err = kernel.setArg(0, buffer_x);
     if (err != CL_SUCCESS) {
-        throw std::runtime_error("Setting arg error: " + this->decodeError(err));
+        throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
     }
     err = kernel.setArg(1, buffer_y);
     if (err != CL_SUCCESS) {
-        throw std::runtime_error("Setting arg error: " + this->decodeError(err));
+        throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
+    }
+    err = kernel.setArg(2, x.size());
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
     }
 
     // Добавление в очередь запуск ядра
@@ -106,6 +116,82 @@ inline void OpenCLHelper::vector_sum(std::vector<float> &x, std::vector<float> &
     if (err != CL_SUCCESS) {
         throw std::runtime_error("Copying array from device error: " + this->decodeError(err));
     }
+}
+
+// https://dournac.org/info/gpu_sum_reduction
+
+inline float OpenCLHelper::vector_sum(std::vector<float> &x) {
+    // Код ошибки
+    cl_int err = CL_SUCCESS;
+
+    // Узнать максимальный размер группы
+    size_t group_size = this->device.getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>(&err);
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Getting max group size error: "+ this->decodeError(err));
+    }
+    // Расширяем глобальный размер до ближайшего кратного max_work_group_size
+    size_t N = x.size();
+    if (N % group_size != 0) {
+        N = ((N / group_size) + 1) * group_size;
+    }
+    // Количество групп
+    size_t reduction_size = N / group_size;
+
+    // Размер вектора в байтах
+    size_t vector_bytes = sizeof(float) * x.size();
+    size_t reduction_bytes = sizeof(float) * reduction_size;
+
+    // Создание буферов на устройстве
+    cl::Buffer buffer_x(*this->context, CL_MEM_READ_WRITE, vector_bytes);
+    cl::Buffer buffer_reduction(*this->context, CL_MEM_WRITE_ONLY, reduction_bytes);
+
+    // Копирование массивов на устройство
+    err = this->queue->enqueueWriteBuffer(buffer_x, CL_TRUE, 0, vector_bytes, x.data());
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Copying buf x to device error: "+ this->decodeError(err));
+    }
+    // Создание ядра
+    cl::Kernel kernel(*this->program, "reduction");
+
+    // Устанавливаем аргументы ядра
+    err = kernel.setArg(0, buffer_x);
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
+    }
+    err = kernel.setArg(1, sizeof(float) * group_size); // Локальная память
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
+    }
+    err = kernel.setArg(2, buffer_reduction);
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
+    }
+    err = kernel.setArg(3, static_cast<int>(x.size()));
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
+    }
+    // Глобальный размер
+    cl::NDRange globalSize(N);
+
+    // Локальный размер
+    cl::NDRange localSize(group_size);
+
+    // Запуск ядра
+    err = this->queue->enqueueNDRangeKernel(kernel, cl::NullRange, globalSize, localSize);
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
+    }
+    // Чтение результата
+    std::vector<float> reduction_vec(reduction_size);
+    err = this->queue->enqueueReadBuffer(buffer_reduction, CL_TRUE, 0, reduction_bytes, reduction_vec.data());
+    if (err != CL_SUCCESS) {
+        throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
+    }
+    return Vector(reduction_vec).sum();
+}
+
+inline float OpenCLHelper::vector_scalar_product(std::vector<float> &x, std::vector<float> &y) {
+    return 0.0f;
 }
 
 inline void OpenCLHelper::close() {
@@ -139,9 +225,34 @@ inline void OpenCLHelper::print_info() {
 }
 
 const std::string OpenCLHelper::source = R"(
-    __kernel void vector_add(__global float* a, __global const float* b) {
+    __kernel void vector_add(__global float* a,
+                             __global const float* b,
+                            const unsigned int n) {
         int i = get_global_id(0);
-        a[i] = a[i] + b[i];
+        if (i < n) {
+            a[i] = a[i] + b[i];
+        }
+    }
+    __kernel void reduction(__global float* data,
+                            __local float* local_data,
+                            __global float* result,
+                            const uint n) {
+
+        uint gid = get_global_id(0);
+        uint lid = get_local_id(0);
+        uint group_size = get_local_size(0);
+
+        local_data[lid] = (gid < n) ? data[gid] : 0.0f;
+
+        for (uint i = group_size >> 1; i > 0; i >>= 1) {
+            if (lid < i) {
+                local_data[lid] += local_data[lid + i];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+        }
+        if (lid == 0) {
+            result[get_group_id(0)] = local_data[0];
+        }
     }
 )";
 

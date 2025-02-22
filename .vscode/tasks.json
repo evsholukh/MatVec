@@ -10,7 +10,7 @@
                 "-I", "${workspaceFolder}\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
                 "-L", "${workspaceFolder}\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
                 "-lOpenCL",
-                "-o", "${workspaceFolder}\\cl.exe"
+                "-o", "${workspaceFolder}\\cl_example.exe"
             ],
             "group": {
                 "kind": "build",
