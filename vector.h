@@ -62,8 +62,4 @@ public:
             }
         }
     }
-
-    // std::vector<T>& vec() {
-    //     return _vec;
-    // }
 };

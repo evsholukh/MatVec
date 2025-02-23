@@ -37,37 +37,13 @@ int main(int argc, char **argv) {
 
         std::cout << "MSE (add):   " << std::fixed << x.mse(cl_x) << std::endl;
 
-        // VectorAddOpenCL add(x.vec(), y.vec());
-        // std::cout << std::left 
-        //           << std::setw(20)
-        //           << "OpenCL vector add: "
-        //           << std::fixed
-        //           << add.measure()
-        //           << "s" << std::endl;
-
-        // VectorSumOpenCL sum(x.vec());
-        // std::cout << std::left 
-        //           << std::setw(20)
-        //           << "OpenCL vector sum: "
-        //           << std::fixed
-        //           << sum.measure()
-        //           << "s" << std::endl;
-
-        // VectorDotRuntime runtime_dot(x.vec(), y.vec());
-        // std::cout << std::left 
-        //           << std::setw(20)
-        //           << "Runtime vector dot: "
-        //           << std::fixed
-        //           << sum.measure()
-        //           << "s" << std::endl;
-
-        // VectorDotOpenCL dot(x.vec(), y.vec());
-        // std::cout << std::left 
-        //           << std::setw(20)
-        //           << "OpenCL vector dot: "
-        //           << std::fixed
-        //           << sum.measure()
-        //           << "s" << std::endl;
+        VectorAdd<double> add(x, y);
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "OpenCL vector add: "
+                  << std::fixed
+                  << add.measure()
+                  << "s" << std::endl;
 
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
