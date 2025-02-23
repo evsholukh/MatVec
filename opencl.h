@@ -27,7 +27,7 @@ private:
     size_t groups_count;
 
 public:
-    VectorOpenCL(Vector<T> vec) : Vector<T>(vec) {
+    VectorOpenCL(Vector<T> &v) : Vector<T>(v) {
 
         // Getting platforms
         std::vector<cl::Platform> platforms;
@@ -61,22 +61,22 @@ public:
             throw std::runtime_error("Compilation error: " + decodeError(err));
         }
         // Extend vector to group size
-        N = this->_vec.size();
+        N = this->vec.size();
         if (N % group_size != 0) {
             N = ((N / group_size) + 1) * group_size;
         }
         // Padding vector
-        this->_vec.resize(N, 0.0f);
+        this->vec.resize(N, 0.0f);
 
         // Work groups number
         groups_count = N / group_size;
 
         // Creating buffers on device
-        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY, sizeof(T) * this->_vec.size());
+        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY, sizeof(T) * this->vec.size());
         red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count);
 
         // Copying vector to device
-        err = queue->enqueueWriteBuffer(*buf, CL_TRUE, 0, sizeof(T) * this->_vec.size(), this->_vec.data());
+        err = queue->enqueueWriteBuffer(*buf, CL_TRUE, 0, sizeof(T) * this->vec.size(), this->vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying vector to device error: "+ decodeError(err));
         }
@@ -154,12 +154,12 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
         }
-        err = add_kernel->setArg(2, this->_vec.size());
+        err = add_kernel->setArg(2, this->vec.size());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
         }
         // Work items count
-        cl::NDRange global_range(this->_vec.size());
+        cl::NDRange global_range(this->vec.size());
         
         // Run kernel
         err = this->queue->enqueueNDRangeKernel(*add_kernel, cl::NullRange, global_range, cl::NullRange);
@@ -167,7 +167,7 @@ public:
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
         // Copying vector to host
-        err = this->queue->enqueueReadBuffer(*buf, CL_TRUE, 0, sizeof(T)*this->_vec.size(), this->_vec.data());
+        err = this->queue->enqueueReadBuffer(*buf, CL_TRUE, 0, sizeof(T)*this->vec.size(), this->vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying vector from device error: " + this->decodeError(err));
         }

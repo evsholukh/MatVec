@@ -17,33 +17,62 @@ int main(int argc, char **argv) {
     const int N = pow(10, 8);
 
     try {
-        auto x = Vector<double>(N);
-        auto cl_x = VectorOpenCL(x);
-
-        cl_x.print_info();
-
+        std::cout << "Generating random vector.. (size: " << std::to_string(N) << ")" << std::endl;
+        Vector x = Vector<double>::random(N);
         std::cout << "Vector size: " << x.size_mb() << "MB" << std::endl;
-        std::cout << "Runtime sum: " << std::fixed  << x.sum() << std::endl;
-        std::cout << "OpenCL sum:  " << std::fixed  << cl_x.sum() << std::endl;
 
-        auto y = Vector<double>(N);
-        auto cl_y = VectorOpenCL(y);
+        Vector y = Vector<double>::random(N);
 
-        std::cout << "Runtime dot: " << std::fixed << x.dot(y) << std::endl;
-        std::cout << "OpenCL dot:  " << std::fixed << cl_x.dot(cl_y) << std::endl;
+        Vector cl_x = VectorOpenCL(x);
+        Vector cl_y = VectorOpenCL(y);
 
-        x.add(y);
-        cl_x.add(cl_y);
+        VectorAdd add(x, y);
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "Runtime vector add: "
+                  << std::fixed
+                  << add.measure()
+                  << "s" << std::endl;
 
-        std::cout << "MSE (add):   " << std::fixed << x.mse(cl_x) << std::endl;
-
-        VectorAdd<double> add(x, y);
+        VectorAdd cl_add(cl_x, cl_y);
         std::cout << std::left 
                   << std::setw(20)
                   << "OpenCL vector add: "
                   << std::fixed
-                  << add.measure()
+                  << cl_add.measure()
                   << "s" << std::endl;
+
+        VectorSum sum(x);
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "Runtime vector sum: "
+                  << std::fixed
+                  << sum.measure()
+                  << "s" << std::endl;
+
+        VectorSum cl_sum(cl_x);
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "OpenCL vector sum: "
+                  << std::fixed
+                  << cl_sum.measure()
+                  << "s" << std::endl;
+
+        VectorDot dot(x, y);
+        std::cout << std::left 
+                << std::setw(20)
+                << "Runtime vector dot: "
+                << std::fixed
+                << dot.measure()
+                << "s" << std::endl;
+
+        VectorDot cl_dot(cl_x, cl_y);
+        std::cout << std::left 
+                << std::setw(20)
+                << "OpenCL vector dot: "
+                << std::fixed
+                << cl_dot.measure()
+                << "s" << std::endl;
 
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
