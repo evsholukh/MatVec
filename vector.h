@@ -2,21 +2,25 @@
 
 #include <vector>
 #include <random>
+#include <numeric>
+#include <algorithm> 
 
 
+template <typename T>
 class Vector {
 
 protected:
-    std::vector<float> _vec;
+    std::vector<T> _vec;
 
 public:
-    Vector(std::vector<float> vec) : _vec(vec) {}
+    Vector(std::vector<T> vec) : _vec(vec) {}
     Vector(size_t size) : Vector(Vector::random(size)) {}
 
     static Vector random(size_t size) {
         std::mt19937 generator(42);
-        std::uniform_real_distribution<float> dist(-1, 1);
-        std::vector<float> vec(size);
+        std::uniform_real_distribution<T> dist(-1, 1);
+        std::vector<T> vec(size);
+
         for (size_t i = 0; i < size; i++) {
             // vec[i] = dist(generator);
             vec[i] = 1.0;
@@ -25,33 +29,23 @@ public:
     }
 
     int size_mb() {
-        return (sizeof(float) * _vec.size()) / (1024 * 1024);
+        return (sizeof(T) * _vec.size()) / (1024 * 1024);
     }
 
-    virtual float sum() {
-        float res = 0.0f;
-        for (size_t i = 0; i < _vec.size(); i++) {
-            res += _vec.at(i);
-        }
-        return res;
+    virtual T sum() {
+        return std::accumulate(_vec.begin(), _vec.end(), T(0));
     }
 
     virtual void add(Vector &o) {
-        for (size_t i = 0; i < _vec.size(); i++) {
-            _vec[i] += o._vec[i];
-        }
+        std::transform(_vec.begin(), _vec.end(), o._vec.begin(), _vec.begin(), std::plus<T>());
     }
 
-    virtual float dot(Vector &o) {
-        float res = 0.0f;
-        for (size_t i = 0; i < _vec.size(); i++) {
-            res += _vec[i] * o._vec[i];
-        }
-        return res;
+    virtual T dot(Vector &o) {
+        return std::inner_product(_vec.begin(), _vec.end(), o._vec.begin(), T(0));
     }
 
-    float mse(Vector &o) {
-        float res = 0.0f;
+    T mse(Vector &o) {
+        T res = 0.0f;
         for (size_t i = 0; i < _vec.size(); i++) {
             res += pow(_vec[i] - o._vec[i], 2);
         }
@@ -69,7 +63,7 @@ public:
         }
     }
 
-    std::vector<float>& vec() {
-        return _vec;
-    }
+    // std::vector<T>& vec() {
+    //     return _vec;
+    // }
 };

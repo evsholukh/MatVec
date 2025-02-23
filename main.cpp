@@ -14,27 +14,28 @@
 
 
 int main(int argc, char **argv) {
-    const int N = pow(10, 7);
+    const int N = pow(10, 8);
 
     try {
-        auto x = Vector(N);
+        auto x = Vector<double>(N);
         auto cl_x = VectorOpenCL(x);
 
         cl_x.print_info();
 
         std::cout << "Vector size: " << x.size_mb() << "MB" << std::endl;
-        std::cout << "Runtime sum: " << std::fixed << x.sum() << std::endl;
-        std::cout << "OpenCL sum: " << std::fixed << cl_x.sum() << std::endl;
+        std::cout << "Runtime sum: " << std::fixed  << x.sum() << std::endl;
+        std::cout << "OpenCL sum:  " << std::fixed  << cl_x.sum() << std::endl;
 
-        auto y = Vector(N);
+        auto y = Vector<double>(N);
         auto cl_y = VectorOpenCL(y);
 
         std::cout << "Runtime dot: " << std::fixed << x.dot(y) << std::endl;
-        std::cout << "OpenCL dot: " << std::fixed << cl_x.dot_cl(cl_y) << std::endl;
+        std::cout << "OpenCL dot:  " << std::fixed << cl_x.dot(cl_y) << std::endl;
 
         x.add(y);
         cl_x.add(cl_y);
-        std::cout << "MSE (add): " << std::fixed << x.mse(cl_x) << std::endl;
+
+        std::cout << "MSE (add):   " << std::fixed << x.mse(cl_x) << std::endl;
 
         // VectorAddOpenCL add(x.vec(), y.vec());
         // std::cout << std::left 

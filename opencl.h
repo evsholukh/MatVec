@@ -9,7 +9,8 @@
 #include "vector.h"
 
 
-class VectorOpenCL : public Vector {
+template <typename T>
+class VectorOpenCL : public Vector<T> {
 private:
     cl::Platform platform;
     cl::Device device;
@@ -20,13 +21,13 @@ private:
     cl::Buffer *buf, *red_buf;
     cl::Kernel *sum_kernel, *add_kernel, *dot_kernel;
 
-    const size_t group_size = 256;
+    const size_t group_size = 128; // double - 128 float - 256
 
     size_t N; // Aligned size of vector
     size_t groups_count;
 
 public:
-    VectorOpenCL(Vector vec) : Vector(vec) {
+    VectorOpenCL(Vector<T> vec) : Vector<T>(vec) {
 
         // Getting platforms
         std::vector<cl::Platform> platforms;
@@ -52,7 +53,7 @@ public:
         device = devices.back();
         context = new cl::Context(device);
         queue = new cl::CommandQueue(*context, device);
-        program = new cl::Program(*context, source);
+        program = new cl::Program(*context, source());
 
         // Building program
         err = program->build();
@@ -60,22 +61,22 @@ public:
             throw std::runtime_error("Compilation error: " + decodeError(err));
         }
         // Extend vector to group size
-        N = vec.vec().size();
+        N = this->_vec.size();
         if (N % group_size != 0) {
             N = ((N / group_size) + 1) * group_size;
         }
         // Padding vector
-        vec.vec().resize(N, 0.0f);
+        this->_vec.resize(N, 0.0f);
 
         // Work groups number
         groups_count = N / group_size;
 
         // Creating buffers on device
-        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY, sizeof(float) * vec.vec().size());
-        red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(float) * groups_count);
+        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY, sizeof(T) * this->_vec.size());
+        red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count);
 
         // Copying vector to device
-        err = queue->enqueueWriteBuffer(*buf, CL_TRUE, 0, sizeof(float) * vec.vec().size(), vec.vec().data());
+        err = queue->enqueueWriteBuffer(*buf, CL_TRUE, 0, sizeof(T) * this->_vec.size(), this->_vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying vector to device error: "+ decodeError(err));
         }
@@ -97,13 +98,13 @@ public:
         delete dot_kernel;
     }
 
-    float sum() override {
+    T sum() override {
         // Setting kernel args
         cl_int err = sum_kernel->setArg(0, *buf);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 0 error: " + decodeError(err));
         }
-        err = sum_kernel->setArg(1, sizeof(float) * group_size); // Local memory
+        err = sum_kernel->setArg(1, sizeof(T) * group_size); // Local memory
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + decodeError(err));
         }
@@ -127,22 +128,22 @@ public:
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
         // Result vector
-        std::vector<float> reduction_vec(groups_count);
+        std::vector<T> reduction_vec(groups_count);
 
         // Reading result
-        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(float)*groups_count, reduction_vec.data());
+        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(T)*groups_count, reduction_vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
         }
         return Vector(reduction_vec).sum();
     }
 
-    void add(Vector &o) override {
+    void add(Vector<T> &o) override {
         VectorOpenCL o_cl(o);
-        cl_add(o_cl);
+        add(o_cl);
     }
 
-    void cl_add(VectorOpenCL &o) {
+    void add(VectorOpenCL &o) {
 
         // Setting args
         cl_int err = add_kernel->setArg(0, *buf);
@@ -153,12 +154,12 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
         }
-        err = add_kernel->setArg(2, _vec.size());
+        err = add_kernel->setArg(2, this->_vec.size());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
         }
         // Work items count
-        cl::NDRange global_range(_vec.size());
+        cl::NDRange global_range(this->_vec.size());
         
         // Run kernel
         err = this->queue->enqueueNDRangeKernel(*add_kernel, cl::NullRange, global_range, cl::NullRange);
@@ -166,18 +167,18 @@ public:
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
         // Copying vector to host
-        err = this->queue->enqueueReadBuffer(*buf, CL_TRUE, 0, sizeof(float)*_vec.size(), _vec.data());
+        err = this->queue->enqueueReadBuffer(*buf, CL_TRUE, 0, sizeof(T)*this->_vec.size(), this->_vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying vector from device error: " + this->decodeError(err));
         }
     }
 
-    float dot(Vector &o) override {
+    T dot(Vector<T> &o) override {
         VectorOpenCL o_cl(o);
-        return dot_cl(o_cl);
+        return dot(o_cl);
     }
 
-    float dot_cl(VectorOpenCL &o) {
+    T dot(VectorOpenCL &o) {
 
         // Setting args
         cl_int err = dot_kernel->setArg(0, *buf);
@@ -188,7 +189,7 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
         }
-        err = dot_kernel->setArg(2, sizeof(float) * group_size); // Local memory
+        err = dot_kernel->setArg(2, sizeof(T) * group_size); // Local memory
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
         }
@@ -212,10 +213,10 @@ public:
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
         // Result vector
-        std::vector<float> reduction_vec(groups_count);
+        std::vector<T> reduction_vec(groups_count);
 
         // Reading results
-        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(float)*groups_count, reduction_vec.data());
+        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(T)*groups_count, reduction_vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
         }
@@ -314,60 +315,141 @@ private:
             default: return "Unknown OpenCL error " + std::to_string(err);
         }
     }
-
-    const std::string source = R"(
-        __kernel void vector_add(__global float* a,
-                                 __global const float* b,
-                                const uint n) {
-            int i = get_global_id(0);
-            if (i < n) {
-                a[i] = a[i] + b[i];
-            }
-        }
-        __kernel void vector_sum(__global float* data,
-                                __local float* local_data,
-                                __global float* result,
-                                const uint n) {
-    
-            uint gid = get_global_id(0);
-            uint lid = get_local_id(0);
-            uint group_size = get_local_size(0);
-    
-            local_data[lid] = (gid < n) ? data[gid] : 0.0f;
-            barrier(CLK_LOCAL_MEM_FENCE);
-    
-            for (uint i = group_size >> 1; i > 0; i >>= 1) {
-                if (lid < i) {
-                    local_data[lid] += local_data[lid + i];
-                }
-                barrier(CLK_LOCAL_MEM_FENCE);
-            }
-            if (lid == 0) {
-                result[get_group_id(0)] = local_data[0];
-            }
-        }
-        __kernel void vector_dot(__global float* a,
-                                         __global float* b,
-                                         __local float* local_data,
-                                         __global float* result,
-                                        const uint n) {
-    
-            uint gid = get_global_id(0);
-            uint lid = get_local_id(0);
-            uint group_size = get_local_size(0);
-    
-            local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
-            barrier(CLK_LOCAL_MEM_FENCE);
-    
-            for (uint i = group_size >> 1; i > 0; i >>= 1) {
-                if (lid < i) {
-                    local_data[lid] += local_data[lid + i];
-                }
-                barrier(CLK_LOCAL_MEM_FENCE);
-            }
-            if (lid == 0) {
-                result[get_group_id(0)] = local_data[0];
-            }
-        }
-    )";
+    const std::string source();
+    static const std::string floatSource, doubleSource;
 };
+
+template <>
+const std::string VectorOpenCL<float>::source() {
+    return floatSource;
+}
+
+template <>
+const std::string VectorOpenCL<double>::source() {
+    return doubleSource;
+}
+
+template<>
+const std::string VectorOpenCL<float>::floatSource = R"(
+    __kernel void vector_add(
+            __global float* a,
+            __global const float* b,
+            const uint n) {
+
+        int i = get_global_id(0);
+        if (i < n) {
+            a[i] = a[i] + b[i];
+        }
+    }
+
+    __kernel void vector_sum(
+        __global float* data,
+        __local float* local_data,
+        __global float* result,
+        const uint n) {
+
+        uint gid = get_global_id(0);
+        uint lid = get_local_id(0);
+        uint group_size = get_local_size(0);
+
+        local_data[lid] = (gid < n) ? data[gid] : 0.0f;
+        barrier(CLK_LOCAL_MEM_FENCE);
+
+        for (uint i = group_size >> 1; i > 0; i >>= 1) {
+            if (lid < i) {
+                local_data[lid] += local_data[lid + i];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+        }
+        if (lid == 0) {
+            result[get_group_id(0)] = local_data[0];
+        }
+    }
+
+    __kernel void vector_dot(
+        __global float* a,
+        __global float* b,
+        __local float* local_data,
+        __global float* result,
+        const uint n) {
+
+        uint gid = get_global_id(0);
+        uint lid = get_local_id(0);
+        uint group_size = get_local_size(0);
+
+        local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
+        barrier(CLK_LOCAL_MEM_FENCE);
+
+        for (uint i = group_size >> 1; i > 0; i >>= 1) {
+            if (lid < i) {
+                local_data[lid] += local_data[lid + i];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+        }
+        if (lid == 0) {
+            result[get_group_id(0)] = local_data[0];
+        }
+    }
+)";
+
+template<>
+const std::string VectorOpenCL<double>::doubleSource = R"(
+    __kernel void vector_add(
+        __global double* a,
+        __global const double* b,
+        const uint n) {
+
+        int i = get_global_id(0);
+        if (i < n) {
+            a[i] = a[i] + b[i];
+        }
+    }
+
+    __kernel void vector_sum(
+        __global double* data,
+        __local double* local_data,
+        __global double* result, const uint n) {
+
+        uint gid = get_global_id(0);
+        uint lid = get_local_id(0);
+        uint group_size = get_local_size(0);
+
+        local_data[lid] = (gid < n) ? data[gid] : 0.0f;
+        barrier(CLK_LOCAL_MEM_FENCE);
+
+        for (uint i = group_size >> 1; i > 0; i >>= 1) {
+            if (lid < i) {
+                local_data[lid] += local_data[lid + i];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+        }
+        if (lid == 0) {
+            result[get_group_id(0)] = local_data[0];
+        }
+    }
+
+    __kernel void vector_dot(
+        __global double* a,
+        __global double* b,
+        __local double* local_data,
+        __global double* result,
+        const uint n) {
+
+        uint gid = get_global_id(0);
+        uint lid = get_local_id(0);
+        uint group_size = get_local_size(0);
+
+        local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
+        barrier(CLK_LOCAL_MEM_FENCE);
+
+        for (uint i = group_size >> 1; i > 0; i >>= 1) {
+            if (lid < i) {
+                local_data[lid] += local_data[lid + i];
+            }
+            barrier(CLK_LOCAL_MEM_FENCE);
+        }
+        if (lid == 0) {
+            result[get_group_id(0)] = local_data[0];
+        }
+    }
+)";
