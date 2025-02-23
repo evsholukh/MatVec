@@ -73,18 +73,27 @@ public:
         groups_count = N / group_size;
 
         // Creating buffers on device
-        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY, sizeof(T) * this->vec.size());
-        red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count);
-
-        // Copying vector to device
-        err = queue->enqueueWriteBuffer(*buf, CL_TRUE, 0, sizeof(T) * this->vec.size(), this->vec.data());
+        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * N, this->vec.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Copying vector to device error: "+ decodeError(err));
+            throw std::runtime_error("Creating vector buffer error: " + decodeError(err));
+        }
+        red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Creating reduction buffer error: " + decodeError(err));
         }
         // Creating kernels
-        sum_kernel = new cl::Kernel(*program, "vector_sum");
-        add_kernel = new cl::Kernel(*program, "vector_add");
-        dot_kernel = new cl::Kernel(*program, "vector_dot");
+        sum_kernel = new cl::Kernel(*program, "vector_sum", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Creating kernel `vector_sum` error: " + decodeError(err));
+        }
+        add_kernel = new cl::Kernel(*program, "vector_add", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Creating kernel `vector_add` error: " + decodeError(err));
+        }
+        dot_kernel = new cl::Kernel(*program, "vector_dot", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Creating kernel `vector_dot` error: " + decodeError(err));
+        }
     }
 
     ~VectorOpenCL() {

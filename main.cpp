@@ -18,10 +18,10 @@ int main(int argc, char **argv) {
 
     try {
         std::cout << "Generating random vector.. (size: " << std::to_string(N) << ")" << std::endl;
-        Vector x = Vector<double>::random(N);
+        Vector x = Vector<float>::random(N);
         std::cout << "Vector size: " << x.size_mb() << "MB" << std::endl;
 
-        Vector y = Vector<double>::random(N);
+        Vector y = Vector<float>::random(N);
 
         VectorOpenCL cl_x = VectorOpenCL(x);
         VectorOpenCL cl_y = VectorOpenCL(y);
