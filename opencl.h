@@ -140,8 +140,7 @@ public:
     }
 
     void add(Vector<T> &o) override {
-        VectorOpenCL o_cl(o);
-        add(o_cl);
+        return add(dynamic_cast<VectorOpenCL&>(o));
     }
 
     void add(VectorOpenCL &o) {
@@ -175,8 +174,7 @@ public:
     }
 
     T dot(Vector<T> &o) override {
-        VectorOpenCL o_cl(o);
-        return dot(o_cl);
+        return dot(dynamic_cast<VectorOpenCL&>(o));
     }
 
     T dot(VectorOpenCL &o) {
