@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
 
         Vector y = Vector<double>::random(N);
 
-        Vector cl_x = VectorOpenCL(x);
-        Vector cl_y = VectorOpenCL(y);
+        VectorOpenCL cl_x = VectorOpenCL(x);
+        VectorOpenCL cl_y = VectorOpenCL(y);
 
         VectorAdd add(x, y);
         std::cout << std::left 

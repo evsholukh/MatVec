@@ -21,8 +21,6 @@ private:
     cl::Buffer *buf, *red_buf;
     cl::Kernel *sum_kernel, *add_kernel, *dot_kernel;
 
-    const size_t group_size = 128; // double - 128 float - 256
-
     size_t N; // Aligned size of vector
     size_t groups_count;
 
@@ -60,6 +58,9 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Compilation error: " + decodeError(err));
         }
+        // Group size
+        size_t group_size = get_group_size();
+
         // Extend vector to group size
         N = this->vec.size();
         if (N % group_size != 0) {
@@ -104,7 +105,7 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 0 error: " + decodeError(err));
         }
-        err = sum_kernel->setArg(1, sizeof(T) * group_size); // Local memory
+        err = sum_kernel->setArg(1, sizeof(T) * get_group_size()); // Local memory
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + decodeError(err));
         }
@@ -120,7 +121,7 @@ public:
         cl::NDRange globalSize(N);
 
         // Group size range
-        cl::NDRange groupSize(group_size);
+        cl::NDRange groupSize(get_group_size());
 
         // Running kernel
         err = this->queue->enqueueNDRangeKernel(*sum_kernel, cl::NullRange, globalSize, groupSize);
@@ -189,7 +190,7 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
         }
-        err = dot_kernel->setArg(2, sizeof(T) * group_size); // Local memory
+        err = dot_kernel->setArg(2, sizeof(T) * get_group_size()); // Local memory
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
         }
@@ -205,7 +206,7 @@ public:
         cl::NDRange globalSize(N);
 
         // Work-group count
-        cl::NDRange groupSize(group_size);
+        cl::NDRange groupSize(get_group_size());
 
         // Running kernel
         err = this->queue->enqueueNDRangeKernel(*dot_kernel, cl::NullRange, globalSize, groupSize);
@@ -316,6 +317,8 @@ private:
         }
     }
     const std::string source();
+    const size_t get_group_size();
+
     static const std::string floatSource, doubleSource;
 };
 
@@ -327,6 +330,16 @@ const std::string VectorOpenCL<float>::source() {
 template <>
 const std::string VectorOpenCL<double>::source() {
     return doubleSource;
+}
+
+template <>
+const size_t VectorOpenCL<float>::get_group_size() {
+    return 256;
+}
+
+template <>
+const size_t VectorOpenCL<double>::get_group_size() {
+    return 128;
 }
 
 template<>
