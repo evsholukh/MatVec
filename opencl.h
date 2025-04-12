@@ -3,14 +3,15 @@
 #include <iostream>
 
 #define CL_HPP_TARGET_OPENCL_VERSION 300
-#define __CL_ENABLE_EXCEPTIONS // Enable exceptions
+#define __CL_ENABLE_EXCEPTIONS
 
 #include <CL/opencl.hpp>
-#include "vector.h"
+#include "matrix.h"
 
 
 template <typename T>
-class VectorOpenCL : public Vector<T> {
+class MatrixOpenCL : public Matrix<T> {
+
 private:
     cl::Platform platform;
     cl::Device device;
@@ -19,15 +20,14 @@ private:
     cl::CommandQueue *queue;
     cl::Program *program;
     cl::Buffer *buf, *red_buf;
-    cl::Kernel *sum_kernel, *add_kernel, *dot_kernel;
+    cl::Kernel *sum_kernel, *add_kernel, *matmul_kernel;
 
-    size_t N; // Aligned size of vector
+    size_t N;
     size_t groups_count;
 
 public:
-    VectorOpenCL(Vector<T> &v) : Vector<T>(v) {
+    MatrixOpenCL(Matrix<T> &v) : Matrix<T>(v) {
 
-        // Getting platforms
         std::vector<cl::Platform> platforms;
         cl_int err = cl::Platform::get(&platforms);
         if (err != CL_SUCCESS) {
@@ -38,7 +38,6 @@ public:
         }
         platform = platforms.back();
 
-        // Getting devices
         std::vector<cl::Device> devices;
         err = platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
         if (err != CL_SUCCESS) {
@@ -47,33 +46,26 @@ public:
         if (devices.empty()) {
             throw std::runtime_error("No GPU devices found");
         }
-        // Setting fields
         device = devices.back();
+
         context = new cl::Context(device);
         queue = new cl::CommandQueue(*context, device);
         program = new cl::Program(*context, source());
 
-        // Building program
         err = program->build();
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Compilation error: " + decodeError(err));
         }
-        // Group size
         size_t group_size = get_group_size();
 
-        // Extend vector to group size
-        N = this->vec.size();
+        N = this->data.size();
         if (N % group_size != 0) {
             N = ((N / group_size) + 1) * group_size;
         }
-        // Padding vector
-        this->vec.resize(N, 0.0f);
-
-        // Work groups number
+        this->data.resize(N, 0.0f);
         groups_count = N / group_size;
 
-        // Creating buffers on device
-        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * N, this->vec.data(), &err);
+        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * N, this->data.data(), &err);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Creating vector buffer error: " + decodeError(err));
         }
@@ -81,23 +73,22 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Creating reduction buffer error: " + decodeError(err));
         }
-        // Creating kernels
-        sum_kernel = new cl::Kernel(*program, "vector_sum", &err);
+
+        sum_kernel = new cl::Kernel(*program, "_sum", &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `vector_sum` error: " + decodeError(err));
+            throw std::runtime_error("Creating kernel `_sum` error: " + decodeError(err));
         }
-        add_kernel = new cl::Kernel(*program, "vector_add", &err);
+        add_kernel = new cl::Kernel(*program, "_add", &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `vector_add` error: " + decodeError(err));
+            throw std::runtime_error("Creating kernel `_add` error: " + decodeError(err));
         }
-        dot_kernel = new cl::Kernel(*program, "vector_dot", &err);
+        matmul_kernel = new cl::Kernel(*program, "_matmul", &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `vector_dot` error: " + decodeError(err));
+            throw std::runtime_error("Creating kernel `_matmul` error: " + decodeError(err));
         }
     }
 
-    ~VectorOpenCL() {
-        // Removing  objects
+    ~MatrixOpenCL() {
         delete buf;
         delete red_buf;
         delete context;
@@ -105,16 +96,15 @@ public:
         delete program;
         delete sum_kernel;
         delete add_kernel;
-        delete dot_kernel;
+        delete matmul_kernel;
     }
 
     T sum() override {
-        // Setting kernel args
         cl_int err = sum_kernel->setArg(0, *buf);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 0 error: " + decodeError(err));
         }
-        err = sum_kernel->setArg(1, sizeof(T) * get_group_size()); // Local memory
+        err = sum_kernel->setArg(1, sizeof(T) * get_group_size());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + decodeError(err));
         }
@@ -126,36 +116,32 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 3 error: " + decodeError(err));
         }
-        // Data range
         cl::NDRange globalSize(N);
-
-        // Group size range
         cl::NDRange groupSize(get_group_size());
 
-        // Running kernel
         err = this->queue->enqueueNDRangeKernel(*sum_kernel, cl::NullRange, globalSize, groupSize);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
-        // Result vector
         std::vector<T> reduction_vec(groups_count);
 
-        // Reading result
         err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(T)*groups_count, reduction_vec.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
         }
-        return Vector(reduction_vec).sum();
+        return Matrix(reduction_vec, reduction_vec.size(), 1).sum();
     }
 
-    void add(Vector<T> &o) override {
-        return add(dynamic_cast<VectorOpenCL&>(o));
+    Matrix<T> add(Matrix<T> &o) override {
+        return add(dynamic_cast<MatrixOpenCL&>(o));
     }
 
-    void add(VectorOpenCL &o) {
+    Matrix<T> add(MatrixOpenCL<T> &o) {
 
-        // Setting args
-        cl_int err = add_kernel->setArg(0, *buf);
+        Matrix res = this->zeros_like();
+        MatrixOpenCL res_cl(res);
+
+        cl_int err = add_kernel->setArg(0, *this->buf);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
         }
@@ -163,72 +149,63 @@ public:
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
         }
-        err = add_kernel->setArg(2, this->vec.size());
+        err = add_kernel->setArg(2, *res_cl.buf);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
         }
-        // Work items count
-        cl::NDRange global_range(this->vec.size());
-        
-        // Run kernel
-        err = this->queue->enqueueNDRangeKernel(*add_kernel, cl::NullRange, global_range, cl::NullRange);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
-        }
-        // Copying vector to host
-        err = this->queue->enqueueReadBuffer(*buf, CL_TRUE, 0, sizeof(T)*this->vec.size(), this->vec.data());
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Copying vector from device error: " + this->decodeError(err));
-        }
-    }
-
-    T dot(Vector<T> &o) override {
-        return dot(dynamic_cast<VectorOpenCL&>(o));
-    }
-
-    T dot(VectorOpenCL &o) {
-
-        // Setting args
-        cl_int err = dot_kernel->setArg(0, *buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
-        }
-        err = dot_kernel->setArg(1, *o.buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
-        }
-        err = dot_kernel->setArg(2, sizeof(T) * get_group_size()); // Local memory
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
-        }
-        err = dot_kernel->setArg(3, *red_buf);
+        err = add_kernel->setArg(3, this->data.size());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
         }
-        err = dot_kernel->setArg(4, static_cast<int>(N));
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 4 error: " + this->decodeError(err));
-        }
-        // Work-items count
-        cl::NDRange globalSize(N);
+        cl::NDRange global_range(this->data.size());
 
-        // Work-group count
-        cl::NDRange groupSize(get_group_size());
-
-        // Running kernel
-        err = this->queue->enqueueNDRangeKernel(*dot_kernel, cl::NullRange, globalSize, groupSize);
+        err = this->queue->enqueueNDRangeKernel(*add_kernel, cl::NullRange, global_range);
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
         }
-        // Result vector
-        std::vector<T> reduction_vec(groups_count);
+        err = this->queue->enqueueReadBuffer(*res_cl.buf, CL_TRUE, 0, sizeof(T)*res_cl.data.size(), res_cl.data.data());
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Copying vector from device error: " + this->decodeError(err));
+        }
+        return res_cl;
+    }
 
-        // Reading results
-        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(T)*groups_count, reduction_vec.data());
+    Matrix<T> dot(Matrix<T> &o) override {
+        return dot(dynamic_cast<MatrixOpenCL&>(o));
+    }
+
+    MatrixOpenCL<T> dot(MatrixOpenCL<T> &o) {
+
+        Matrix res = this->zeros_like();
+        MatrixOpenCL res_cl(res);
+
+        cl_int err = matmul_kernel->setArg(0, *buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
+        }
+        err = matmul_kernel->setArg(1, *o.buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
+        }
+        err = matmul_kernel->setArg(2, *res_cl.buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
+        }
+        err = matmul_kernel->setArg(3, this->M);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
+        }
+        cl::NDRange globalSize(this->M, o.N);
+
+        err = this->queue->enqueueNDRangeKernel(*matmul_kernel, cl::NullRange, globalSize);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
+        }
+        err = this->queue->enqueueReadBuffer(*res_cl.buf, CL_TRUE, 0, sizeof(T)*res_cl.data.size(), res_cl.data.data());
         if (err != CL_SUCCESS) {
             throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
         }
-        return Vector(reduction_vec).sum();
+        return res_cl;
     }
 
     void print_info() {
@@ -330,47 +307,48 @@ private:
 };
 
 template <>
-const std::string VectorOpenCL<float>::source() {
+const std::string MatrixOpenCL<float>::source() {
     return floatSource;
 }
 
 template <>
-const std::string VectorOpenCL<double>::source() {
+const std::string MatrixOpenCL<double>::source() {
     return doubleSource;
 }
 
 template <>
-const size_t VectorOpenCL<float>::get_group_size() {
+const size_t MatrixOpenCL<float>::get_group_size() {
     return 256;
 }
 
 template <>
-const size_t VectorOpenCL<double>::get_group_size() {
+const size_t MatrixOpenCL<double>::get_group_size() {
     return 128;
 }
 
 template<>
-const std::string VectorOpenCL<float>::floatSource = R"(
-    __kernel void vector_add(
-            __global float* a,
+const std::string MatrixOpenCL<float>::floatSource = R"(
+    __kernel void _add(
+            __global const float* a,
             __global const float* b,
-            const uint n) {
-
-        int i = get_global_id(0);
+            __global float* c,
+            const uint n)
+    {
+        const uint i = get_global_id(0);
         if (i < n) {
-            a[i] = a[i] + b[i];
+            c[i] = a[i] + b[i];
         }
     }
 
-    __kernel void vector_sum(
-        __global float* data,
+    __kernel void _sum(
+        __global const float* data,
         __local float* local_data,
         __global float* result,
-        const uint n) {
-
-        uint gid = get_global_id(0);
-        uint lid = get_local_id(0);
-        uint group_size = get_local_size(0);
+        const uint n)
+    {
+        const uint gid = get_global_id(0);
+        const uint lid = get_local_id(0);
+        const uint group_size = get_local_size(0);
 
         local_data[lid] = (gid < n) ? data[gid] : 0.0f;
         barrier(CLK_LOCAL_MEM_FENCE);
@@ -386,16 +364,34 @@ const std::string VectorOpenCL<float>::floatSource = R"(
         }
     }
 
-    __kernel void vector_dot(
-        __global float* a,
-        __global float* b,
+    __kernel void _matmul(
+        __global const float* a,
+        __global const float* b,
+        __global float* c,
+        const int n)
+    {
+        const uint row = get_global_id(0);
+        const uint col = get_global_id(1);
+
+        if (row >= n || col >= n) return;
+        
+        float acc = 0.0f;
+        for (int k = 0; k < n; k++) {
+            acc += a[row * n + k] * b[k * n + col];
+        }
+        c[row * n + col] = acc;
+    }
+
+    __kernel void _vec_dot(
+        __global const float* a,
+        __global const float* b,
         __local float* local_data,
         __global float* result,
-        const uint n) {
-
-        uint gid = get_global_id(0);
-        uint lid = get_local_id(0);
-        uint group_size = get_local_size(0);
+        const uint n)
+    {
+        const uint gid = get_global_id(0);
+        const uint lid = get_local_id(0);
+        const uint group_size = get_local_size(0);
 
         local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
         barrier(CLK_LOCAL_MEM_FENCE);
@@ -413,26 +409,28 @@ const std::string VectorOpenCL<float>::floatSource = R"(
 )";
 
 template<>
-const std::string VectorOpenCL<double>::doubleSource = R"(
-    __kernel void vector_add(
-        __global double* a,
+const std::string MatrixOpenCL<double>::doubleSource = R"(
+    __kernel void _add(
+        __global const double* a,
         __global const double* b,
-        const uint n) {
-
+        __global double *c,
+        const uint n)
+    {
         int i = get_global_id(0);
         if (i < n) {
-            a[i] = a[i] + b[i];
+            c[i] = a[i] + b[i];
         }
     }
 
-    __kernel void vector_sum(
-        __global double* data,
+    __kernel void _sum(
+        __global const double* data,
         __local double* local_data,
-        __global double* result, const uint n) {
-
-        uint gid = get_global_id(0);
-        uint lid = get_local_id(0);
-        uint group_size = get_local_size(0);
+        __global double* result,
+        const uint n)
+    {
+        const uint gid = get_global_id(0);
+        const uint lid = get_local_id(0);
+        const uint group_size = get_local_size(0);
 
         local_data[lid] = (gid < n) ? data[gid] : 0.0f;
         barrier(CLK_LOCAL_MEM_FENCE);
@@ -448,16 +446,34 @@ const std::string VectorOpenCL<double>::doubleSource = R"(
         }
     }
 
-    __kernel void vector_dot(
-        __global double* a,
-        __global double* b,
+    __kernel void _matmul(
+        __global const double* a,
+        __global const double* b,
+        __global double* c,
+        const int n)
+    {
+        const uint row = get_global_id(0);
+        const uint col = get_global_id(1);
+
+        if (row >= n || col >= n) return;
+        
+        double acc = 0.0f;
+        for (int k = 0; k < n; k++) {
+            acc += a[row * n + k] * b[k * n + col];
+        }
+        c[row * n + col] = acc;
+    }
+
+    __kernel void _vec_dot(
+        __global const double* a,
+        __global const double* b,
         __local double* local_data,
         __global double* result,
         const uint n) {
 
-        uint gid = get_global_id(0);
-        uint lid = get_local_id(0);
-        uint group_size = get_local_size(0);
+        const uint gid = get_global_id(0);
+        const uint lid = get_local_id(0);
+        const uint group_size = get_local_size(0);
 
         local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
         barrier(CLK_LOCAL_MEM_FENCE);
@@ -473,3 +489,11 @@ const std::string VectorOpenCL<double>::doubleSource = R"(
         }
     }
 )";
+
+
+template <typename T>
+class VectorOpenCL : public Vector<T>, public MatrixOpenCL<T> {
+
+public:
+    VectorOpenCL(Vector<T> vec) : MatrixOpenCL<T>(vec), Vector<T>(vec) {}
+};
