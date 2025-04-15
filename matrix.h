@@ -20,10 +20,10 @@ public:
         }
     }
 
-    static Matrix zeros(size_t N, size_t M) {
+    static Matrix<T> zeros(size_t N, size_t M) {
         std::vector<T> vec(N*M);
 
-        return Matrix(vec, N, M);
+        return Matrix<T>(vec, N, M);
     }
 
     static Matrix random(const size_t N, const size_t M) {
@@ -39,7 +39,7 @@ public:
     }
 
     void reshape(const size_t N, const size_t M) {
-        if (N*M != this.data.size()) {
+        if (N*M != this->data.size()) {
             throw std::runtime_error("Invalid shape");
         }
         this->N = N;
@@ -50,8 +50,8 @@ public:
         return Matrix(this->data, this->M, this->N);
     }
 
-    Matrix zeros_like() {
-        return Matrix::zeros(this->N, this->M);
+    Matrix<T> zeros_like() {
+        return Matrix<T>::zeros(this->N, this->M);
     }
 
     int size_mb() {
@@ -62,11 +62,11 @@ public:
         return std::accumulate(data.begin(), data.end(), T(0));
     }
 
-    virtual Matrix add(Matrix &o) {
+    virtual Matrix<T> add(Matrix<T> &o) {
         if (data.size() != o.data.size()) {
             throw std::runtime_error("Invalid size");
         }
-        Matrix dst = this->zeros_like();
+        Matrix<T> dst = this->zeros_like();
 
         std::transform(this->data.begin(), this->data.end(), o.data.begin(), dst.data.begin(), std::plus<T>());
         return dst;
@@ -97,7 +97,7 @@ public:
         return res;
     }
 
-    void print() {
+    void show() {
         std::cout << "[";
         for (size_t i = 0; i < N; i++) {
             for (size_t j = 0; j < M; j++) {

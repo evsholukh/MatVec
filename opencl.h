@@ -3,7 +3,8 @@
 #include <iostream>
 
 #define CL_HPP_TARGET_OPENCL_VERSION 300
-#define __CL_ENABLE_EXCEPTIONS
+// #define __CL_ENABLE_EXCEPTIONS
+#define CL_HPP_ENABLE_EXCEPTIONS
 
 #include <CL/opencl.hpp>
 #include "matrix.h"
@@ -12,18 +13,9 @@
 template <typename T>
 class MatrixOpenCL : public Matrix<T> {
 
-private:
+protected:
     cl::Platform platform;
     cl::Device device;
-
-    cl::Context *context;
-    cl::CommandQueue *queue;
-    cl::Program *program;
-    cl::Buffer *buf, *red_buf;
-    cl::Kernel *sum_kernel, *add_kernel, *matmul_kernel;
-
-    size_t N;
-    size_t groups_count;
 
 public:
     MatrixOpenCL(Matrix<T> &v) : Matrix<T>(v) {
@@ -31,202 +23,229 @@ public:
         std::vector<cl::Platform> platforms;
         cl_int err = cl::Platform::get(&platforms);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting platforms error: " + decodeError(err));
+            throw std::runtime_error("Platforms error: " + decodeError(err));
         }
         if (platforms.empty()) {
-            throw std::runtime_error("No OpenCL platforms found");
+            throw std::runtime_error("No OpenCL platforms.");
         }
         platform = platforms.back();
 
         std::vector<cl::Device> devices;
         err = platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting devices error: " + decodeError(err));
+            throw std::runtime_error("Devices error: " + decodeError(err));
         }
         if (devices.empty()) {
-            throw std::runtime_error("No GPU devices found");
+            throw std::runtime_error("No GPU devices.");
         }
         device = devices.back();
-
-        context = new cl::Context(device);
-        queue = new cl::CommandQueue(*context, device);
-        program = new cl::Program(*context, source());
-
-        err = program->build();
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Compilation error: " + decodeError(err));
-        }
-        size_t group_size = get_group_size();
-
-        N = this->data.size();
-        if (N % group_size != 0) {
-            N = ((N / group_size) + 1) * group_size;
-        }
-        this->data.resize(N, 0.0f);
-        groups_count = N / group_size;
-
-        buf = new cl::Buffer(*context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * N, this->data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating vector buffer error: " + decodeError(err));
-        }
-        red_buf = new cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating reduction buffer error: " + decodeError(err));
-        }
-
-        sum_kernel = new cl::Kernel(*program, "_sum", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `_sum` error: " + decodeError(err));
-        }
-        add_kernel = new cl::Kernel(*program, "_add", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `_add` error: " + decodeError(err));
-        }
-        matmul_kernel = new cl::Kernel(*program, "_matmul", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Creating kernel `_matmul` error: " + decodeError(err));
-        }
-    }
-
-    ~MatrixOpenCL() {
-        delete buf;
-        delete red_buf;
-        delete context;
-        delete queue;
-        delete program;
-        delete sum_kernel;
-        delete add_kernel;
-        delete matmul_kernel;
     }
 
     T sum() override {
-        cl_int err = sum_kernel->setArg(0, *buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 0 error: " + decodeError(err));
-        }
-        err = sum_kernel->setArg(1, sizeof(T) * get_group_size());
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 1 error: " + decodeError(err));
-        }
-        err = sum_kernel->setArg(2, *red_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 2 error: " + decodeError(err));
-        }
-        err = sum_kernel->setArg(3, static_cast<int>(N));
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 3 error: " + decodeError(err));
-        }
-        cl::NDRange globalSize(N);
-        cl::NDRange groupSize(get_group_size());
 
-        err = this->queue->enqueueNDRangeKernel(*sum_kernel, cl::NullRange, globalSize, groupSize);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
+        size_t group_size = get_group_size();
+        size_t total_size = this->data.size();
+        if (total_size % group_size != 0) {
+            total_size = ((total_size / group_size) + 1) * group_size;
         }
-        std::vector<T> reduction_vec(groups_count);
+        this->data.resize(total_size, 0.0f);
+        size_t groups_count = total_size / group_size;
 
-        err = this->queue->enqueueReadBuffer(*red_buf, CL_TRUE, 0, sizeof(T)*groups_count, reduction_vec.data());
+        cl::Context context(device);
+        cl::CommandQueue queue(context, device);
+        cl::Program program(context, source());
+
+        cl_int err = program.build();
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
+            throw std::runtime_error("Compilation error: " + decodeError(err));
         }
-        return Matrix(reduction_vec, reduction_vec.size(), 1).sum();
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * total_size, this->data.data(), &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Buffer error: " + decodeError(err));
+        }
+        cl::Buffer red_buf(context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Reduction buffer error: " + decodeError(err));
+        }
+        cl::Kernel sum_kernel(program, "sum", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Kernel error: " + decodeError(err));
+        }
+        err = sum_kernel.setArg(0, buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 0 error: " + decodeError(err));
+        }
+        err = sum_kernel.setArg(1, group_size * sizeof(T), nullptr);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 1 error: " + decodeError(err));
+        }
+        err = sum_kernel.setArg(2, red_buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 2 error: " + decodeError(err));
+        }
+        err = sum_kernel.setArg(3, static_cast<uint32_t>(total_size));
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 3 error: " + decodeError(err));
+        }
+        cl::NDRange globalRange(total_size);
+        cl::NDRange groupRange(group_size);
+
+        err = queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Enquening error: " + this->decodeError(err));
+        }
+        std::vector<T> red_vec(groups_count);
+
+        err = queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data());
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Reading error: " + this->decodeError(err));
+        }
+        return Vector(red_vec).sum();
     }
 
     Matrix<T> add(Matrix<T> &o) override {
-        return add(dynamic_cast<MatrixOpenCL&>(o));
+        MatrixOpenCL cl_o(o);
+        return MatrixOpenCL(*this).add(cl_o);
     }
 
-    Matrix<T> add(MatrixOpenCL<T> &o) {
+    MatrixOpenCL<T> add(MatrixOpenCL<T> &o) {
+        Matrix<T> tmp = this->zeros_like();
+        MatrixOpenCL<T> res(tmp);
 
-        Matrix res = this->zeros_like();
-        MatrixOpenCL res_cl(res);
+        cl::Context context(device);
+        cl::CommandQueue queue(context, device);
+        cl::Program program(context, source());
 
-        cl_int err = add_kernel->setArg(0, *this->buf);
+        cl_int err = program.build();
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
+            throw std::runtime_error("Building error: " + decodeError(err));
         }
-        err = add_kernel->setArg(1, *o.buf);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
+            throw std::runtime_error("Buffer error: " + decodeError(err));
         }
-        err = add_kernel->setArg(2, *res_cl.buf);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
+            throw std::runtime_error("Other buffer error: " + decodeError(err));
         }
-        err = add_kernel->setArg(3, this->data.size());
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
+            throw std::runtime_error("Result buffer error: " + decodeError(err));
+        }
+        cl::Kernel add_kernel(program, "add", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Kernel error: " + decodeError(err));
+        }
+        err = add_kernel.setArg(0, buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 0 error: " + this->decodeError(err));
+        }
+        err = add_kernel.setArg(1, o_buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 1 error: " + this->decodeError(err));
+        }
+        err = add_kernel.setArg(2, res_buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 2 error: " + this->decodeError(err));
+        }
+        err = add_kernel.setArg(3, static_cast<uint32_t>(this->data.size()));
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 3 error: " + this->decodeError(err));
         }
         cl::NDRange global_range(this->data.size());
 
-        err = this->queue->enqueueNDRangeKernel(*add_kernel, cl::NullRange, global_range);
+        err = queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
+            throw std::runtime_error("Enquening error: " + this->decodeError(err));
         }
-        err = this->queue->enqueueReadBuffer(*res_cl.buf, CL_TRUE, 0, sizeof(T)*res_cl.data.size(), res_cl.data.data());
+        err = queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data());
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Copying vector from device error: " + this->decodeError(err));
+            throw std::runtime_error("Reading error: " + this->decodeError(err));
         }
-        return res_cl;
+        return res;
     }
 
     Matrix<T> dot(Matrix<T> &o) override {
-        return dot(dynamic_cast<MatrixOpenCL&>(o));
+        MatrixOpenCL cl_o(o);
+        return MatrixOpenCL(*this).dot(cl_o);
     }
 
     MatrixOpenCL<T> dot(MatrixOpenCL<T> &o) {
+        Matrix<T> tmp = this->zeros_like();
+        MatrixOpenCL<T> res(tmp);
 
-        Matrix res = this->zeros_like();
-        MatrixOpenCL res_cl(res);
+        cl::Context context(device);
+        cl::CommandQueue queue(context, device);
+        cl::Program program(context, source());
 
-        cl_int err = matmul_kernel->setArg(0, *buf);
+        cl_int err = program.build();
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 0 error: " + this->decodeError(err));
+            throw std::runtime_error("Building error: " + decodeError(err));
         }
-        err = matmul_kernel->setArg(1, *o.buf);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 1 error: " + this->decodeError(err));
+            throw std::runtime_error("Buffer a error: " + decodeError(err));
         }
-        err = matmul_kernel->setArg(2, *res_cl.buf);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 2 error: " + this->decodeError(err));
+            throw std::runtime_error("Buffer a error: " + decodeError(err));
         }
-        err = matmul_kernel->setArg(3, this->M);
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Setting arg 3 error: " + this->decodeError(err));
+            throw std::runtime_error("Buffer a error: " + decodeError(err));
+        }
+        cl::Kernel matmul_kernel(program, "matmul", &err);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Kernel error: " + decodeError(err));
+        }
+        err = matmul_kernel.setArg(0, buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 0 error: " + decodeError(err));
+        }
+        err = matmul_kernel.setArg(1, o_buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 1 error: " + decodeError(err));
+        }
+        err = matmul_kernel.setArg(2, res_buf);
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 2 error: " + decodeError(err));
+        }
+        err = matmul_kernel.setArg(3, static_cast<uint32_t>(this->M));
+        if (err != CL_SUCCESS) {
+            throw std::runtime_error("Arg 3 error: " + decodeError(err));
         }
         cl::NDRange globalSize(this->M, o.N);
 
-        err = this->queue->enqueueNDRangeKernel(*matmul_kernel, cl::NullRange, globalSize);
+        err = queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening kernel error: " + this->decodeError(err));
+            throw std::runtime_error("Enquening error: " + decodeError(err));
         }
-        err = this->queue->enqueueReadBuffer(*res_cl.buf, CL_TRUE, 0, sizeof(T)*res_cl.data.size(), res_cl.data.data());
+        err = queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data());
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Copying value from device error: " + this->decodeError(err));
+            throw std::runtime_error("Reading error: " + decodeError(err));
         }
-        return res_cl;
+        return res;
     }
 
-    void print_info() {
+    void show_info() {
         std::string platform_name;
-        cl_int err = this->platform.getInfo(CL_PLATFORM_NAME, &platform_name);
+        cl_int err = platform.getInfo(CL_PLATFORM_NAME, &platform_name);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting platform name error: " + this->decodeError(err));
+            throw std::runtime_error("Platform error: " + decodeError(err));
         }
         std::cout << "Platform: " << platform_name << std::endl;
     
         std::string device_name;
-        err = this->device.getInfo(CL_DEVICE_NAME, &device_name);
+        err = device.getInfo(CL_DEVICE_NAME, &device_name);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting device name error: " + this->decodeError(err));
+            throw std::runtime_error("Device error: " + decodeError(err));
         }
         std::cout << "Device: " << device_name << std::endl;
     
         cl_ulong mem_size;
-        err = this->device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size);
+        err = device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size);
         if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting device mem size error: " + this->decodeError(err));
+            throw std::runtime_error("Getting device mem size error: " + decodeError(err));
         }
         std::cout << "GPU memory available: " << mem_size / (1024 * 1024) << "MB" << std::endl;
     }
@@ -328,7 +347,7 @@ const size_t MatrixOpenCL<double>::get_group_size() {
 
 template<>
 const std::string MatrixOpenCL<float>::floatSource = R"(
-    __kernel void _add(
+    __kernel void add(
             __global const float* a,
             __global const float* b,
             __global float* c,
@@ -340,7 +359,7 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
         }
     }
 
-    __kernel void _sum(
+    __kernel void sum(
         __global const float* data,
         __local float* local_data,
         __global float* result,
@@ -364,7 +383,7 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
         }
     }
 
-    __kernel void _matmul(
+    __kernel void matmul(
         __global const float* a,
         __global const float* b,
         __global float* c,
@@ -382,7 +401,7 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
         c[row * n + col] = acc;
     }
 
-    __kernel void _vec_dot(
+    __kernel void dot(
         __global const float* a,
         __global const float* b,
         __local float* local_data,
@@ -410,7 +429,7 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
 
 template<>
 const std::string MatrixOpenCL<double>::doubleSource = R"(
-    __kernel void _add(
+    __kernel void add(
         __global const double* a,
         __global const double* b,
         __global double *c,
@@ -422,7 +441,7 @@ const std::string MatrixOpenCL<double>::doubleSource = R"(
         }
     }
 
-    __kernel void _sum(
+    __kernel void sum(
         __global const double* data,
         __local double* local_data,
         __global double* result,
@@ -446,7 +465,7 @@ const std::string MatrixOpenCL<double>::doubleSource = R"(
         }
     }
 
-    __kernel void _matmul(
+    __kernel void matmul(
         __global const double* a,
         __global const double* b,
         __global double* c,
@@ -464,7 +483,7 @@ const std::string MatrixOpenCL<double>::doubleSource = R"(
         c[row * n + col] = acc;
     }
 
-    __kernel void _vec_dot(
+    __kernel void dot(
         __global const double* a,
         __global const double* b,
         __local double* local_data,
@@ -492,8 +511,22 @@ const std::string MatrixOpenCL<double>::doubleSource = R"(
 
 
 template <typename T>
-class VectorOpenCL : public Vector<T>, public MatrixOpenCL<T> {
+class VectorOpenCL : public Vector<T> {
 
 public:
-    VectorOpenCL(Vector<T> vec) : MatrixOpenCL<T>(vec), Vector<T>(vec) {}
+    VectorOpenCL(Vector<T> &vec) : Vector<T>(vec) {}
+
+    T sum() override {
+        return MatrixOpenCL(*this).sum();
+    }
+
+    Matrix<T> add(Matrix<T> &o) override {
+        MatrixOpenCL tmp(o);
+        return MatrixOpenCL(*this).add(tmp);
+    }
+
+    Matrix<T> dot(Matrix<T> &o) override {
+        MatrixOpenCL tmp(o);
+        return MatrixOpenCL(*this).dot(tmp);
+    }
 };

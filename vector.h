@@ -16,6 +16,7 @@ public:
     static Vector random(const size_t size) {
         return Matrix<T>::random(size, 1);
     }
+
     Matrix<T> dot(Matrix<T> &o) override {
         auto tr = o.transposed();
         return Matrix<T>::dot(tr);

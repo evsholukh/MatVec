@@ -60,6 +60,26 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "text_encoding": "cpp"
-    }
+        "text_encoding": "cpp",
+        "__nullptr": "cpp",
+        "bitset": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "__config": "cpp",
+        "__hash_table": "cpp",
+        "__locale": "cpp",
+        "filesystem": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "fstream": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "xstring": "cpp"
+    },
 }

@@ -13,7 +13,7 @@ public:
     MatrixAdd(Matrix<T> &x, Matrix<T> &y): x(x), y(y) {}
 
     void perform() override {
-        Matrix z = this->x.add(this->y);
+        Matrix<T> z = this->x.add(this->y);
         std::cout << z.sum() << " ";
     }
 };
@@ -38,7 +38,7 @@ public:
     MatrixMul(Matrix<T> &x, Matrix<T> &y) : x(x), y(y) {}
 
     void perform() override {
-        Matrix z  = this->x.dot(this->y);
+        Matrix<T> z  = this->x.dot(this->y);
         std::cout << z.sum() << " ";
     }
 };
@@ -51,7 +51,7 @@ public:
     VectorAdd(Vector<T> &x, Vector<T> &y): x(x), y(y) {}
 
     void perform() override {
-        Vector z = this->x.add(this->y);
+        Vector<T> z = this->x.add(this->y);
         std::cout << z.sum() << " ";
     }
 };
@@ -76,7 +76,7 @@ public:
     VectorMul(Vector<T> &x, Vector<T> &y) : x(x), y(y) {}
 
     void perform() override {
-        Vector z  = this->x.dot(this->y);
+        Vector<T> z  = this->x.dot(this->y);
         std::cout << z.sum() << " ";
     }
 };
