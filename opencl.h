@@ -3,12 +3,21 @@
 #include <iostream>
 
 #define CL_HPP_TARGET_OPENCL_VERSION 300
-// #define __CL_ENABLE_EXCEPTIONS
 #define CL_HPP_ENABLE_EXCEPTIONS
 
 #include <CL/opencl.hpp>
 #include "matrix.h"
 
+
+std::string decodeError(cl_int err);
+
+#define CHECK_OPENCL(call) { \
+    cl_int localErr = call; \
+    if (localErr != CL_SUCCESS) { \
+        std::cerr << "OpenCL Error in " << __FILE__ << ":" << __LINE__ << ": " << decodeError(localErr) << std::endl; \
+        exit(EXIT_FAILURE); \
+    } \
+}
 
 template <typename T>
 class MatrixOpenCL : public Matrix<T> {
@@ -21,20 +30,14 @@ public:
     MatrixOpenCL(Matrix<T> &v) : Matrix<T>(v) {
 
         std::vector<cl::Platform> platforms;
-        cl_int err = cl::Platform::get(&platforms);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Platforms error: " + decodeError(err));
-        }
+        CHECK_OPENCL(cl::Platform::get(&platforms));
         if (platforms.empty()) {
             throw std::runtime_error("No OpenCL platforms.");
         }
         platform = platforms.back();
 
         std::vector<cl::Device> devices;
-        err = platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Devices error: " + decodeError(err));
-        }
+        CHECK_OPENCL(platform.getDevices(CL_DEVICE_TYPE_GPU, &devices));
         if (devices.empty()) {
             throw std::runtime_error("No GPU devices.");
         }
@@ -55,51 +58,31 @@ public:
         cl::CommandQueue queue(context, device);
         cl::Program program(context, source());
 
-        cl_int err = program.build();
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Compilation error: " + decodeError(err));
-        }
+        CHECK_OPENCL(program.build());
+
+        cl_int err = CL_SUCCESS;
         cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * total_size, this->data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Buffer error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Buffer red_buf(context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Reduction buffer error: " + decodeError(err));
-        }
-        cl::Kernel sum_kernel(program, "sum", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Kernel error: " + decodeError(err));
-        }
-        err = sum_kernel.setArg(0, buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 0 error: " + decodeError(err));
-        }
-        err = sum_kernel.setArg(1, group_size * sizeof(T), nullptr);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 1 error: " + decodeError(err));
-        }
-        err = sum_kernel.setArg(2, red_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 2 error: " + decodeError(err));
-        }
-        err = sum_kernel.setArg(3, static_cast<uint32_t>(total_size));
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 3 error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
+        cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
+        CHECK_OPENCL(err);
+
+        CHECK_OPENCL(sum_kernel.setArg(0, buf));
+        CHECK_OPENCL(sum_kernel.setArg(1, group_size * sizeof(T), nullptr));
+        CHECK_OPENCL(sum_kernel.setArg(2, red_buf));
+        CHECK_OPENCL(sum_kernel.setArg(3, static_cast<uint32_t>(total_size)));
+
         cl::NDRange globalRange(total_size);
         cl::NDRange groupRange(group_size);
 
-        err = queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening error: " + this->decodeError(err));
-        }
-        std::vector<T> red_vec(groups_count);
+        CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
-        err = queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data());
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Reading error: " + this->decodeError(err));
-        }
+        std::vector<T> red_vec(groups_count);
+        CHECK_OPENCL(queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data()));
+
         return Vector(red_vec).sum();
     }
 
@@ -116,52 +99,31 @@ public:
         cl::CommandQueue queue(context, device);
         cl::Program program(context, source());
 
-        cl_int err = program.build();
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Building error: " + decodeError(err));
-        }
+        cl_int err = CL_SUCCESS;
+        CHECK_OPENCL(program.build());
+
         cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Buffer error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Other buffer error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Result buffer error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Kernel add_kernel(program, "add", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Kernel error: " + decodeError(err));
-        }
-        err = add_kernel.setArg(0, buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 0 error: " + this->decodeError(err));
-        }
-        err = add_kernel.setArg(1, o_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 1 error: " + this->decodeError(err));
-        }
-        err = add_kernel.setArg(2, res_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 2 error: " + this->decodeError(err));
-        }
-        err = add_kernel.setArg(3, static_cast<uint32_t>(this->data.size()));
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 3 error: " + this->decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
+        CHECK_OPENCL(add_kernel.setArg(0, buf));
+        CHECK_OPENCL(add_kernel.setArg(1, o_buf));
+        CHECK_OPENCL(add_kernel.setArg(2, res_buf));
+        CHECK_OPENCL(add_kernel.setArg(3, static_cast<uint32_t>(this->data.size())));
+
         cl::NDRange global_range(this->data.size());
 
-        err = queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening error: " + this->decodeError(err));
-        }
-        err = queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data());
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Reading error: " + this->decodeError(err));
-        }
+        CHECK_OPENCL(queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data()));
+
         return res;
     }
 
@@ -178,147 +140,50 @@ public:
         cl::CommandQueue queue(context, device);
         cl::Program program(context, source());
 
-        cl_int err = program.build();
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Building error: " + decodeError(err));
-        }
+        cl_int err = CL_SUCCESS;
+        CHECK_OPENCL(program.build());
+
         cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Buffer a error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Buffer a error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Buffer a error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
         cl::Kernel matmul_kernel(program, "matmul", &err);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Kernel error: " + decodeError(err));
-        }
-        err = matmul_kernel.setArg(0, buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 0 error: " + decodeError(err));
-        }
-        err = matmul_kernel.setArg(1, o_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 1 error: " + decodeError(err));
-        }
-        err = matmul_kernel.setArg(2, res_buf);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 2 error: " + decodeError(err));
-        }
-        err = matmul_kernel.setArg(3, static_cast<uint32_t>(this->M));
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Arg 3 error: " + decodeError(err));
-        }
+        CHECK_OPENCL(err);
+
+        CHECK_OPENCL(matmul_kernel.setArg(0, buf));
+        CHECK_OPENCL(matmul_kernel.setArg(1, o_buf));
+        CHECK_OPENCL(matmul_kernel.setArg(2, res_buf));
+        CHECK_OPENCL(matmul_kernel.setArg(3, static_cast<uint32_t>(this->M)));
+
         cl::NDRange globalSize(this->M, o.N);
 
-        err = queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Enquening error: " + decodeError(err));
-        }
-        err = queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data());
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Reading error: " + decodeError(err));
-        }
+        CHECK_OPENCL(queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data()));
+
         return res;
     }
 
     void show_info() {
         std::string platform_name;
-        cl_int err = platform.getInfo(CL_PLATFORM_NAME, &platform_name);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Platform error: " + decodeError(err));
-        }
+        CHECK_OPENCL(platform.getInfo(CL_PLATFORM_NAME, &platform_name));
         std::cout << "Platform: " << platform_name << std::endl;
-    
+
         std::string device_name;
-        err = device.getInfo(CL_DEVICE_NAME, &device_name);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Device error: " + decodeError(err));
-        }
+        CHECK_OPENCL(device.getInfo(CL_DEVICE_NAME, &device_name));
         std::cout << "Device: " << device_name << std::endl;
-    
+
         cl_ulong mem_size;
-        err = device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size);
-        if (err != CL_SUCCESS) {
-            throw std::runtime_error("Getting device mem size error: " + decodeError(err));
-        }
+        CHECK_OPENCL(device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size));
         std::cout << "GPU memory available: " << mem_size / (1024 * 1024) << "MB" << std::endl;
     }
 
 private:
-    std::string decodeError(cl_int err) {
-        switch (err) {
-            case CL_SUCCESS: return "CL_SUCCESS";
-            case CL_DEVICE_NOT_FOUND: return "CL_DEVICE_NOT_FOUND";
-            case CL_DEVICE_NOT_AVAILABLE: return "CL_DEVICE_NOT_AVAILABLE";
-            case CL_COMPILER_NOT_AVAILABLE: return "CL_COMPILER_NOT_AVAILABLE";
-            case CL_MEM_OBJECT_ALLOCATION_FAILURE: return "CL_MEM_OBJECT_ALLOCATION_FAILURE";
-            case CL_OUT_OF_RESOURCES: return "CL_OUT_OF_RESOURCES";
-            case CL_OUT_OF_HOST_MEMORY: return "CL_OUT_OF_HOST_MEMORY";
-            case CL_PROFILING_INFO_NOT_AVAILABLE: return "CL_PROFILING_INFO_NOT_AVAILABLE";
-            case CL_MEM_COPY_OVERLAP: return "CL_MEM_COPY_OVERLAP";
-            case CL_IMAGE_FORMAT_MISMATCH: return "CL_IMAGE_FORMAT_MISMATCH";
-            case CL_IMAGE_FORMAT_NOT_SUPPORTED: return "CL_IMAGE_FORMAT_NOT_SUPPORTED";
-            case CL_BUILD_PROGRAM_FAILURE: return "CL_BUILD_PROGRAM_FAILURE";
-            case CL_MAP_FAILURE: return "CL_MAP_FAILURE";
-            case CL_MISALIGNED_SUB_BUFFER_OFFSET: return "CL_MISALIGNED_SUB_BUFFER_OFFSET";
-            case CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST: return "CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST";
-            case CL_COMPILE_PROGRAM_FAILURE: return "CL_COMPILE_PROGRAM_FAILURE";
-            case CL_LINKER_NOT_AVAILABLE: return "CL_LINKER_NOT_AVAILABLE";
-            case CL_LINK_PROGRAM_FAILURE: return "CL_LINK_PROGRAM_FAILURE";
-            case CL_DEVICE_PARTITION_FAILED: return "CL_DEVICE_PARTITION_FAILED";
-            case CL_KERNEL_ARG_INFO_NOT_AVAILABLE: return "CL_KERNEL_ARG_INFO_NOT_AVAILABLE";
-            case CL_INVALID_VALUE: return "CL_INVALID_VALUE";
-            case CL_INVALID_DEVICE_TYPE: return "CL_INVALID_DEVICE_TYPE";
-            case CL_INVALID_PLATFORM: return "CL_INVALID_PLATFORM";
-            case CL_INVALID_DEVICE: return "CL_INVALID_DEVICE";
-            case CL_INVALID_CONTEXT: return "CL_INVALID_CONTEXT";
-            case CL_INVALID_QUEUE_PROPERTIES: return "CL_INVALID_QUEUE_PROPERTIES";
-            case CL_INVALID_COMMAND_QUEUE: return "CL_INVALID_COMMAND_QUEUE";
-            case CL_INVALID_HOST_PTR: return "CL_INVALID_HOST_PTR";
-            case CL_INVALID_MEM_OBJECT: return "CL_INVALID_MEM_OBJECT";
-            case CL_INVALID_IMAGE_FORMAT_DESCRIPTOR: return "CL_INVALID_IMAGE_FORMAT_DESCRIPTOR";
-            case CL_INVALID_IMAGE_SIZE: return "CL_INVALID_IMAGE_SIZE";
-            case CL_INVALID_SAMPLER: return "CL_INVALID_SAMPLER";
-            case CL_INVALID_BINARY: return "CL_INVALID_BINARY";
-            case CL_INVALID_BUILD_OPTIONS: return "CL_INVALID_BUILD_OPTIONS";
-            case CL_INVALID_PROGRAM: return "CL_INVALID_PROGRAM";
-            case CL_INVALID_PROGRAM_EXECUTABLE: return "CL_INVALID_PROGRAM_EXECUTABLE";
-            case CL_INVALID_KERNEL_NAME: return "CL_INVALID_KERNEL_NAME";
-            case CL_INVALID_KERNEL_DEFINITION: return "CL_INVALID_KERNEL_DEFINITION";
-            case CL_INVALID_KERNEL: return "CL_INVALID_KERNEL";
-            case CL_INVALID_ARG_INDEX: return "CL_INVALID_ARG_INDEX";
-            case CL_INVALID_ARG_VALUE: return "CL_INVALID_ARG_VALUE";
-            case CL_INVALID_ARG_SIZE: return "CL_INVALID_ARG_SIZE";
-            case CL_INVALID_KERNEL_ARGS: return "CL_INVALID_KERNEL_ARGS";
-            case CL_INVALID_WORK_DIMENSION: return "CL_INVALID_WORK_DIMENSION";
-            case CL_INVALID_WORK_GROUP_SIZE: return "CL_INVALID_WORK_GROUP_SIZE";
-            case CL_INVALID_WORK_ITEM_SIZE: return "CL_INVALID_WORK_ITEM_SIZE";
-            case CL_INVALID_GLOBAL_OFFSET: return "CL_INVALID_GLOBAL_OFFSET";
-            case CL_INVALID_EVENT_WAIT_LIST: return "CL_INVALID_EVENT_WAIT_LIST";
-            case CL_INVALID_EVENT: return "CL_INVALID_EVENT";
-            case CL_INVALID_OPERATION: return "CL_INVALID_OPERATION";
-            case CL_INVALID_GL_OBJECT: return "CL_INVALID_GL_OBJECT";
-            case CL_INVALID_BUFFER_SIZE: return "CL_INVALID_BUFFER_SIZE";
-            case CL_INVALID_MIP_LEVEL: return "CL_INVALID_MIP_LEVEL";
-            case CL_INVALID_GLOBAL_WORK_SIZE: return "CL_INVALID_GLOBAL_WORK_SIZE";
-            case CL_INVALID_PROPERTY: return "CL_INVALID_PROPERTY";
-            case CL_INVALID_IMAGE_DESCRIPTOR: return "CL_INVALID_IMAGE_DESCRIPTOR";
-            case CL_INVALID_COMPILER_OPTIONS: return "CL_INVALID_COMPILER_OPTIONS";
-            case CL_INVALID_LINKER_OPTIONS: return "CL_INVALID_LINKER_OPTIONS";
-            case CL_INVALID_DEVICE_PARTITION_COUNT: return "CL_INVALID_DEVICE_PARTITION_COUNT";
-            case CL_INVALID_PIPE_SIZE: return "CL_INVALID_PIPE_SIZE";
-            case CL_INVALID_DEVICE_QUEUE: return "CL_INVALID_DEVICE_QUEUE";
-            case CL_INVALID_SPEC_ID: return "CL_INVALID_SPEC_ID";
-            case CL_MAX_SIZE_RESTRICTION_EXCEEDED: return "CL_MAX_SIZE_RESTRICTION_EXCEEDED";
-            default: return "Unknown OpenCL error " + std::to_string(err);
-        }
-    }
+    
     const std::string source();
     const size_t get_group_size();
 
@@ -359,7 +224,7 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
         }
     }
 
-    __kernel void sum(
+    __kernel void reductionSumKernel(
         __global const float* data,
         __local float* local_data,
         __global float* result,
@@ -530,3 +395,72 @@ public:
         return MatrixOpenCL(*this).dot(tmp);
     }
 };
+
+std::string decodeError(cl_int err) {
+    switch (err) {
+        case CL_SUCCESS: return "CL_SUCCESS";
+        case CL_DEVICE_NOT_FOUND: return "CL_DEVICE_NOT_FOUND";
+        case CL_DEVICE_NOT_AVAILABLE: return "CL_DEVICE_NOT_AVAILABLE";
+        case CL_COMPILER_NOT_AVAILABLE: return "CL_COMPILER_NOT_AVAILABLE";
+        case CL_MEM_OBJECT_ALLOCATION_FAILURE: return "CL_MEM_OBJECT_ALLOCATION_FAILURE";
+        case CL_OUT_OF_RESOURCES: return "CL_OUT_OF_RESOURCES";
+        case CL_OUT_OF_HOST_MEMORY: return "CL_OUT_OF_HOST_MEMORY";
+        case CL_PROFILING_INFO_NOT_AVAILABLE: return "CL_PROFILING_INFO_NOT_AVAILABLE";
+        case CL_MEM_COPY_OVERLAP: return "CL_MEM_COPY_OVERLAP";
+        case CL_IMAGE_FORMAT_MISMATCH: return "CL_IMAGE_FORMAT_MISMATCH";
+        case CL_IMAGE_FORMAT_NOT_SUPPORTED: return "CL_IMAGE_FORMAT_NOT_SUPPORTED";
+        case CL_BUILD_PROGRAM_FAILURE: return "CL_BUILD_PROGRAM_FAILURE";
+        case CL_MAP_FAILURE: return "CL_MAP_FAILURE";
+        case CL_MISALIGNED_SUB_BUFFER_OFFSET: return "CL_MISALIGNED_SUB_BUFFER_OFFSET";
+        case CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST: return "CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST";
+        case CL_COMPILE_PROGRAM_FAILURE: return "CL_COMPILE_PROGRAM_FAILURE";
+        case CL_LINKER_NOT_AVAILABLE: return "CL_LINKER_NOT_AVAILABLE";
+        case CL_LINK_PROGRAM_FAILURE: return "CL_LINK_PROGRAM_FAILURE";
+        case CL_DEVICE_PARTITION_FAILED: return "CL_DEVICE_PARTITION_FAILED";
+        case CL_KERNEL_ARG_INFO_NOT_AVAILABLE: return "CL_KERNEL_ARG_INFO_NOT_AVAILABLE";
+        case CL_INVALID_VALUE: return "CL_INVALID_VALUE";
+        case CL_INVALID_DEVICE_TYPE: return "CL_INVALID_DEVICE_TYPE";
+        case CL_INVALID_PLATFORM: return "CL_INVALID_PLATFORM";
+        case CL_INVALID_DEVICE: return "CL_INVALID_DEVICE";
+        case CL_INVALID_CONTEXT: return "CL_INVALID_CONTEXT";
+        case CL_INVALID_QUEUE_PROPERTIES: return "CL_INVALID_QUEUE_PROPERTIES";
+        case CL_INVALID_COMMAND_QUEUE: return "CL_INVALID_COMMAND_QUEUE";
+        case CL_INVALID_HOST_PTR: return "CL_INVALID_HOST_PTR";
+        case CL_INVALID_MEM_OBJECT: return "CL_INVALID_MEM_OBJECT";
+        case CL_INVALID_IMAGE_FORMAT_DESCRIPTOR: return "CL_INVALID_IMAGE_FORMAT_DESCRIPTOR";
+        case CL_INVALID_IMAGE_SIZE: return "CL_INVALID_IMAGE_SIZE";
+        case CL_INVALID_SAMPLER: return "CL_INVALID_SAMPLER";
+        case CL_INVALID_BINARY: return "CL_INVALID_BINARY";
+        case CL_INVALID_BUILD_OPTIONS: return "CL_INVALID_BUILD_OPTIONS";
+        case CL_INVALID_PROGRAM: return "CL_INVALID_PROGRAM";
+        case CL_INVALID_PROGRAM_EXECUTABLE: return "CL_INVALID_PROGRAM_EXECUTABLE";
+        case CL_INVALID_KERNEL_NAME: return "CL_INVALID_KERNEL_NAME";
+        case CL_INVALID_KERNEL_DEFINITION: return "CL_INVALID_KERNEL_DEFINITION";
+        case CL_INVALID_KERNEL: return "CL_INVALID_KERNEL";
+        case CL_INVALID_ARG_INDEX: return "CL_INVALID_ARG_INDEX";
+        case CL_INVALID_ARG_VALUE: return "CL_INVALID_ARG_VALUE";
+        case CL_INVALID_ARG_SIZE: return "CL_INVALID_ARG_SIZE";
+        case CL_INVALID_KERNEL_ARGS: return "CL_INVALID_KERNEL_ARGS";
+        case CL_INVALID_WORK_DIMENSION: return "CL_INVALID_WORK_DIMENSION";
+        case CL_INVALID_WORK_GROUP_SIZE: return "CL_INVALID_WORK_GROUP_SIZE";
+        case CL_INVALID_WORK_ITEM_SIZE: return "CL_INVALID_WORK_ITEM_SIZE";
+        case CL_INVALID_GLOBAL_OFFSET: return "CL_INVALID_GLOBAL_OFFSET";
+        case CL_INVALID_EVENT_WAIT_LIST: return "CL_INVALID_EVENT_WAIT_LIST";
+        case CL_INVALID_EVENT: return "CL_INVALID_EVENT";
+        case CL_INVALID_OPERATION: return "CL_INVALID_OPERATION";
+        case CL_INVALID_GL_OBJECT: return "CL_INVALID_GL_OBJECT";
+        case CL_INVALID_BUFFER_SIZE: return "CL_INVALID_BUFFER_SIZE";
+        case CL_INVALID_MIP_LEVEL: return "CL_INVALID_MIP_LEVEL";
+        case CL_INVALID_GLOBAL_WORK_SIZE: return "CL_INVALID_GLOBAL_WORK_SIZE";
+        case CL_INVALID_PROPERTY: return "CL_INVALID_PROPERTY";
+        case CL_INVALID_IMAGE_DESCRIPTOR: return "CL_INVALID_IMAGE_DESCRIPTOR";
+        case CL_INVALID_COMPILER_OPTIONS: return "CL_INVALID_COMPILER_OPTIONS";
+        case CL_INVALID_LINKER_OPTIONS: return "CL_INVALID_LINKER_OPTIONS";
+        case CL_INVALID_DEVICE_PARTITION_COUNT: return "CL_INVALID_DEVICE_PARTITION_COUNT";
+        case CL_INVALID_PIPE_SIZE: return "CL_INVALID_PIPE_SIZE";
+        case CL_INVALID_DEVICE_QUEUE: return "CL_INVALID_DEVICE_QUEUE";
+        case CL_INVALID_SPEC_ID: return "CL_INVALID_SPEC_ID";
+        case CL_MAX_SIZE_RESTRICTION_EXCEEDED: return "CL_MAX_SIZE_RESTRICTION_EXCEEDED";
+        default: return "Unknown OpenCL error " + std::to_string(err);
+    }
+}

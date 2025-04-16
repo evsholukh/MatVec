@@ -7,7 +7,7 @@ g++ cl_main.cpp -o cl_example.exe ^
     -LOpenCL-SDK-v2024.10.24-Win-x64\lib ^
     -lOpenCL
 
-if %errorlevel% neq 0 exit /b %errorlevel%
+cl_example.exe
 
 nvcc cu_main.cu -o cu_example.exe ^
     -I"%CUDA_PATH_V12_4%\include" ^
@@ -18,11 +18,5 @@ nvcc cu_main.cu -o cu_example.exe ^
     -lcudart ^
     -allow-unsupported-compiler ^
     -std=c++17
-
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-cl_example.exe
-
-if %errorlevel% neq 0 exit /b %errorlevel%
 
 cu_example.exe

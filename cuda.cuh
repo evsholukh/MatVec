@@ -22,17 +22,16 @@ public:
     MatrixCuda(Matrix<T> &mat) : Matrix<T>(mat) {}
 
     T sum() override {
+        
+        const int n = this->data.size();
+        const int blockSize = 1024;
+        const int gridSize = (n + blockSize - 1) / blockSize;
+        
         T *d_input = nullptr, *d_partial = nullptr, *d_output = nullptr;
         T h_output = 0.0;
-
-        const int n = this->data.size();
         T *input = this->data.data();
 
         CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(T)));
-
-        const int blockSize = 1024;
-        const int gridSize = (n + blockSize - 1) / blockSize;
-
         CHECK_CUDA(cudaMalloc(&d_partial, gridSize*sizeof(T)));
         CHECK_CUDA(cudaMalloc(&d_output, sizeof(T))); 
 
@@ -59,51 +58,35 @@ public:
     }
 
     MatrixCuda<T> add(MatrixCuda<T> &o) {
-        T *d_A, *d_B, *d_C;
 
-        cudaError_t err = cudaMalloc(&d_A, this->data.size()*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc a error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMalloc(&d_B, o.data.size()*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc b error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMalloc(&d_C, this->data.size()*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc C error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMemcpy(d_A, this->data.data(), this->data.size()*sizeof(T), cudaMemcpyHostToDevice);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy A error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMemcpy(d_B, o.data.data(), o.data.size()*sizeof(T), cudaMemcpyHostToDevice);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy B error: " + std::string(cudaGetErrorString(err)));
-        }
-        const int BLOCK_SIZE = 512;
-        int num_blocks_1d = (this->data.size() + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        const int n = this->data.size();
+        const int blockSize = 1024;
+        const int gridSize = (n + blockSize - 1) / blockSize;
+        
+        T *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
 
-        vectorAddKernel<<<num_blocks_1d, BLOCK_SIZE>>>(d_A, d_B, d_C, this->data.size());
+        std::vector<T> res(n);
 
-        std::vector<T> res(this->data.size());
+        T *h_x = this->data.data();
+        T *h_y = o.data.data();
+        T *h_z = res.data();
 
-        err = cudaMemcpy(res.data(), d_C, res.size()*sizeof(T), cudaMemcpyDeviceToHost);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy C error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_A);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free A error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_B);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free B error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_C);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free C error: " + std::string(cudaGetErrorString(err)));
-        }
+        CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
+        CHECK_CUDA(cudaMalloc(&d_y, n*sizeof(T)));
+        CHECK_CUDA(cudaMalloc(&d_z, n*sizeof(T)));
+
+        CHECK_CUDA(cudaMemcpy(d_x, h_x, n*sizeof(T), cudaMemcpyHostToDevice));
+        CHECK_CUDA(cudaMemcpy(d_y, h_y, n*sizeof(T), cudaMemcpyHostToDevice));
+
+        vectorAddKernel<<<gridSize, blockSize>>>(d_x, d_y, d_z, n);
+        CHECK_CUDA(cudaGetLastError());
+
+        CHECK_CUDA(cudaMemcpy(h_z, d_z, n*sizeof(T), cudaMemcpyDeviceToHost));
+
+        CHECK_CUDA(cudaFree(d_x));
+        CHECK_CUDA(cudaFree(d_y));
+        CHECK_CUDA(cudaFree(d_z));
+
         Matrix<T> tmp(res, this->N, this->M);
         return MatrixCuda<T>(tmp);
     }
@@ -114,51 +97,39 @@ public:
     }
 
     MatrixCuda<T> dot(MatrixCuda<T> &o) {
-        T *d_A, *d_B, *d_C;
+        T *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
 
-        cudaError_t err = cudaMalloc(&d_A, this->data.size()*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc A error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMalloc(&d_B, o.data.size()*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc B error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMalloc(&d_C, this->M*o.N*sizeof(T));
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA malloc C error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMemcpy(d_A, this->data.data(), this->data.size()*sizeof(T), cudaMemcpyHostToDevice);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy A error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaMemcpy(d_B, o.data.data(), o.data.size()*sizeof(T), cudaMemcpyHostToDevice);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy B error: " + std::string(cudaGetErrorString(err)));
-        }
-        const int BLOCK_SIZE = 16;
-        dim3 block(BLOCK_SIZE, BLOCK_SIZE);
-        dim3 grid((o.N + BLOCK_SIZE - 1)/BLOCK_SIZE, (this->M + BLOCK_SIZE - 1)/BLOCK_SIZE);
+        const int n = this->data.size();
+        const int m = o.data.size();
+        const int k = this->M*o.N;
 
-        matrixMulKernel<<<grid, block>>>(d_A, d_B, d_C, this->M, this->N, o.N);
+        T *h_x = this->data.data();
+        T *h_y = o.data.data();
 
-        std::vector<T> res(this->M * o.N);
-        err = cudaMemcpy(res.data(), d_C, res.size()*sizeof(T), cudaMemcpyDeviceToHost);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA memcpy C error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_A);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free A error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_B);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free B error: " + std::string(cudaGetErrorString(err)));
-        }
-        err = cudaFree(d_C);
-        if (err != cudaSuccess) {
-            throw std::runtime_error("CUDA free C error: " + std::string(cudaGetErrorString(err)));
-        }
+        CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
+        CHECK_CUDA(cudaMalloc(&d_y, m*sizeof(T)));
+        CHECK_CUDA(cudaMalloc(&d_z, k*sizeof(T)));
+
+        CHECK_CUDA(cudaMemcpy(d_x, h_x, n*sizeof(T), cudaMemcpyHostToDevice));
+        CHECK_CUDA(cudaMemcpy(d_y, h_y, m*sizeof(T), cudaMemcpyHostToDevice));
+
+        const int blockSize = 32;
+
+        dim3 block(blockSize, blockSize); // 1024
+        dim3 grid((o.N + blockSize - 1)/blockSize, (this->M + blockSize - 1)/blockSize);
+
+        matrixMulKernel<<<grid, block>>>(d_x, d_y, d_z, this->M, this->N, o.N);
+        CHECK_CUDA(cudaGetLastError());
+
+        std::vector<T> res(k);
+        T *h_z = res.data();
+
+        CHECK_CUDA(cudaMemcpy(h_z, d_z, k*sizeof(T), cudaMemcpyDeviceToHost));
+
+        CHECK_CUDA(cudaFree(d_x));
+        CHECK_CUDA(cudaFree(d_y));
+        CHECK_CUDA(cudaFree(d_z));
+
         Matrix<T> tmp(res, this->M, o.N);
         return MatrixCuda(tmp);
     }
