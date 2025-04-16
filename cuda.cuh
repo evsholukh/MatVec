@@ -6,6 +6,15 @@
 #include <cuda_runtime.h>
 
 
+#define CHECK_CUDA(call) { \
+    cudaError_t err = call; \
+    if (err != cudaSuccess) { \
+        std::cerr << "CUDA Error in " << __FILE__ << ":" << __LINE__ << ": " << cudaGetErrorString(err) << std::endl; \
+        exit(EXIT_FAILURE); \
+    } \
+}
+
+
 template <typename T>
 class MatrixCuda : public Matrix<T> {
 
@@ -13,7 +22,35 @@ public:
     MatrixCuda(Matrix<T> &mat) : Matrix<T>(mat) {}
 
     T sum() override {
-        return T(0);
+        T *d_input = nullptr, *d_partial = nullptr, *d_output = nullptr;
+        T h_output = 0.0;
+
+        const int n = this->data.size();
+        T *input = this->data.data();
+
+        CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(T)));
+
+        const int blockSize = 1024;
+        const int gridSize = (n + blockSize - 1) / blockSize;
+
+        CHECK_CUDA(cudaMalloc(&d_partial, gridSize*sizeof(T)));
+        CHECK_CUDA(cudaMalloc(&d_output, sizeof(T))); 
+
+        CHECK_CUDA(cudaMemcpy(d_input, input, n*sizeof(T), cudaMemcpyHostToDevice));
+
+        reduceSumKernel<<<gridSize, blockSize, blockSize*sizeof(T)>>>(d_input, d_partial, n);
+        CHECK_CUDA(cudaGetLastError());
+    
+        reduceSumKernel<<<1, blockSize, blockSize*sizeof(T)>>>(d_partial, d_output, gridSize);
+        CHECK_CUDA(cudaGetLastError());
+
+        CHECK_CUDA(cudaMemcpy(&h_output, d_output, sizeof(T), cudaMemcpyDeviceToHost));
+
+        CHECK_CUDA(cudaFree(d_input));
+        CHECK_CUDA(cudaFree(d_partial));
+        CHECK_CUDA(cudaFree(d_output));
+
+        return h_output;
     }
 
     Matrix<T> add(Matrix<T> &o) override {
@@ -44,7 +81,7 @@ public:
         if (err != cudaSuccess) {
             throw std::runtime_error("CUDA memcpy B error: " + std::string(cudaGetErrorString(err)));
         }
-        const int BLOCK_SIZE = 1024;
+        const int BLOCK_SIZE = 512;
         int num_blocks_1d = (this->data.size() + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
         vectorAddKernel<<<num_blocks_1d, BLOCK_SIZE>>>(d_A, d_B, d_C, this->data.size());
@@ -128,27 +165,22 @@ public:
 };
 
 
-__global__ void reductionSum(float *input, float *output, unsigned int n) {
-    unsigned int block_size = blockDim.x;
-    unsigned int thread_id = threadIdx.x;
-    unsigned int block_id = blockIdx.x;
-    unsigned int chunk_size = block_size * 2;
-    unsigned int block_start = block_id * chunk_size;
-    unsigned int left;  // holds index of left operand
-    unsigned int right; // holds index or right operand
-    unsigned int threads = block_size;
+__global__ void reduceSumKernel(const float* input, float* output, int n) {
+    extern __shared__ float sdata[];
+    int tid = threadIdx.x;
+    int i = blockIdx.x * blockDim.x + tid;
 
-    for (unsigned int stride = 1; stride < chunk_size; stride *= 2, threads /= 2) {
-        left = block_start + thread_id * (stride * 2);
-        right = left + stride;
+    sdata[tid] = (i < n) ? input[i] : 0;
+    __syncthreads();
 
-        if (thread_id < threads && right < n) {
-            input[left] += input[right];
+    for (int s = blockDim.x / 2; s > 0; s >>= 1) {
+        if (tid < s) {
+            sdata[tid] += sdata[tid + s];
         }
         __syncthreads();
     }
-    if (!thread_id) {
-        output[block_id] = input[block_start];
+    if (tid == 0) {
+        output[blockIdx.x] = sdata[0];
     }
 }
 

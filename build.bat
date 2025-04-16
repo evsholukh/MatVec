@@ -12,6 +12,9 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 nvcc cu_main.cu -o cu_example.exe ^
     -I"%CUDA_PATH_V12_4%\include" ^
     -L"%CUDA_PATH_V12_4%\lib\x64" ^
+    -IOpenCL-SDK-v2024.10.24-Win-x64\include ^
+    -LOpenCL-SDK-v2024.10.24-Win-x64\lib ^
+    -lOpenCL ^
     -lcudart ^
     -allow-unsupported-compiler ^
     -std=c++17
