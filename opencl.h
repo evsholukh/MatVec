@@ -45,7 +45,9 @@ public:
     }
 
     T sum() override {
-
+        if (this->data.size() == 1) {
+            return this->data.back();
+        }
         size_t group_size = get_group_size();
         size_t total_size = this->data.size();
         if (total_size % group_size != 0) {
@@ -83,7 +85,8 @@ public:
         std::vector<T> red_vec(groups_count);
         CHECK_OPENCL(queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data()));
 
-        return Vector(red_vec).sum();
+        Matrix<T> red_mat(red_vec, groups_count, 1);
+        return MatrixOpenCL(red_mat).sum();
     }
 
     Matrix<T> add(Matrix<T> &o) override {

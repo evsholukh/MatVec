@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Debug OpenCL",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\cl_example.exe",
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
-            "preLaunchTask": "Build"
+            "preLaunchTask": "Build OpenCL"
         }
     ]
 }
