@@ -59,13 +59,13 @@ int main(int argc, char **argv) {
                   << mat_cl_add.measure()
                   << "s" << std::endl;
 
-        // MatrixMul mat_mul(mat_x, mat_y);
-        // std::cout << std::left 
-        //         << std::setw(20)
-        //         << "Runtime matrix mul: "
-        //         << std::fixed
-        //         << mat_mul.measure()
-        //         << "s" << std::endl;
+        MatrixMul mat_mul(mat_x, mat_y);
+        std::cout << std::left 
+                << std::setw(20)
+                << "Runtime matrix mul: "
+                << std::fixed
+                << mat_mul.measure()
+                << "s" << std::endl;
 
         MatrixMul mat_cl_mul(cl_mat_x, cl_mat_y);
         std::cout << std::left 

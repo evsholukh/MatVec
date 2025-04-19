@@ -72,6 +72,10 @@ public:
         return dst;
     }
 
+    virtual Matrix<T> operator+(Matrix<T> &o) {
+        return this->add(o);
+    }
+
     virtual Matrix<T> dot(Matrix<T> &o) {
         if (this->M != o.N) {
             throw std::runtime_error("Invalid size");
@@ -87,6 +91,10 @@ public:
             }
         }
         return dst;
+    }
+
+    virtual Matrix<T> operator*(Matrix<T> &o) {
+        return this->dot(o);
     }
 
     T mse(Matrix &o) {
