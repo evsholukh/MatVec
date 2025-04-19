@@ -64,7 +64,7 @@ public:
         cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * total_size, this->data.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer red_buf(context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
+        cl::Buffer red_buf(context, CL_MEM_READ_WRITE, sizeof(T) * groups_count, nullptr, &err);
         CHECK_OPENCL(err);
 
         cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
@@ -80,10 +80,20 @@ public:
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
-        std::vector<T> red_vec(groups_count);
-        CHECK_OPENCL(queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data()));
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY, sizeof(T), nullptr, &err);
+        CHECK_OPENCL(err);
 
-        return Vector(red_vec).sum();
+        CHECK_OPENCL(sum_kernel.setArg(0, red_buf));
+        CHECK_OPENCL(sum_kernel.setArg(1, group_size * sizeof(T), nullptr));
+        CHECK_OPENCL(sum_kernel.setArg(2, res_buf));
+        CHECK_OPENCL(sum_kernel.setArg(3, static_cast<uint32_t>(group_size)));
+
+        CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, groupRange, groupRange));
+
+        T res = 0.0;
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T), &res));
+
+        return res;
     }
 
     Matrix<T> add(Matrix<T> &o) override {
@@ -183,7 +193,6 @@ public:
     }
 
 private:
-    
     const std::string source();
     const size_t get_group_size();
 
@@ -306,7 +315,7 @@ const std::string MatrixOpenCL<double>::doubleSource = R"(
         }
     }
 
-    __kernel void sum(
+    __kernel void reductionSumKernel(
         __global const double* data,
         __local double* local_data,
         __global double* result,
