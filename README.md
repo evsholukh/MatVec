@@ -3,5 +3,9 @@
 ## CUDA
 ### Running
 ```
-build.bat
+build_opencl.bat
+```
+
+```
+build_cuda.bat
 ```
