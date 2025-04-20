@@ -30,6 +30,10 @@ public:
         const int blockSize = 1024;
         const int blockCount = (n + blockSize - 1) / blockSize;
 
+        if (blockCount == 1) {
+            return Matrix<T>::sum();
+        }
+
         T *input = this->data();
         T *d_input = nullptr,
           *d_partial = nullptr;
@@ -44,14 +48,11 @@ public:
 
         reduceSumKernel<<<blockCount, blockSize, blockSize*sizeof(T)>>>(d_input, d_partial, n);
         CHECK_CUDA(cudaGetLastError());
-        // CHECK_CUDA(cudaDeviceSynchronize());
 
         CHECK_CUDA(cudaMemcpy(h_partial, d_partial, blockCount*sizeof(T), cudaMemcpyDeviceToHost));
 
         CHECK_CUDA(cudaFree(d_input));
         CHECK_CUDA(cudaFree(d_partial));
-
-        // out_mat.show();
 
         return MatrixCuda(out_mat).sum();
     }

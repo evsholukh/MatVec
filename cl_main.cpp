@@ -15,7 +15,7 @@ typedef float vec_t;
 
 int main(int argc, char **argv) {
 
-    const size_t N = 1024;
+    const size_t N = 2048;
 
     try {
         std::cout << "Randomization matrix.. (size: " << std::to_string(N) << "x" << std::to_string(N) << ")" << std::endl;
@@ -59,13 +59,13 @@ int main(int argc, char **argv) {
                   << mat_cl_add.measure()
                   << "s" << std::endl;
 
-        MatrixMul mat_mul(mat_x, mat_y);
-        std::cout << std::left 
-                << std::setw(20)
-                << "Runtime matrix mul: "
-                << std::fixed
-                << mat_mul.measure()
-                << "s" << std::endl;
+        // MatrixMul mat_mul(mat_x, mat_y);
+        // std::cout << std::left 
+        //         << std::setw(20)
+        //         << "Runtime matrix mul: "
+        //         << std::fixed
+        //         << mat_mul.measure()
+        //         << "s" << std::endl;
 
         MatrixMul mat_cl_mul(cl_mat_x, cl_mat_y);
         std::cout << std::left 

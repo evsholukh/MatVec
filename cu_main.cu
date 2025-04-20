@@ -15,7 +15,7 @@ typedef float vec_t;
 
 
 int main(int argc, char **argv) {
-    const size_t N = 8192;
+    const size_t N = 4096;
 
     try {
         std::cout << "Randomization matrix.. (size: " << std::to_string(N) << "x" << std::to_string(N) << ")" << std::endl;

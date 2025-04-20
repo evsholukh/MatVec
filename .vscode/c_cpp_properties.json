@@ -4,8 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${OPENCL_PATH}/include",
-                "${CUDA_PATH_V12_4}/include"
+                "${env:OPENCL_PATH}\\include",
+                "${env:CUDA_PATH_V12_4}\\include"
             ],
             "defines": [
                 "_DEBUG",

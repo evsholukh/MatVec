@@ -45,12 +45,16 @@ public:
     }
 
     T sum() override {
-        const int n = this->size();
-        if (n == 1) {
+        if (this->size() == 1) {
             return this->head();
         }
+        const int n = this->size();
         const int blockSize = 1024;
         const int blockCount = (n + blockSize - 1) / blockSize;
+
+        if (blockCount == 1) {
+            return Matrix<T>::sum();
+        }
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
@@ -59,10 +63,10 @@ public:
         CHECK_OPENCL(program.build());
 
         cl_int err = CL_SUCCESS;
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * n, this->data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, n * sizeof(T), this->data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer red(context, CL_MEM_WRITE_ONLY, sizeof(T) * blockCount, nullptr, &err);
+        cl::Buffer red(context, CL_MEM_WRITE_ONLY, blockCount * sizeof(T), nullptr, &err);
         CHECK_OPENCL(err);
 
         cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
@@ -79,7 +83,7 @@ public:
         CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
         Matrix<T> red_mat = Matrix<T>::zeros(blockCount, 1);
-        CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, sizeof(T)*blockCount, red_mat.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, blockCount * sizeof(T), red_mat.data()));
 
         return MatrixOpenCL(red_mat).sum();
     }
