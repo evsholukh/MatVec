@@ -58,7 +58,7 @@ public:
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
-        cl::Program program(context, source());
+        cl::Program program(context, source);
 
         CHECK_OPENCL(program.build());
 
@@ -99,7 +99,7 @@ public:
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
-        cl::Program program(context, source());
+        cl::Program program(context, source);
 
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
@@ -140,7 +140,7 @@ public:
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
-        cl::Program program(context, source());
+        cl::Program program(context, source);
 
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
@@ -185,35 +185,11 @@ public:
     }
 
 private:
-    
-    const std::string source();
-    const size_t get_group_size();
-
-    static const std::string floatSource, doubleSource;
+    static const std::string source;
 };
 
-template <>
-const std::string MatrixOpenCL<float>::source() {
-    return floatSource;
-}
-
-template <>
-const std::string MatrixOpenCL<double>::source() {
-    return doubleSource;
-}
-
-template <>
-const size_t MatrixOpenCL<float>::get_group_size() {
-    return 256;
-}
-
-template <>
-const size_t MatrixOpenCL<double>::get_group_size() {
-    return 128;
-}
-
 template<>
-const std::string MatrixOpenCL<float>::floatSource = R"(
+const std::string MatrixOpenCL<float>::source = R"(
     __kernel void add(
             __global const float* a,
             __global const float* b,
@@ -293,89 +269,6 @@ const std::string MatrixOpenCL<float>::floatSource = R"(
         }
     }
 )";
-
-template<>
-const std::string MatrixOpenCL<double>::doubleSource = R"(
-    __kernel void add(
-        __global const double* a,
-        __global const double* b,
-        __global double *c,
-        const uint n)
-    {
-        int i = get_global_id(0);
-        if (i < n) {
-            c[i] = a[i] + b[i];
-        }
-    }
-
-    __kernel void sum(
-        __global const double* data,
-        __local double* local_data,
-        __global double* result,
-        const uint n)
-    {
-        const uint gid = get_global_id(0);
-        const uint lid = get_local_id(0);
-        const uint group_size = get_local_size(0);
-
-        local_data[lid] = (gid < n) ? data[gid] : 0.0f;
-        barrier(CLK_LOCAL_MEM_FENCE);
-
-        for (uint i = group_size >> 1; i > 0; i >>= 1) {
-            if (lid < i) {
-                local_data[lid] += local_data[lid + i];
-            }
-            barrier(CLK_LOCAL_MEM_FENCE);
-        }
-        if (lid == 0) {
-            result[get_group_id(0)] = local_data[0];
-        }
-    }
-
-    __kernel void matmul(
-        __global const double* a,
-        __global const double* b,
-        __global double* c,
-        const int n)
-    {
-        const uint row = get_global_id(0);
-        const uint col = get_global_id(1);
-
-        if (row >= n || col >= n) return;
-        
-        double acc = 0.0f;
-        for (int k = 0; k < n; k++) {
-            acc += a[row * n + k] * b[k * n + col];
-        }
-        c[row * n + col] = acc;
-    }
-
-    __kernel void dot(
-        __global const double* a,
-        __global const double* b,
-        __local double* local_data,
-        __global double* result,
-        const uint n) {
-
-        const uint gid = get_global_id(0);
-        const uint lid = get_local_id(0);
-        const uint group_size = get_local_size(0);
-
-        local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
-        barrier(CLK_LOCAL_MEM_FENCE);
-
-        for (uint i = group_size >> 1; i > 0; i >>= 1) {
-            if (lid < i) {
-                local_data[lid] += local_data[lid + i];
-            }
-            barrier(CLK_LOCAL_MEM_FENCE);
-        }
-        if (lid == 0) {
-            result[get_group_id(0)] = local_data[0];
-        }
-    }
-)";
-
 
 template <typename T>
 class VectorOpenCL : public Vector<T> {
