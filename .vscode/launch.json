@@ -5,10 +5,10 @@
             "name": "Debug OpenCL",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\cl_example.exe",
+            "program": "${workspaceFolder}/cl_example.exe",
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "preLaunchTask": "Build OpenCL"
-        }
+        },
     ]
 }

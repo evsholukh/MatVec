@@ -15,8 +15,7 @@ typedef float vec_t;
 
 
 int main(int argc, char **argv) {
-
-    const size_t N = 4096;
+    const size_t N = 8192;
 
     try {
         std::cout << "Randomization matrix.. (size: " << std::to_string(N) << "x" << std::to_string(N) << ")" << std::endl;
@@ -45,14 +44,13 @@ int main(int argc, char **argv) {
                 << mat_cl_sum.measure()
                 << "s" << std::endl;
 
-        MatrixSum<vec_t> mat_cuda_sum(cuda_mat_x);
+        MatrixSum mat_cuda_sum(cuda_mat_x);
         std::cout << std::left 
                 << std::setw(20)
                 << "CUDA matrix sum: "
                 << std::fixed
                 << mat_cuda_sum.measure()
                 << "s" << std::endl;
-
 
         MatrixAdd mat_add(mat_x, mat_y);
         std::cout << std::left 

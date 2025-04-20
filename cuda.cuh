@@ -22,34 +22,38 @@ public:
     MatrixCuda(Matrix<T> &mat) : Matrix<T>(mat) {}
 
     T sum() override {
-        
-        const int n = this->data.size();
+
+        const int n = this->size();
+        if (n == 1) {
+            return this->head();
+        }
         const int blockSize = 1024;
-        const int gridSize = (n + blockSize - 1) / blockSize;
-        
-        T *d_input = nullptr, *d_partial = nullptr, *d_output = nullptr;
-        T h_output = 0.0;
-        T *input = this->data.data();
+        const int blockCount = (n + blockSize - 1) / blockSize;
+
+        T *input = this->data();
+        T *d_input = nullptr,
+          *d_partial = nullptr;
+
+        Matrix<T> out_mat = Matrix<T>::zeros(1, blockCount);
+        T* h_partial = out_mat.data();
 
         CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_partial, gridSize*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_output, sizeof(T))); 
+        CHECK_CUDA(cudaMalloc(&d_partial, blockCount*sizeof(T)));
 
         CHECK_CUDA(cudaMemcpy(d_input, input, n*sizeof(T), cudaMemcpyHostToDevice));
 
-        reduceSumKernel<<<gridSize, blockSize, blockSize*sizeof(T)>>>(d_input, d_partial, n);
+        reduceSumKernel<<<blockCount, blockSize, blockSize*sizeof(T)>>>(d_input, d_partial, n);
         CHECK_CUDA(cudaGetLastError());
-    
-        reduceSumKernel<<<1, blockSize, blockSize*sizeof(T)>>>(d_partial, d_output, gridSize);
-        CHECK_CUDA(cudaGetLastError());
+        // CHECK_CUDA(cudaDeviceSynchronize());
 
-        CHECK_CUDA(cudaMemcpy(&h_output, d_output, sizeof(T), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaMemcpy(h_partial, d_partial, blockCount*sizeof(T), cudaMemcpyDeviceToHost));
 
         CHECK_CUDA(cudaFree(d_input));
         CHECK_CUDA(cudaFree(d_partial));
-        CHECK_CUDA(cudaFree(d_output));
 
-        return h_output;
+        // out_mat.show();
+
+        return MatrixCuda(out_mat).sum();
     }
 
     Matrix<T> add(Matrix<T> &o) override {
@@ -59,7 +63,7 @@ public:
 
     MatrixCuda<T> add(MatrixCuda<T> &o) {
 
-        const int n = this->data.size();
+        const int n = this->size();
         const int blockSize = 1024;
         const int gridSize = (n + blockSize - 1) / blockSize;
         
@@ -67,8 +71,8 @@ public:
 
         std::vector<T> res(n);
 
-        T *h_x = this->data.data();
-        T *h_y = o.data.data();
+        T *h_x = this->data();
+        T *h_y = o.data();
         T *h_z = res.data();
 
         CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
@@ -99,12 +103,12 @@ public:
     MatrixCuda<T> dot(MatrixCuda<T> &o) {
         T *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
 
-        const int n = this->data.size();
-        const int m = o.data.size();
+        const int n = this->size();
+        const int m = o.size();
         const int k = this->M*o.N;
 
-        T *h_x = this->data.data();
-        T *h_y = o.data.data();
+        T *h_x = this->data();
+        T *h_y = o.data();
 
         CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
         CHECK_CUDA(cudaMalloc(&d_y, m*sizeof(T)));

@@ -45,16 +45,12 @@ public:
     }
 
     T sum() override {
-        if (this->data.size() == 1) {
-            return this->data.back();
+        const int n = this->size();
+        if (n == 1) {
+            return this->head();
         }
-        size_t group_size = get_group_size();
-        size_t total_size = this->data.size();
-        if (total_size % group_size != 0) {
-            total_size = ((total_size / group_size) + 1) * group_size;
-        }
-        this->data.resize(total_size, 0.0f);
-        size_t groups_count = total_size / group_size;
+        const int blockSize = 1024;
+        const int blockCount = (n + blockSize - 1) / blockSize;
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
@@ -63,29 +59,28 @@ public:
         CHECK_OPENCL(program.build());
 
         cl_int err = CL_SUCCESS;
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * total_size, this->data.data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * n, this->data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer red_buf(context, CL_MEM_WRITE_ONLY, sizeof(T) * groups_count, nullptr, &err);
+        cl::Buffer red(context, CL_MEM_WRITE_ONLY, sizeof(T) * blockCount, nullptr, &err);
         CHECK_OPENCL(err);
 
         cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
         CHECK_OPENCL(err);
 
         CHECK_OPENCL(sum_kernel.setArg(0, buf));
-        CHECK_OPENCL(sum_kernel.setArg(1, group_size * sizeof(T), nullptr));
-        CHECK_OPENCL(sum_kernel.setArg(2, red_buf));
-        CHECK_OPENCL(sum_kernel.setArg(3, static_cast<uint32_t>(total_size)));
+        CHECK_OPENCL(sum_kernel.setArg(1, blockSize * sizeof(T), nullptr));
+        CHECK_OPENCL(sum_kernel.setArg(2, red));
+        CHECK_OPENCL(sum_kernel.setArg(3, static_cast<uint32_t>(n)));
 
-        cl::NDRange globalRange(total_size);
-        cl::NDRange groupRange(group_size);
+        cl::NDRange globalRange(n);
+        cl::NDRange groupRange(blockSize);
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
-        std::vector<T> red_vec(groups_count);
-        CHECK_OPENCL(queue.enqueueReadBuffer(red_buf, CL_TRUE, 0, sizeof(T)*groups_count, red_vec.data()));
+        Matrix<T> red_mat = Matrix<T>::zeros(blockCount, 1);
+        CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, sizeof(T)*blockCount, red_mat.data()));
 
-        Matrix<T> red_mat(red_vec, groups_count, 1);
         return MatrixOpenCL(red_mat).sum();
     }
 
@@ -105,13 +100,13 @@ public:
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
 
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->size(), this->data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.size(), o.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.size(), res.data(), &err);
         CHECK_OPENCL(err);
 
         cl::Kernel add_kernel(program, "add", &err);
@@ -120,12 +115,12 @@ public:
         CHECK_OPENCL(add_kernel.setArg(0, buf));
         CHECK_OPENCL(add_kernel.setArg(1, o_buf));
         CHECK_OPENCL(add_kernel.setArg(2, res_buf));
-        CHECK_OPENCL(add_kernel.setArg(3, static_cast<uint32_t>(this->data.size())));
+        CHECK_OPENCL(add_kernel.setArg(3, static_cast<uint32_t>(this->size())));
 
-        cl::NDRange global_range(this->data.size());
+        cl::NDRange global_range(this->size());
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range));
-        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.size(), res.data()));
 
         return res;
     }
@@ -146,13 +141,13 @@ public:
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
 
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->data.size(), this->data.data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->size(), this->data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.data.size(), o.data.data(), &err);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.size(), o.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.data.size(), res.data.data(), &err);
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.size(), res.data(), &err);
         CHECK_OPENCL(err);
 
         cl::Kernel matmul_kernel(program, "matmul", &err);
@@ -166,7 +161,7 @@ public:
         cl::NDRange globalSize(this->M, o.N);
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize));
-        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.data.size(), res.data.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.size(), res.data()));
 
         return res;
     }

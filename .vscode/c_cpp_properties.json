@@ -4,8 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/OpenCL-SDK-v2024.10.24-Win-x64/include",
-                "${workspaceFolder}/CUDA/v11.3/include"
+                "${OPENCL_PATH}/include",
+                "${CUDA_PATH_V12_4}/include"
             ],
             "defines": [
                 "_DEBUG",

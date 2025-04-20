@@ -10,14 +10,26 @@ template <typename T>
 class Matrix {
 
 protected:
-    std::vector<T> data;
+    std::vector<T> vec;
     size_t N, M;
 
 public:
-    Matrix(std::vector<T> &data, size_t N, size_t M) : data(data), N(N), M(M) {
+    Matrix(std::vector<T> &data, size_t N, size_t M) : vec(data), N(N), M(M) {
         if (N*M != data.size()) {
             throw std::runtime_error("Invalid matrix size");
         }
+    }
+
+    T* data() {
+        return vec.data();
+    }
+
+    size_t size() {
+        return this->vec.size();
+    }
+
+    T head() {
+        return vec.front();
     }
 
     static Matrix<T> zeros(size_t N, size_t M) {
@@ -39,7 +51,7 @@ public:
     }
 
     void reshape(const size_t N, const size_t M) {
-        if (N*M != this->data.size()) {
+        if (N*M != this->vec.size()) {
             throw std::runtime_error("Invalid shape");
         }
         this->N = N;
@@ -47,7 +59,7 @@ public:
     }
 
     Matrix transposed() {
-        return Matrix(this->data, this->M, this->N);
+        return Matrix(this->vec, this->M, this->N);
     }
 
     Matrix<T> zeros_like() {
@@ -55,20 +67,20 @@ public:
     }
 
     int size_mb() {
-        return (sizeof(T) * data.size()) / (1024 * 1024);
+        return (sizeof(T) * vec.size()) / (1024 * 1024);
     }
 
     virtual T sum() {
-        return std::accumulate(data.begin(), data.end(), T(0));
+        return std::accumulate(vec.begin(), vec.end(), T(0));
     }
 
     virtual Matrix<T> add(Matrix<T> &o) {
-        if (data.size() != o.data.size()) {
+        if (vec.size() != o.vec.size()) {
             throw std::runtime_error("Invalid size");
         }
         Matrix<T> dst = this->zeros_like();
 
-        std::transform(this->data.begin(), this->data.end(), o.data.begin(), dst.data.begin(), std::plus<T>());
+        std::transform(this->vec.begin(), this->vec.end(), o.vec.begin(), dst.vec.begin(), std::plus<T>());
         return dst;
     }
 
@@ -86,7 +98,7 @@ public:
             for (size_t j = 0; j < o.M; j++) {
 
                 for (size_t k = 0; k < this->M; k++) {
-                    dst.data[dst.M*i + j] += this->data[this->M*i + k] * o.data[o.M*k + j];
+                    dst.vec[dst.M*i + j] += this->vec[this->M*i + k] * o.vec[o.M*k + j];
                 }
             }
         }
@@ -99,8 +111,8 @@ public:
 
     T mse(Matrix &o) {
         T res = 0.0f;
-        for (size_t i = 0; i < data.size(); i++) {
-            res += pow(data[i] - o.data[i], 2);
+        for (size_t i = 0; i < vec.size(); i++) {
+            res += pow(vec[i] - o.vec[i], 2);
         }
         return res;
     }
@@ -108,14 +120,16 @@ public:
     void show() {
         std::cout << "[";
         for (size_t i = 0; i < N; i++) {
+            std::cout << "[";
             for (size_t j = 0; j < M; j++) {
-                std::cout << data[i*N+j];
-
-                if (!(i == N - 1 && j == M - 1)) {
-                    std::cout << ", ";
+                std::cout << vec[i*M+j];
+                if (!(j == M - 1)) {
+                    std::cout << ",";
                 }
             }
-            if (i != N - 1) {
+            std::cout << "]";
+            if (!(i == N - 1)) {
+                std::cout << ",";
                 std::cout << std::endl;
             }
         }

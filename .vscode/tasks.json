@@ -7,16 +7,36 @@
             "command": "g++",
             "args": [
                 "-g", "${workspaceFolder}\\cl_main.cpp",
-                "-I", "${workspaceFolder}\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-L", "${workspaceFolder}\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-I", "${env:OPENCL_PATH}\\include",
+                "-L", "${env:OPENCL_PATH}\\lib",
                 "-lOpenCL",
-                "-o", "${workspaceFolder}\\cl_example.exe",
+                "-o", "cl_example.exe",
+                "-std=c++17"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "Build CUDA",
+            "type": "shell",
+            "command": "nvcc",
+            "args": [
+                "-g", "${workspaceFolder}\\cl_main.cpp",
+                "-I", "${env:CUDA_PATH_V12_4}\\include",
+                "-I", "${env:OPENCL_PATH}\\include",
+                "-L", "${env:CUDA_PATH_V12_4}\\lib\\x64",
+                "-L", "${env:OPENCL_PATH}\\lib",
+                "-lOpenCL",
+                "-lcudart",
+                "-o", "cu_example.exe",
                 "-std=c++17"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
     ]
 }
