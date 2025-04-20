@@ -1,24 +1,74 @@
 #pragma once
 
-#include <vector>
-#include <random>
-#include <numeric>
-#include <algorithm>
+#include <iostream>
 
-#include "matrix.h"
 
 template <typename T>
-class Vector : public Matrix<T> {
+class Vector {
+
 public:
-    Vector(std::vector<T> &data): Matrix<T>(data, data.size(), 1) {}
-    Vector(Matrix<T> mat) : Matrix<T>(mat) {}
+    Vector(T *data, size_t size): _data(data), _size(size) {}
 
-    static Vector random(const size_t size) {
-        return Matrix<T>::random(size, 1);
+    T* data() const {
+        return _data;
     }
 
-    Matrix<T> dot(Matrix<T> &o) override {
-        auto tr = o.transposed();
-        return Matrix<T>::dot(tr);
+    size_t size() const {
+        return _size;
     }
+
+    virtual T sum() const {
+        T val = _data[0];
+        for (size_t i = 1; i < _size; i++) {
+            val += _data[i];
+        }
+        return val;
+    }
+
+    virtual void add(const Vector<T> &o) {
+        for (size_t i = 0; i < _size; i++) {
+            _data[i] += o._data[i];
+        }
+    }
+
+    virtual void mul(const Vector<T> &o) {
+        for (size_t i = 0; i < _size; i++) {
+            _data[i] *= o._data[i];
+        }
+    }
+
+    virtual T dot(const Vector<T> &o) const {
+        return (*this * o).sum();
+    }
+
+    virtual Vector<T> operator+(const Vector<T> &o) const {
+        T *new_data = new T(_size);
+        for (size_t i = 0; i < _size; i++) {
+            new_data[i] = _data[i] + o._data[i];
+        }
+        return Vector<T>(new_data, _size);
+    }
+
+    virtual Vector<T> operator*(const Vector<T> &o) const {
+        T *new_data = new T(_size);
+        for (size_t i = 0; i < _size; i++) {
+            new_data[i] = _data[i] * o._data[i];
+        }
+        return Vector<T>(new_data, _size);
+    }
+
+    virtual void print() const {
+        std::cout << "[";
+        for (size_t i = 0; i < _size; i++) {
+            std::cout << _data[i];
+            if (i != _size - 1) {
+                std::cout << ",";
+            }
+        }
+        std::cout << "]";
+    }
+
+protected:
+    T *_data;
+    int _size;
 };

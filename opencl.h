@@ -19,43 +19,25 @@ std::string decodeError(cl_int err);
     } \
 }
 
-template <typename T>
-class MatrixOpenCL : public Matrix<T> {
 
-protected:
-    cl::Platform platform;
-    cl::Device device;
+class VectorOpenCL : public Vector<float> {
 
 public:
-    MatrixOpenCL(Matrix<T> &v) : Matrix<T>(v) {
+    VectorOpenCL(Vector<float> vec) : Vector<float>(vec) { }
 
-        std::vector<cl::Platform> platforms;
-        CHECK_OPENCL(cl::Platform::get(&platforms));
-        if (platforms.empty()) {
-            throw std::runtime_error("No OpenCL platforms.");
-        }
-        platform = platforms.back();
+    float sum() const override {
 
-        std::vector<cl::Device> devices;
-        CHECK_OPENCL(platform.getDevices(CL_DEVICE_TYPE_GPU, &devices));
-        if (devices.empty()) {
-            throw std::runtime_error("No GPU devices.");
-        }
-        device = devices.back();
-    }
-
-    T sum() override {
-        if (this->size() == 1) {
-            return this->head();
-        }
-        const int n = this->size();
+        const int n = _size;
         const int blockSize = 1024;
         const int blockCount = (n + blockSize - 1) / blockSize;
 
         if (blockCount == 1) {
-            return Matrix<T>::sum();
+            return Vector<float>::sum();
         }
 
+        cl::Platform platform = VectorOpenCL::defaultPlatform();
+        cl::Device device = VectorOpenCL::defaultDevice(platform);
+    
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
         cl::Program program(context, source);
@@ -63,17 +45,17 @@ public:
         CHECK_OPENCL(program.build());
 
         cl_int err = CL_SUCCESS;
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, n * sizeof(T), this->data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, n * sizeof(float), _data, &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer red(context, CL_MEM_WRITE_ONLY, blockCount * sizeof(T), nullptr, &err);
+        cl::Buffer red(context, CL_MEM_WRITE_ONLY, blockCount * sizeof(float), nullptr, &err);
         CHECK_OPENCL(err);
 
         cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
         CHECK_OPENCL(err);
 
         CHECK_OPENCL(sum_kernel.setArg(0, buf));
-        CHECK_OPENCL(sum_kernel.setArg(1, blockSize * sizeof(T), nullptr));
+        CHECK_OPENCL(sum_kernel.setArg(1, blockSize * sizeof(float), nullptr));
         CHECK_OPENCL(sum_kernel.setArg(2, red));
         CHECK_OPENCL(sum_kernel.setArg(3, static_cast<uint32_t>(n)));
 
@@ -82,20 +64,23 @@ public:
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
-        Matrix<T> red_mat = Matrix<T>::zeros(blockCount, 1);
-        CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, blockCount * sizeof(T), red_mat.data()));
+        float *res = new float(blockCount);
+        Vector<float> red_vec(res, blockCount);
+        CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, blockCount * sizeof(float), res));
 
-        return MatrixOpenCL(red_mat).sum();
+        float total = VectorOpenCL(red_vec).sum();
+        delete[] res;
+
+        return total;
     }
 
-    Matrix<T> add(Matrix<T> &o) override {
-        MatrixOpenCL cl_o(o);
-        return MatrixOpenCL(*this).add(cl_o);
-    }
+    Vector<float> operator*(const Vector<float> &o) const override {
 
-    MatrixOpenCL<T> add(MatrixOpenCL<T> &o) {
-        Matrix<T> tmp = this->zeros_like();
-        MatrixOpenCL<T> res(tmp);
+        float *new_data = new float(_size);
+        Vector<float> res(new_data, _size);
+
+        cl::Platform platform = VectorOpenCL::defaultPlatform();
+        cl::Device device = VectorOpenCL::defaultDevice(platform);
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
@@ -104,93 +89,129 @@ public:
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
 
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->size(), this->data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * _size, _data, &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.size(), o.data(), &err);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * o.size(), o.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.size(), res.data(), &err);
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * res.size(), res.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Kernel add_kernel(program, "add", &err);
+        cl::Kernel add_kernel(program, "kernelVectorMul", &err);
         CHECK_OPENCL(err);
 
         CHECK_OPENCL(add_kernel.setArg(0, buf));
         CHECK_OPENCL(add_kernel.setArg(1, o_buf));
         CHECK_OPENCL(add_kernel.setArg(2, res_buf));
-        CHECK_OPENCL(add_kernel.setArg(3, static_cast<uint32_t>(this->size())));
+        CHECK_OPENCL(add_kernel.setArg(3, static_cast<uint32_t>(_size)));
 
-        cl::NDRange global_range(this->size());
+        cl::NDRange global_range(_size);
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range));
-        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.size(), res.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, res.size()*sizeof(float), res.data()));
 
         return res;
     }
 
-    Matrix<T> dot(Matrix<T> &o) override {
-        MatrixOpenCL cl_o(o);
-        return MatrixOpenCL(*this).dot(cl_o);
+    float dot(const Vector<float> &o) const override {
+        return ((*this) * VectorOpenCL(o)).sum();
     }
 
-    MatrixOpenCL<T> dot(MatrixOpenCL<T> &o) {
-        Matrix<T> tmp = this->zeros_like();
-        MatrixOpenCL<T> res(tmp);
+    static cl::Platform defaultPlatform() {
+        std::vector<cl::Platform> platforms;
+        CHECK_OPENCL(cl::Platform::get(&platforms));
+        if (platforms.empty()) {
+            throw std::runtime_error("No OpenCL platforms.");
+        }
+        return platforms.back();
+    }
+
+    static cl::Device defaultDevice(cl::Platform platform) {
+        std::vector<cl::Device> devices;
+        CHECK_OPENCL(platform.getDevices(CL_DEVICE_TYPE_GPU, &devices));
+        if (devices.empty()) {
+            throw std::runtime_error("No GPU devices.");
+        }
+        return devices.back();
+    }
+
+    static int memoryAvailable(cl::Device device) {
+        cl_ulong mem_size;
+        CHECK_OPENCL(device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size));
+
+        return mem_size / (1024 * 1024);
+    }
+
+public:
+    static const std::string source;
+};
+
+
+class MatrixOpenCL : public Matrix<float> {
+
+public:
+    MatrixOpenCL(Matrix<float> mat) : Matrix<float>(mat) { }
+
+    Matrix<float> dot(const Matrix<float> &o) const override {
+
+        float *new_data = new float(this->size());
+        Matrix<float> res(new_data, this->cols(), this->rows());
+
+        cl::Platform platform = VectorOpenCL::defaultPlatform();
+        cl::Device device = VectorOpenCL::defaultDevice(platform);
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
-        cl::Program program(context, source);
+        cl::Program program(context, VectorOpenCL::source);
 
         cl_int err = CL_SUCCESS;
         CHECK_OPENCL(program.build());
 
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * this->size(), this->data(), &err);
+        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * this->size(), this->data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * o.size(), o.data(), &err);
+        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * o.size(), o.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(T) * res.size(), res.data(), &err);
+        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * res.size(), res.data(), &err);
         CHECK_OPENCL(err);
 
-        cl::Kernel matmul_kernel(program, "matmul", &err);
+        cl::Kernel matmul_kernel(program, "kernelMatrixDot", &err);
         CHECK_OPENCL(err);
 
         CHECK_OPENCL(matmul_kernel.setArg(0, buf));
         CHECK_OPENCL(matmul_kernel.setArg(1, o_buf));
         CHECK_OPENCL(matmul_kernel.setArg(2, res_buf));
-        CHECK_OPENCL(matmul_kernel.setArg(3, static_cast<uint32_t>(this->M)));
+        CHECK_OPENCL(matmul_kernel.setArg(3, static_cast<uint32_t>(this->rows())));
 
-        cl::NDRange globalSize(this->M, o.N);
+        cl::NDRange globalSize(this->rows(), o.cols());
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize));
-        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(T)*res.size(), res.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(float)*res.size(), res.data()));
 
         return res;
     }
 
-    void show_info() {
-        std::string platform_name;
-        CHECK_OPENCL(platform.getInfo(CL_PLATFORM_NAME, &platform_name));
-        std::cout << "Platform: " << platform_name << std::endl;
+    Matrix<float> dot2(const Matrix<float> &o) const {
+        float *new_data = new float(_rows*o.cols());
+        Matrix<float> mat(new_data, _rows, o.cols());
 
-        std::string device_name;
-        CHECK_OPENCL(device.getInfo(CL_DEVICE_NAME, &device_name));
-        std::cout << "Device: " << device_name << std::endl;
+        for (size_t i = 0; i < _rows; i++) {
+            for (size_t j = 0; j < o.cols(); j++) {
+                Vector<float> c = o.col(j);
+                Vector<float> r = this->row(i);
 
-        cl_ulong mem_size;
-        CHECK_OPENCL(device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size));
-        std::cout << "GPU memory available: " << mem_size / (1024 * 1024) << "MB" << std::endl;
+                new_data[o.cols()*i + j] = VectorOpenCL(r).dot(c);
+                delete[] c.data();
+            }
+        }
+        return mat;
     }
-
-private:
-    static const std::string source;
 };
 
-template<>
-const std::string MatrixOpenCL<float>::source = R"(
-    __kernel void add(
+const std::string VectorOpenCL::source = R"(
+    __kernel void kernelVectorAdd(
             __global const float* a,
             __global const float* b,
             __global float* c,
@@ -202,7 +223,19 @@ const std::string MatrixOpenCL<float>::source = R"(
         }
     }
 
-    __kernel void reductionSumKernel(
+    __kernel void kernelVectorMul(
+            __global const float* a,
+            __global const float* b,
+            __global float* c,
+            const uint n)
+    {
+        const uint i = get_global_id(0);
+        if (i < n) {
+            c[i] = a[i] * b[i];
+        }
+    }
+
+    __kernel void kernelVectorSum(
         __global const float* data,
         __local float* local_data,
         __global float* result,
@@ -226,7 +259,7 @@ const std::string MatrixOpenCL<float>::source = R"(
         }
     }
 
-    __kernel void matmul(
+    __kernel void kernelMatrixDot(
         __global const float* a,
         __global const float* b,
         __global float* c,
@@ -243,53 +276,8 @@ const std::string MatrixOpenCL<float>::source = R"(
         }
         c[row * n + col] = acc;
     }
-
-    __kernel void dot(
-        __global const float* a,
-        __global const float* b,
-        __local float* local_data,
-        __global float* result,
-        const uint n)
-    {
-        const uint gid = get_global_id(0);
-        const uint lid = get_local_id(0);
-        const uint group_size = get_local_size(0);
-
-        local_data[lid] = (gid < n) ? a[gid] * b[gid] : 0.0f;
-        barrier(CLK_LOCAL_MEM_FENCE);
-
-        for (uint i = group_size >> 1; i > 0; i >>= 1) {
-            if (lid < i) {
-                local_data[lid] += local_data[lid + i];
-            }
-            barrier(CLK_LOCAL_MEM_FENCE);
-        }
-        if (lid == 0) {
-            result[get_group_id(0)] = local_data[0];
-        }
-    }
 )";
 
-template <typename T>
-class VectorOpenCL : public Vector<T> {
-
-public:
-    VectorOpenCL(Vector<T> &vec) : Vector<T>(vec) {}
-
-    T sum() override {
-        return MatrixOpenCL(*this).sum();
-    }
-
-    Matrix<T> add(Matrix<T> &o) override {
-        MatrixOpenCL tmp(o);
-        return MatrixOpenCL(*this).add(tmp);
-    }
-
-    Matrix<T> dot(Matrix<T> &o) override {
-        MatrixOpenCL tmp(o);
-        return MatrixOpenCL(*this).dot(tmp);
-    }
-};
 
 std::string decodeError(cl_int err) {
     switch (err) {

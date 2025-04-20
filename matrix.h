@@ -1,138 +1,65 @@
 #pragma once
 
-#include <vector>
-#include <random>
-#include <numeric>
-#include <algorithm> 
+#include "vector.h"
 
 
 template <typename T>
-class Matrix {
-
-protected:
-    std::vector<T> vec;
-    size_t N, M;
+class Matrix : public Vector<T> {
 
 public:
-    Matrix(std::vector<T> &data, size_t N, size_t M) : vec(data), N(N), M(M) {
-        if (N*M != data.size()) {
-            throw std::runtime_error("Invalid matrix size");
+    Matrix(T *data, size_t cols, size_t rows) : Vector<T>(data, cols*rows), 
+        _cols(cols), _rows(rows) { }
+
+    size_t cols() const {
+        return _cols;
+    }
+
+    size_t rows() const {
+        return _rows;
+    }
+
+    Vector<T> row(size_t n) const {
+        return Vector<T>(this->data()+_cols*n, _cols);
+    }
+
+    Vector<T> col(size_t n) const {
+        T *new_data = new T(_rows); // [!]
+        T *data = this->data();
+        for (size_t i = 0; i < _rows; i++) {
+            new_data[i] = data[i*_rows + n];
         }
+        return Vector<T>(new_data, _rows);
     }
 
-    T* data() {
-        return vec.data();
-    }
+    virtual Matrix<T> dot(const Matrix<T> &o) const {
+        T *new_data = new T(_rows*o._cols);
+        Matrix<T> mat(new_data, _rows, o._cols);
 
-    size_t size() {
-        return this->vec.size();
-    }
+        for (size_t i = 0; i < _rows; i++) {
+            for (size_t j = 0; j < o._cols; j++) {
+                Vector<T> c = o.col(j);
+                Vector<T> r = this->row(i);
 
-    T head() {
-        return vec.front();
-    }
-
-    static Matrix<T> zeros(size_t N, size_t M) {
-        std::vector<T> vec(N*M);
-
-        return Matrix<T>(vec, N, M);
-    }
-
-    static Matrix random(const size_t N, const size_t M) {
-        size_t size = N*M;
-        std::mt19937 generator(42);
-        std::uniform_real_distribution<T> dist(-1, 1);
-        std::vector<T> vec(size);
-
-        for (size_t i = 0; i < size; i++) {
-            vec[i] = dist(generator);
-        }
-        return Matrix(vec, N, M);
-    }
-
-    void reshape(const size_t N, const size_t M) {
-        if (N*M != this->vec.size()) {
-            throw std::runtime_error("Invalid shape");
-        }
-        this->N = N;
-        this->M = M;
-    }
-
-    Matrix transposed() {
-        return Matrix(this->vec, this->M, this->N);
-    }
-
-    Matrix<T> zeros_like() {
-        return Matrix<T>::zeros(this->N, this->M);
-    }
-
-    int size_mb() {
-        return (sizeof(T) * vec.size()) / (1024 * 1024);
-    }
-
-    virtual T sum() {
-        return std::accumulate(vec.begin(), vec.end(), T(0));
-    }
-
-    virtual Matrix<T> add(Matrix<T> &o) {
-        if (vec.size() != o.vec.size()) {
-            throw std::runtime_error("Invalid size");
-        }
-        Matrix<T> dst = this->zeros_like();
-
-        std::transform(this->vec.begin(), this->vec.end(), o.vec.begin(), dst.vec.begin(), std::plus<T>());
-        return dst;
-    }
-
-    virtual Matrix<T> operator+(Matrix<T> &o) {
-        return this->add(o);
-    }
-
-    virtual Matrix<T> dot(Matrix<T> &o) {
-        if (this->M != o.N) {
-            throw std::runtime_error("Invalid size");
-        }
-        Matrix dst = Matrix::zeros(this->N, o.M);
-
-        for (size_t i = 0; i < this->N; i++) {
-            for (size_t j = 0; j < o.M; j++) {
-
-                for (size_t k = 0; k < this->M; k++) {
-                    dst.vec[dst.M*i + j] += this->vec[this->M*i + k] * o.vec[o.M*k + j];
-                }
+                new_data[o._cols*i + j] = r.dot(c);
+                delete[] c.data();
             }
         }
-        return dst;
+        return mat;
     }
 
-    virtual Matrix<T> operator*(Matrix<T> &o) {
-        return this->dot(o);
-    }
-
-    T mse(Matrix &o) {
-        T res = 0.0f;
-        for (size_t i = 0; i < vec.size(); i++) {
-            res += pow(vec[i] - o.vec[i], 2);
-        }
-        return res;
-    }
-
-    void show() {
+    void print() const override {
         std::cout << "[";
-        for (size_t i = 0; i < N; i++) {
-            std::cout << "[";
-            for (size_t j = 0; j < M; j++) {
-                std::cout << vec[i*M+j];
-                if (!(j == M - 1)) {
-                    std::cout << ",";
-                }
-            }
-            std::cout << "]";
-            if (!(i == N - 1)) {
+        for (size_t i = 0; i < _rows; i++) {
+            this->row(i).print();
+            if (i != _rows - 1) {
                 std::cout << ",";
                 std::cout << std::endl;
             }
         }
-        std::cout << "]"<< std::endl;
+        std::cout << "]";
+        std::cout << std::endl;
     }
+
+protected:
+    size_t _cols, _rows;
 };
