@@ -23,7 +23,7 @@ public:
     }
 
     Vector<T> col(size_t n) const {
-        T *new_data = new T(_rows); // [!]
+        T *new_data = new T[_rows]; // [!]
         T *data = this->data();
         for (size_t i = 0; i < _rows; i++) {
             new_data[i] = data[i*_rows + n];
@@ -32,7 +32,7 @@ public:
     }
 
     virtual Matrix<T> dot(const Matrix<T> &o) const {
-        T *new_data = new T(_rows*o._cols);
+        T *new_data = new T[_rows*o._cols];
         Matrix<T> mat(new_data, _rows, o._cols);
 
         for (size_t i = 0; i < _rows; i++) {

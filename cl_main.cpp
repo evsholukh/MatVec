@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 #include "matrix.h"
 #include "vector.h"
@@ -10,24 +11,39 @@
 #include "measured.h"
 #include "experiments.h"
 
-typedef float vec_t;
 
+template<typename T>
+T* random_vector(const size_t size) {
+    T *data = new T[size];
+
+    std::mt19937 generator(42);
+    std::uniform_real_distribution<T> dist(-1, 1);
+
+    for (size_t i = 0; i < size; i++) {
+        data[i] = dist(generator);
+    }
+    return data;
+}
 
 int main(int argc, char **argv) {
 
-    const size_t N = 2048;
+    const size_t N = 1024;
+    const size_t M = 1024;
 
     try {
-        std::cout << "Randomization matrix.. (size: " << std::to_string(N) << "x" << std::to_string(N) << ")" << std::endl;
+        std::cout << "Randomization data.." << std::endl;
 
-        auto mat_x = Matrix<vec_t>::random(N, N);
-        auto mat_y = Matrix<vec_t>::random(N, N);
+        float *data_x = random_vector<float>(N*M);
+        float *data_y = random_vector<float>(N*M);
 
-        MatrixOpenCL cl_mat_x(mat_x), cl_mat_y(mat_y);
+        Matrix<float> mx(data_x, N, M);
+        Matrix<float> my(data_y, N, M);
 
-        std::cout << "Matrix size: " << mat_x.size_mb() << "MB" << std::endl;
+        MatrixOpenCL cl_mx(mx), cl_my(my);
 
-        MatrixSum mat_sum(mat_x);
+        std::cout << "Matrix size: " << mx.size_mb() << "MB" << std::endl;
+
+        MatrixSum mat_sum(mx);
         std::cout << std::left 
                   << std::setw(20)
                   << "Runtime matrix sum: "
@@ -35,7 +51,7 @@ int main(int argc, char **argv) {
                   << mat_sum.measure()
                   << "s" << std::endl;
 
-        MatrixSum mat_cl_sum(cl_mat_x);
+        MatrixSum mat_cl_sum(cl_mx);
         std::cout << std::left 
                   << std::setw(20)
                   << "OpenCL matrix sum: "
@@ -43,7 +59,7 @@ int main(int argc, char **argv) {
                   << mat_cl_sum.measure()
                   << "s" << std::endl;
 
-        MatrixAdd mat_add(mat_x, mat_y);
+        MatrixAdd mat_add(mx, my);
         std::cout << std::left 
                   << std::setw(20)
                   << "Runtime matrix add: "
@@ -51,7 +67,7 @@ int main(int argc, char **argv) {
                   << mat_add.measure()
                   << "s" << std::endl;
 
-        MatrixAdd mat_cl_add(cl_mat_x, cl_mat_y);
+        MatrixAdd mat_cl_add(cl_mx, cl_my);
         std::cout << std::left 
                   << std::setw(20)
                   << "OpenCL matrix add: "
@@ -59,15 +75,15 @@ int main(int argc, char **argv) {
                   << mat_cl_add.measure()
                   << "s" << std::endl;
 
-        // MatrixMul mat_mul(mat_x, mat_y);
-        // std::cout << std::left 
-        //         << std::setw(20)
-        //         << "Runtime matrix mul: "
-        //         << std::fixed
-        //         << mat_mul.measure()
-        //         << "s" << std::endl;
+        MatrixMul mat_mul(mx, my);
+        std::cout << std::left 
+                << std::setw(20)
+                << "Runtime matrix mul: "
+                << std::fixed
+                << mat_mul.measure()
+                << "s" << std::endl;
 
-        MatrixMul mat_cl_mul(cl_mat_x, cl_mat_y);
+        MatrixMul mat_cl_mul(cl_mx, cl_my);
         std::cout << std::left 
                 << std::setw(20)
                 << "OpenCL matrix mul: "
@@ -75,62 +91,8 @@ int main(int argc, char **argv) {
                 << mat_cl_mul.measure()
                 << "s" << std::endl;
 
-        std::cout << "Randomization vector.. (size: " << std::to_string(N) << ")" << std::endl;
-
-        auto vec_x = Vector<vec_t>::random(N);
-        auto vec_y = Vector<vec_t>::random(N);
-
-        VectorOpenCL<vec_t> cl_vec_x(vec_x), cl_vec_y(vec_y);
-
-        std::cout << "Vector size: " << vec_x.size_mb() << "MB" << std::endl;
-
-        VectorAdd vec_add(vec_x, vec_y);
-        std::cout << std::left
-                << std::setw(20)
-                << "Runtime vector add: "
-                << std::fixed
-                << vec_add.measure()
-                << "s" << std::endl;
-
-        VectorAdd vec_cl_add(cl_vec_x, cl_vec_y);
-        std::cout << std::left
-                << std::setw(20)
-                << "OpenCL vector add: "
-                << std::fixed
-                << vec_cl_add.measure()
-                << "s" << std::endl;
-
-        VectorSum vec_sum(vec_x);
-        std::cout << std::left
-                << std::setw(20)
-                << "Runtime vector sum: "
-                << std::fixed
-                << vec_sum.measure()
-                << "s" << std::endl;
-
-        VectorSum vec_cl_sum(cl_vec_x);
-        std::cout << std::left
-                << std::setw(20)
-                << "OpenCL vector sum: "
-                << std::fixed
-                << vec_cl_sum.measure()
-                << "s" << std::endl;
-
-        VectorMul vec_dot(vec_x, vec_y);
-        std::cout << std::left
-                << std::setw(20)
-                << "Runtime vector dot: "
-                << std::fixed
-                << vec_dot.measure()
-                << "s" << std::endl;
-
-        VectorMul vec_cl_dot(cl_vec_x, cl_vec_y);
-        std::cout << std::left
-                << std::setw(20)
-                << "OpenCL vector dot: "
-                << std::fixed
-                << vec_cl_dot.measure()
-                << "s" << std::endl;
+        delete[] data_x;
+        delete[] data_y;
 
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;

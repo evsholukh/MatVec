@@ -64,7 +64,7 @@ public:
 
         CHECK_OPENCL(queue.enqueueNDRangeKernel(sum_kernel, cl::NullRange, globalRange, groupRange));
 
-        float *res = new float(blockCount);
+        float *res = new float[blockCount];
         Vector<float> red_vec(res, blockCount);
         CHECK_OPENCL(queue.enqueueReadBuffer(red, CL_TRUE, 0, blockCount * sizeof(float), res));
 
@@ -76,7 +76,7 @@ public:
 
     Vector<float> operator*(const Vector<float> &o) const override {
 
-        float *new_data = new float(_size);
+        float *new_data = new float[_size];
         Vector<float> res(new_data, _size);
 
         cl::Platform platform = VectorOpenCL::defaultPlatform();
@@ -155,7 +155,7 @@ public:
 
     Matrix<float> dot(const Matrix<float> &o) const override {
 
-        float *new_data = new float(this->size());
+        float *new_data = new float[this->size()];
         Matrix<float> res(new_data, this->cols(), this->rows());
 
         cl::Platform platform = VectorOpenCL::defaultPlatform();
@@ -194,7 +194,7 @@ public:
     }
 
     Matrix<float> dot2(const Matrix<float> &o) const {
-        float *new_data = new float(_rows*o.cols());
+        float *new_data = new float[_rows*o.cols()];
         Matrix<float> mat(new_data, _rows, o.cols());
 
         for (size_t i = 0; i < _rows; i++) {

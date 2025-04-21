@@ -42,7 +42,7 @@ public:
     }
 
     virtual Vector<T> operator+(const Vector<T> &o) const {
-        T *new_data = new T(_size);
+        T *new_data = new T[_size];
         for (size_t i = 0; i < _size; i++) {
             new_data[i] = _data[i] + o._data[i];
         }
@@ -50,7 +50,7 @@ public:
     }
 
     virtual Vector<T> operator*(const Vector<T> &o) const {
-        T *new_data = new T(_size);
+        T *new_data = new T[_size];
         for (size_t i = 0; i < _size; i++) {
             new_data[i] = _data[i] * o._data[i];
         }
@@ -66,6 +66,10 @@ public:
             }
         }
         std::cout << "]";
+    }
+
+    int size_mb() {
+        return (sizeof(T) * _size) / (1024 * 1024);
     }
 
 protected:

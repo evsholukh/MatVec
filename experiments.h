@@ -8,75 +8,36 @@
 template <typename T>
 class MatrixAdd : public TimeMeasured {
 protected:
-    Matrix<T> &x, &y;
+    const Matrix<T> _x, _y;
 public:
-    MatrixAdd(Matrix<T> &x, Matrix<T> &y): x(x), y(y) {}
+    MatrixAdd(const Matrix<T> x, const Matrix<T> y): _x(x), _y(y) {}
 
     void perform() override {
-        Matrix<T> z = this->x + this->y;
-        std::cout << z.sum() << " ";
+        std::cout << (_x + _y).sum() << " ";
     }
 };
 
 template <typename T>
 class MatrixSum : public TimeMeasured {
 protected:
-    Matrix<T> &x;
+    const Matrix<T> _x;
 public:
-    MatrixSum(Matrix<T> &x): x(x) {}
+    MatrixSum(const Matrix<T> x): _x(x) {}
 
     void perform() override {
-        std::cout << this->x.sum() << " ";
+        std::cout << _x.sum() << " ";
     }
 };
 
 template <typename T>
 class MatrixMul : public TimeMeasured {
 protected:
-    Matrix<T> &x, &y;
+    const Matrix<T> _x, _y;
 public:
-    MatrixMul(Matrix<T> &x, Matrix<T> &y) : x(x), y(y) {}
+    MatrixMul(const Matrix<T> x, const Matrix<T> y) : _x(x), _y(y) {}
 
     void perform() override {
-        Matrix<T> z  = this->x * this->y;
-        std::cout << z.sum() << " ";
+        std::cout << (_x * _y).sum() << " ";
     }
 };
 
-template <typename T>
-class VectorAdd : public TimeMeasured {
-protected:
-    Vector<T> &x, &y;
-public:
-    VectorAdd(Vector<T> &x, Vector<T> &y): x(x), y(y) {}
-
-    void perform() override {
-        Vector<T> z = this->x + this->y;
-        std::cout << z.sum() << " ";
-    }
-};
-
-template <typename T>
-class VectorSum : public TimeMeasured {
-protected:
-    Vector<T> &x;
-public:
-    VectorSum(Vector<T> &x): x(x) {}
-
-    void perform() override {
-        std::cout << this->x.sum() << " ";
-    }
-};
-
-template <typename T>
-class VectorMul : public TimeMeasured {
-protected:
-    Vector<T> &x, &y;
-public:
-    VectorMul(Vector<T> &x, Vector<T> &y) : x(x), y(y) {}
-
-    void perform() override {
-        Vector<T> z  = this->x * this->y;
-        std::cout << z.sum() << " ";
-    }
-};
