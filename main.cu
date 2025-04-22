@@ -10,6 +10,7 @@
 #include "opencl.h"
 #include "measured.h"
 #include "experiments.h"
+#include "cuda.cuh"
 
 
 template<typename T>
@@ -27,8 +28,8 @@ T* random_vector(const size_t size) {
 
 int main(int argc, char **argv) {
 
-    const size_t N = 1024;
-    const size_t M = 1024;
+    const size_t N = 10000;
+    const size_t M = 10000;
 
     try {
         std::cout << "Randomization data.." << std::endl;
@@ -40,6 +41,7 @@ int main(int argc, char **argv) {
         Matrix<float> my(data_y, N, M);
 
         MatrixOpenCL cl_mx(mx), cl_my(my);
+        MatrixCuda cuda_mx(mx), cuda_my(my);
 
         std::cout << "Matrix size: " << mx.size_mb() << "MB" << std::endl;
 
@@ -58,6 +60,14 @@ int main(int argc, char **argv) {
                   << std::fixed
                   << mat_cl_sum.measure()
                   << "s" << std::endl;
+
+        MatrixSum mat_cuda_sum(cuda_mx);
+        std::cout << std::left 
+                << std::setw(20)
+                << "CUDA matrix sum: "
+                << std::fixed
+                << mat_cuda_sum.measure()
+                << "s" << std::endl;
 
         MatrixAdd mat_add(mx, my);
         std::cout << std::left 
@@ -87,6 +97,14 @@ int main(int argc, char **argv) {
         std::cout << std::left 
                 << std::setw(20)
                 << "OpenCL matrix mul: "
+                << std::fixed
+                << mat_cl_mul.measure()
+                << "s" << std::endl;
+
+        MatrixMul mat_cuda_mul(cuda_mx, cuda_my);
+        std::cout << std::left 
+                << std::setw(20)
+                << "CUDA matrix mul: "
                 << std::fixed
                 << mat_cl_mul.measure()
                 << "s" << std::endl;

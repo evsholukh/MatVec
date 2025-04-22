@@ -1,9 +1,7 @@
 #pragma once
 
-#include "matrix.h"
-#include "vector.h"
-
 #include <cuda_runtime.h>
+#include "matrix.h"
 
 
 #define CHECK_CUDA(call) { \
@@ -13,132 +11,6 @@
         exit(EXIT_FAILURE); \
     } \
 }
-
-
-template <typename T>
-class MatrixCuda : public Matrix<T> {
-
-public:
-    MatrixCuda(Matrix<T> &mat) : Matrix<T>(mat) {}
-
-    T sum() override {
-
-        const int n = this->size();
-        if (n == 1) {
-            return this->head();
-        }
-        const int blockSize = 1024;
-        const int blockCount = (n + blockSize - 1) / blockSize;
-
-        if (blockCount == 1) {
-            return Matrix<T>::sum();
-        }
-
-        T *input = this->data();
-        T *d_input = nullptr,
-          *d_partial = nullptr;
-
-        Matrix<T> out_mat = Matrix<T>::zeros(1, blockCount);
-        T* h_partial = out_mat.data();
-
-        CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_partial, blockCount*sizeof(T)));
-
-        CHECK_CUDA(cudaMemcpy(d_input, input, n*sizeof(T), cudaMemcpyHostToDevice));
-
-        reduceSumKernel<<<blockCount, blockSize, blockSize*sizeof(T)>>>(d_input, d_partial, n);
-        CHECK_CUDA(cudaGetLastError());
-
-        CHECK_CUDA(cudaMemcpy(h_partial, d_partial, blockCount*sizeof(T), cudaMemcpyDeviceToHost));
-
-        CHECK_CUDA(cudaFree(d_input));
-        CHECK_CUDA(cudaFree(d_partial));
-
-        return MatrixCuda(out_mat).sum();
-    }
-
-    Matrix<T> add(Matrix<T> &o) override {
-        MatrixCuda tmp(*this);
-        return MatrixCuda(o).add(tmp);
-    }
-
-    MatrixCuda<T> add(MatrixCuda<T> &o) {
-
-        const int n = this->size();
-        const int blockSize = 1024;
-        const int gridSize = (n + blockSize - 1) / blockSize;
-        
-        T *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
-
-        std::vector<T> res(n);
-
-        T *h_x = this->data();
-        T *h_y = o.data();
-        T *h_z = res.data();
-
-        CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_y, n*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_z, n*sizeof(T)));
-
-        CHECK_CUDA(cudaMemcpy(d_x, h_x, n*sizeof(T), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_y, h_y, n*sizeof(T), cudaMemcpyHostToDevice));
-
-        vectorAddKernel<<<gridSize, blockSize>>>(d_x, d_y, d_z, n);
-        CHECK_CUDA(cudaGetLastError());
-
-        CHECK_CUDA(cudaMemcpy(h_z, d_z, n*sizeof(T), cudaMemcpyDeviceToHost));
-
-        CHECK_CUDA(cudaFree(d_x));
-        CHECK_CUDA(cudaFree(d_y));
-        CHECK_CUDA(cudaFree(d_z));
-
-        Matrix<T> tmp(res, this->N, this->M);
-        return MatrixCuda<T>(tmp);
-    }
-
-    Matrix<T> dot(Matrix<T> &o) override {
-        MatrixCuda tmp(*this);
-        return MatrixCuda(o).dot(tmp);
-    }
-
-    MatrixCuda<T> dot(MatrixCuda<T> &o) {
-        T *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
-
-        const int n = this->size();
-        const int m = o.size();
-        const int k = this->M*o.N;
-
-        T *h_x = this->data();
-        T *h_y = o.data();
-
-        CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_y, m*sizeof(T)));
-        CHECK_CUDA(cudaMalloc(&d_z, k*sizeof(T)));
-
-        CHECK_CUDA(cudaMemcpy(d_x, h_x, n*sizeof(T), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_y, h_y, m*sizeof(T), cudaMemcpyHostToDevice));
-
-        const int blockSize = 32;
-
-        dim3 block(blockSize, blockSize); // 1024
-        dim3 grid((o.N + blockSize - 1)/blockSize, (this->M + blockSize - 1)/blockSize);
-
-        matrixMulKernel<<<grid, block>>>(d_x, d_y, d_z, this->M, this->N, o.N);
-        CHECK_CUDA(cudaGetLastError());
-
-        std::vector<T> res(k);
-        T *h_z = res.data();
-
-        CHECK_CUDA(cudaMemcpy(h_z, d_z, k*sizeof(T), cudaMemcpyDeviceToHost));
-
-        CHECK_CUDA(cudaFree(d_x));
-        CHECK_CUDA(cudaFree(d_y));
-        CHECK_CUDA(cudaFree(d_z));
-
-        Matrix<T> tmp(res, this->M, o.N);
-        return MatrixCuda(tmp);
-    }
-};
 
 
 __global__ void reduceSumKernel(const float* input, float* output, int n) {
@@ -167,7 +39,14 @@ __global__ void vectorAddKernel(float *a, float *b, float *c, int n) {
     }
 }
 
-__global__ void matrixMulKernel(float *A, float *B, float *C, int m, int k, int n) {
+__global__ void vectorMulKernel(float *a, float *b, float *c, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        c[i] = a[i] * b[i];
+    }
+}
+
+__global__ void matrixDotKernel(float *A, float *B, float *C, int m, int k, int n) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -179,3 +58,101 @@ __global__ void matrixMulKernel(float *A, float *B, float *C, int m, int k, int 
         C[row * n + col] = sum;
     }
 }
+
+
+class VectorCuda : public Vector<float> {
+
+public:
+    VectorCuda(Vector<float> vec) : Vector<float>(vec) { }
+
+    float sum() const override {
+        std::cout << "VectorCuda::sum()" << std::endl;
+
+        const int n = _size;
+        const int blockSize = 1024;
+        const int blockCount = (n + blockSize - 1) / blockSize;
+
+        if (blockCount == 1) {
+            return Vector::sum();
+        }
+        float *d_input = nullptr, *d_partial = nullptr;
+        float *h_partial = new float[blockCount];
+
+        CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_partial, blockCount*sizeof(float)));
+        CHECK_CUDA(cudaMemcpy(d_input, _data, n*sizeof(float), cudaMemcpyHostToDevice));
+
+        reduceSumKernel<<<blockCount, blockSize, blockSize*sizeof(float)>>>(d_input, d_partial, n);
+
+        CHECK_CUDA(cudaGetLastError());
+        CHECK_CUDA(cudaMemcpy(h_partial, d_partial, blockCount*sizeof(float), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaFree(d_input));
+        CHECK_CUDA(cudaFree(d_partial));
+
+        Vector<float> res(h_partial, blockCount);
+        float sum = VectorCuda(res).sum();
+
+        delete[] h_partial;
+        return sum;
+    }
+
+    Vector<float> operator*(const Vector<float> &o) const override {
+
+        std::cout << "VectorCuda::operator*()" << std::endl;
+
+        const int n = _size;
+        const int blockSize = 1024;
+        const int gridSize = (n + blockSize - 1) / blockSize;
+        
+        float *d_x = nullptr, *d_y = nullptr, *d_z = nullptr;
+        float *h_z = new float[n];
+
+        CHECK_CUDA(cudaMalloc(&d_x, n*sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_y, n*sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_z, n*sizeof(float)));
+
+        CHECK_CUDA(cudaMemcpy(d_x, _data, n*sizeof(float), cudaMemcpyHostToDevice));
+        CHECK_CUDA(cudaMemcpy(d_y, o.data(), n*sizeof(float), cudaMemcpyHostToDevice));
+
+        vectorMulKernel<<<gridSize, blockSize>>>(d_x, d_y, d_z, n);
+
+        CHECK_CUDA(cudaGetLastError());
+        CHECK_CUDA(cudaMemcpy(h_z, d_z, n*sizeof(float), cudaMemcpyDeviceToHost));
+
+        CHECK_CUDA(cudaFree(d_x));
+        CHECK_CUDA(cudaFree(d_y));
+        CHECK_CUDA(cudaFree(d_z));
+
+        return Vector<float>(h_z, n);
+    }
+
+    float dot(const Vector<float> &o) const override {
+        std::cout << "VectorCuda::dot()" << std::endl;
+
+        return ((*this) * VectorCuda(o)).sum();
+    }
+};
+
+class MatrixCuda : public VectorCuda, public Matrix<float> {
+
+public:
+    MatrixCuda(Matrix<float> mat) : VectorCuda(mat), Matrix<float>(mat) { }
+
+    Matrix<float> dot(const Matrix<float> &o) const override {
+        std::cout << "MatrixCuda::dot()" << std::endl;
+
+        float *new_data = new float[_rows*o.cols()];
+        Matrix<float> mat(new_data, _rows, o.cols());
+
+        for (size_t i = 0; i < _rows; i++) {
+            for (size_t j = 0; j < o.cols(); j++) {
+                Vector<float> c = o.col(j);
+                Vector<float> r = this->row(i);
+
+                new_data[o.cols()*i + j] = VectorCuda(r).dot(c);
+                delete[] c.data();
+            }
+        }
+        return mat;
+    }
+};
