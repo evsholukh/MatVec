@@ -8,8 +8,7 @@
 #include "matrix.h"
 #include "vector.h"
 #include "opencl.h"
-#include "measured.h"
-#include "experiments.h"
+#include "utils.h"
 #include "cuda.cuh"
 
 
@@ -28,8 +27,8 @@ T* random_vector(const size_t size) {
 
 int main(int argc, char **argv) {
 
-    const size_t N = 10000;
-    const size_t M = 10000;
+    const size_t N = 10;
+    const size_t M = 10;
 
     try {
         std::cout << "Randomization data.." << std::endl;
@@ -45,69 +44,32 @@ int main(int argc, char **argv) {
 
         std::cout << "Matrix size: " << mx.size_mb() << "MB" << std::endl;
 
-        MatrixSum mat_sum(mx);
         std::cout << std::left 
                   << std::setw(20)
-                  << "Runtime matrix sum: "
+                  << "Runtime matrix dot: "
                   << std::fixed
-                  << mat_sum.measure()
+                  << Utils::measure([&mx, &my]() {
+                      std::cout << "(" << (mx.dot(my)).sum() << ")" << " ";
+                  })
                   << "s" << std::endl;
 
-        MatrixSum mat_cl_sum(cl_mx);
         std::cout << std::left 
                   << std::setw(20)
-                  << "OpenCL matrix sum: "
+                  << "OpenCL matrix dot: "
                   << std::fixed
-                  << mat_cl_sum.measure()
+                  << Utils::measure([&cl_mx, &cl_my]() {
+                      std::cout << "(" << (cl_mx.dot(cl_my)).sum() << ")" << " ";
+                  })
                   << "s" << std::endl;
 
-        MatrixSum mat_cuda_sum(cuda_mx);
-        std::cout << std::left 
-                << std::setw(20)
-                << "CUDA matrix sum: "
-                << std::fixed
-                << mat_cuda_sum.measure()
-                << "s" << std::endl;
-
-        MatrixAdd mat_add(mx, my);
         std::cout << std::left 
                   << std::setw(20)
-                  << "Runtime matrix add: "
+                  << "CUDA matrix dot: "
                   << std::fixed
-                  << mat_add.measure()
+                  << Utils::measure([&cuda_mx, &cuda_my]() {
+                      std::cout << "(" << (cuda_mx.dot(cuda_my)).sum() << ")" << " ";
+                  })
                   << "s" << std::endl;
-
-        MatrixAdd mat_cl_add(cl_mx, cl_my);
-        std::cout << std::left 
-                  << std::setw(20)
-                  << "OpenCL matrix add: "
-                  << std::fixed
-                  << mat_cl_add.measure()
-                  << "s" << std::endl;
-
-        MatrixMul mat_mul(mx, my);
-        std::cout << std::left 
-                << std::setw(20)
-                << "Runtime matrix mul: "
-                << std::fixed
-                << mat_mul.measure()
-                << "s" << std::endl;
-
-        MatrixMul mat_cl_mul(cl_mx, cl_my);
-        std::cout << std::left 
-                << std::setw(20)
-                << "OpenCL matrix mul: "
-                << std::fixed
-                << mat_cl_mul.measure()
-                << "s" << std::endl;
-
-        MatrixMul mat_cuda_mul(cuda_mx, cuda_my);
-        std::cout << std::left 
-                << std::setw(20)
-                << "CUDA matrix mul: "
-                << std::fixed
-                << mat_cl_mul.measure()
-                << "s" << std::endl;
 
         delete[] data_x;
         delete[] data_y;

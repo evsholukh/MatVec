@@ -60,36 +60,34 @@ __global__ void matrixDotKernel(float *A, float *B, float *C, int m, int k, int 
 }
 
 
-class VectorCuda : public Vector<float> {
+class VectorCuda : virtual public Vector<float> {
 
 public:
     VectorCuda(Vector<float> vec) : Vector<float>(vec) { }
 
     float sum() const override {
-        std::cout << "VectorCuda::sum()" << std::endl;
-
         const int n = _size;
         const int blockSize = 1024;
-        const int blockCount = (n + blockSize - 1) / blockSize;
+        const int gridSize = (n + blockSize - 1) / blockSize;
 
-        if (blockCount == 1) {
+        if (gridSize == 1) {
             return Vector::sum();
         }
         float *d_input = nullptr, *d_partial = nullptr;
-        float *h_partial = new float[blockCount];
+        float *h_partial = new float[gridSize];
 
         CHECK_CUDA(cudaMalloc(&d_input, n*sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_partial, blockCount*sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_partial, gridSize*sizeof(float)));
         CHECK_CUDA(cudaMemcpy(d_input, _data, n*sizeof(float), cudaMemcpyHostToDevice));
 
-        reduceSumKernel<<<blockCount, blockSize, blockSize*sizeof(float)>>>(d_input, d_partial, n);
+        reduceSumKernel<<<gridSize, blockSize, blockSize*sizeof(float)>>>(d_input, d_partial, n);
 
         CHECK_CUDA(cudaGetLastError());
-        CHECK_CUDA(cudaMemcpy(h_partial, d_partial, blockCount*sizeof(float), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaMemcpy(h_partial, d_partial, gridSize*sizeof(float), cudaMemcpyDeviceToHost));
         CHECK_CUDA(cudaFree(d_input));
         CHECK_CUDA(cudaFree(d_partial));
 
-        Vector<float> res(h_partial, blockCount);
+        Vector<float> res(h_partial, gridSize);
         float sum = VectorCuda(res).sum();
 
         delete[] h_partial;
@@ -97,9 +95,6 @@ public:
     }
 
     Vector<float> operator*(const Vector<float> &o) const override {
-
-        std::cout << "VectorCuda::operator*()" << std::endl;
-
         const int n = _size;
         const int blockSize = 1024;
         const int gridSize = (n + blockSize - 1) / blockSize;
@@ -127,19 +122,16 @@ public:
     }
 
     float dot(const Vector<float> &o) const override {
-        std::cout << "VectorCuda::dot()" << std::endl;
-
-        return ((*this) * VectorCuda(o)).sum();
+        return VectorCuda((*this) * VectorCuda(o)).sum();
     }
 };
 
 class MatrixCuda : public VectorCuda, public Matrix<float> {
 
 public:
-    MatrixCuda(Matrix<float> mat) : VectorCuda(mat), Matrix<float>(mat) { }
+    MatrixCuda(Matrix<float> mat) : VectorCuda(mat), Matrix<float>(mat), Vector<float>(mat) { }
 
     Matrix<float> dot(const Matrix<float> &o) const override {
-        std::cout << "MatrixCuda::dot()" << std::endl;
 
         float *new_data = new float[_rows*o.cols()];
         Matrix<float> mat(new_data, _rows, o.cols());
@@ -155,4 +147,7 @@ public:
         }
         return mat;
     }
+
+    using VectorCuda::sum;
+    using VectorCuda::operator*;
 };

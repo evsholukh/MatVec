@@ -4,7 +4,7 @@
 
 
 template <typename T>
-class Matrix : public Vector<T> {
+class Matrix : virtual public Vector<T> {
 
 public:
     Matrix(T *data, size_t cols, size_t rows) : Vector<T>(data, cols*rows), 

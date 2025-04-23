@@ -26,7 +26,6 @@ public:
     VectorOpenCL(Vector<float> vec) : Vector<float>(vec) { }
 
     float sum() const override {
-
         const int n = _size;
         const int blockSize = 1024;
         const int blockCount = (n + blockSize - 1) / blockSize;
@@ -51,7 +50,7 @@ public:
         cl::Buffer red(context, CL_MEM_WRITE_ONLY, blockCount * sizeof(float), nullptr, &err);
         CHECK_OPENCL(err);
 
-        cl::Kernel sum_kernel(program, "reductionSumKernel", &err);
+        cl::Kernel sum_kernel(program, "kernelVectorSum", &err);
         CHECK_OPENCL(err);
 
         CHECK_OPENCL(sum_kernel.setArg(0, buf));
@@ -75,7 +74,6 @@ public:
     }
 
     Vector<float> operator*(const Vector<float> &o) const override {
-
         float *new_data = new float[_size];
         Vector<float> res(new_data, _size);
 
@@ -115,7 +113,7 @@ public:
     }
 
     float dot(const Vector<float> &o) const override {
-        return ((*this) * VectorOpenCL(o)).sum();
+        return VectorOpenCL((*this) * VectorOpenCL(o)).sum();
     }
 
     static cl::Platform defaultPlatform() {
@@ -148,52 +146,12 @@ public:
 };
 
 
-class MatrixOpenCL : public Matrix<float> {
+class MatrixOpenCL : public VectorOpenCL, public Matrix<float> {
 
 public:
-    MatrixOpenCL(Matrix<float> mat) : Matrix<float>(mat) { }
+    MatrixOpenCL(Matrix<float> mat) : VectorOpenCL(mat), Matrix<float>(mat), Vector<float>(mat) { }
 
-    Matrix<float> dot(const Matrix<float> &o) const override {
-
-        float *new_data = new float[this->size()];
-        Matrix<float> res(new_data, this->cols(), this->rows());
-
-        cl::Platform platform = VectorOpenCL::defaultPlatform();
-        cl::Device device = VectorOpenCL::defaultDevice(platform);
-
-        cl::Context context(device);
-        cl::CommandQueue queue(context, device);
-        cl::Program program(context, VectorOpenCL::source);
-
-        cl_int err = CL_SUCCESS;
-        CHECK_OPENCL(program.build());
-
-        cl::Buffer buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * this->size(), this->data(), &err);
-        CHECK_OPENCL(err);
-
-        cl::Buffer o_buf(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * o.size(), o.data(), &err);
-        CHECK_OPENCL(err);
-
-        cl::Buffer res_buf(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(float) * res.size(), res.data(), &err);
-        CHECK_OPENCL(err);
-
-        cl::Kernel matmul_kernel(program, "kernelMatrixDot", &err);
-        CHECK_OPENCL(err);
-
-        CHECK_OPENCL(matmul_kernel.setArg(0, buf));
-        CHECK_OPENCL(matmul_kernel.setArg(1, o_buf));
-        CHECK_OPENCL(matmul_kernel.setArg(2, res_buf));
-        CHECK_OPENCL(matmul_kernel.setArg(3, static_cast<uint32_t>(this->rows())));
-
-        cl::NDRange globalSize(this->rows(), o.cols());
-
-        CHECK_OPENCL(queue.enqueueNDRangeKernel(matmul_kernel, cl::NullRange, globalSize));
-        CHECK_OPENCL(queue.enqueueReadBuffer(res_buf, CL_TRUE, 0, sizeof(float)*res.size(), res.data()));
-
-        return res;
-    }
-
-    Matrix<float> dot2(const Matrix<float> &o) const {
+    Matrix<float> dot(const Matrix<float> &o) const {
         float *new_data = new float[_rows*o.cols()];
         Matrix<float> mat(new_data, _rows, o.cols());
 
@@ -208,6 +166,9 @@ public:
         }
         return mat;
     }
+
+    using VectorOpenCL::sum;
+    using VectorOpenCL::operator*;
 };
 
 const std::string VectorOpenCL::source = R"(
