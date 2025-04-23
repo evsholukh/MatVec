@@ -27,38 +27,54 @@ T* random_vector(const size_t size) {
 
 int main(int argc, char **argv) {
 
-    const size_t N = 10;
-    const size_t M = 10;
+    const size_t N = 1024, M = 1024;
 
     try {
         std::cout << "Randomization data.." << std::endl;
 
         float *data_x = random_vector<float>(N*M);
         float *data_y = random_vector<float>(N*M);
+        float *data_z = random_vector<float>(N*M);
+
+        Vector<float> vx(data_x, N*M);
+        Vector<float> vy(data_x, N*M);
 
         Matrix<float> mx(data_x, N, M);
         Matrix<float> my(data_y, N, M);
+        Matrix<float> mz(data_z, N, M);
 
-        MatrixOpenCL cl_mx(mx), cl_my(my);
-        MatrixCuda cuda_mx(mx), cuda_my(my);
+        MatrixOpenCL cl_mx(mx), cl_my(my), cl_mz(mz);
+
+        VectorCuda cuda_vx(vx), cuda_vy(vy);
+        MatrixCuda cuda_mx(mx), cuda_my(my), cuda_mz(mz);
 
         std::cout << "Matrix size: " << mx.size_mb() << "MB" << std::endl;
 
         std::cout << std::left 
                   << std::setw(20)
-                  << "Runtime matrix dot: "
+                  << "Runtime vector dot: "
                   << std::fixed
-                  << Utils::measure([&mx, &my]() {
-                      std::cout << "(" << (mx.dot(my)).sum() << ")" << " ";
+                  << Utils::measure([&vx, &vy]() {
+                      std::cout << "(" << vx.dot(vy) << ")" << " ";
+                  })
+                  << "s" << std::endl;
+
+        std::cout << std::left
+                  << std::setw(20)
+                  << "CUDA vector dot: "
+                  << std::fixed
+                  << Utils::measure([&cuda_vx, &cuda_vy]() {
+                      std::cout << "(" << cuda_vx.dot(cuda_vy) << ")" << " ";
                   })
                   << "s" << std::endl;
 
         std::cout << std::left 
                   << std::setw(20)
-                  << "OpenCL matrix dot: "
+                  << "Runtime matrix dot: "
                   << std::fixed
-                  << Utils::measure([&cl_mx, &cl_my]() {
-                      std::cout << "(" << (cl_mx.dot(cl_my)).sum() << ")" << " ";
+                  << Utils::measure([&mx, &my, &mz]() {
+                        mx.dot(my, mz);
+                        std::cout << "(" << mz.sum() << ")" << " ";
                   })
                   << "s" << std::endl;
 
@@ -66,8 +82,9 @@ int main(int argc, char **argv) {
                   << std::setw(20)
                   << "CUDA matrix dot: "
                   << std::fixed
-                  << Utils::measure([&cuda_mx, &cuda_my]() {
-                      std::cout << "(" << (cuda_mx.dot(cuda_my)).sum() << ")" << " ";
+                  << Utils::measure([&cuda_mx, &cuda_my, &cuda_mz]() {
+                        cuda_mx.dot(cuda_my, cuda_mz);
+                        std::cout << "(" << cuda_mz.sum() << ")" << " ";
                   })
                   << "s" << std::endl;
 

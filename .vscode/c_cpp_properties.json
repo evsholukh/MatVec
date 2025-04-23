@@ -5,7 +5,8 @@
             "includePath": [
                 "${default}",
                 "${env:OPENCL_PATH}\\include",
-                "${env:CUDA_PATH_V12_4}\\include"
+                "${env:CUDA_PATH_V12_4}\\include",
+                "${env:OPENCL_BLAST_PATH}\\include"
             ],
             "defines": [
                 "_DEBUG",

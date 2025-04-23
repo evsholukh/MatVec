@@ -9,13 +9,9 @@ class Vector {
 public:
     Vector(T *data, size_t size): _data(data), _size(size) {}
 
-    T* data() const {
-        return _data;
-    }
+    T* data() const { return _data; }
 
-    size_t size() const {
-        return _size;
-    }
+    size_t size() const { return _size; }
 
     virtual T sum() const {
         T val = _data[0];
@@ -68,11 +64,9 @@ public:
         std::cout << "]";
     }
 
-    int size_mb() {
-        return (sizeof(T) * _size) / (1024 * 1024);
-    }
+    size_t size_mb() { return (sizeof(T) * _size) / (1024 * 1024); }
 
 protected:
     T *_data;
-    int _size;
+    size_t _size;
 };

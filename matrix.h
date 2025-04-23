@@ -4,47 +4,37 @@
 
 
 template <typename T>
-class Matrix : virtual public Vector<T> {
+class Matrix : public Vector<T> {
 
 public:
-    Matrix(T *data, size_t cols, size_t rows) : Vector<T>(data, cols*rows), 
+    Matrix(T *data, size_t cols, size_t rows) : Vector<T>(data, cols*rows),
         _cols(cols), _rows(rows) { }
 
-    size_t cols() const {
-        return _cols;
-    }
+    size_t cols() const { return _cols; }
 
-    size_t rows() const {
-        return _rows;
-    }
+    size_t rows() const { return _rows; }
 
-    Vector<T> row(size_t n) const {
-        return Vector<T>(this->data()+_cols*n, _cols);
-    }
+    Vector<T> row(size_t n) const { return Vector<T>(this->data()+_cols*n, _cols); }
 
     Vector<T> col(size_t n) const {
-        T *new_data = new T[_rows]; // [!]
+        T *h_c = new T[_rows]; // [!]
         T *data = this->data();
         for (size_t i = 0; i < _rows; i++) {
-            new_data[i] = data[i*_rows + n];
+            h_c[i] = data[i*_rows + n];
         }
-        return Vector<T>(new_data, _rows);
+        return Vector<T>(h_c, _rows);
     }
 
-    virtual Matrix<T> dot(const Matrix<T> &o) const {
-        T *new_data = new T[_rows*o._cols];
-        Matrix<T> mat(new_data, _rows, o._cols);
-
+    virtual void dot(const Matrix<T> &o, Matrix<T> &r) const {
         for (size_t i = 0; i < _rows; i++) {
             for (size_t j = 0; j < o._cols; j++) {
-                Vector<T> c = o.col(j);
-                Vector<T> r = this->row(i);
+                Vector<T> vcol = o.col(j);
+                Vector<T> vrow = this->row(i);
 
-                new_data[o._cols*i + j] = r.dot(c);
-                delete[] c.data();
+                r._data[o._cols*i + j] = vrow.dot(vcol);
+                delete[] vcol.data();
             }
         }
-        return mat;
     }
 
     void print() const override {

@@ -9,6 +9,7 @@ nvcc main.cu -o cu_example.exe ^
     -L%OPENCL_PATH%\lib ^
     -lOpenCL ^
     -lcudart ^
+    -lcublas ^
     -allow-unsupported-compiler ^
     -std=c++17
 
