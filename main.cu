@@ -50,37 +50,47 @@ int main(int argc, char **argv) {
 
         std::cout << "Matrix size: " << mx.size_mb() << "MB" << std::endl;
 
+        // std::cout << std::left 
+        //           << std::setw(20)
+        //           << "C++ vector dot: "
+        //           << std::fixed
+        //           << Utils::measure([&vx, &vy]() {
+        //               std::cout << "(" << vx.dot(vy) << ")" << " ";
+        //           })
+        //           << "s" << std::endl;
+
+        // std::cout << std::left
+        //           << std::setw(20)
+        //           << "cuBLAS vector dot: "
+        //           << std::fixed
+        //           << Utils::measure([&cuda_vx, &cuda_vy]() {
+        //               std::cout << "(" << cuda_vx.dot(cuda_vy) << ")" << " ";
+        //           })
+        //           << "s" << std::endl;
+
+        // std::cout << std::left 
+        //           << std::setw(20)
+        //           << "C++ matrix mul: "
+        //           << std::fixed
+        //           << Utils::measure([&mx, &my, &mz]() {
+        //                 mx.dot(my, mz);
+        //                 std::cout << "(" << mz.sum() << ")" << " ";
+        //           })
+        //           << "s" << std::endl;
+
         std::cout << std::left 
                   << std::setw(20)
-                  << "Runtime vector dot: "
+                  << "clBLAST matrix mul: "
                   << std::fixed
-                  << Utils::measure([&vx, &vy]() {
-                      std::cout << "(" << vx.dot(vy) << ")" << " ";
+                  << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
+                        cl_mx.dot(cl_my, cl_mz);
+                        std::cout << "(" << cl_mz.sum() << ")" << " ";
                   })
                   << "s" << std::endl;
 
-        std::cout << std::left
-                  << std::setw(20)
-                  << "CUDA vector dot: "
-                  << std::fixed
-                  << Utils::measure([&cuda_vx, &cuda_vy]() {
-                      std::cout << "(" << cuda_vx.dot(cuda_vy) << ")" << " ";
-                  })
-                  << "s" << std::endl;
-
         std::cout << std::left 
                   << std::setw(20)
-                  << "Runtime matrix dot: "
-                  << std::fixed
-                  << Utils::measure([&mx, &my, &mz]() {
-                        mx.dot(my, mz);
-                        std::cout << "(" << mz.sum() << ")" << " ";
-                  })
-                  << "s" << std::endl;
-
-        std::cout << std::left 
-                  << std::setw(20)
-                  << "CUDA matrix dot: "
+                  << "cuBLAS matrix mul: "
                   << std::fixed
                   << Utils::measure([&cuda_mx, &cuda_my, &cuda_mz]() {
                         cuda_mx.dot(cuda_my, cuda_mz);

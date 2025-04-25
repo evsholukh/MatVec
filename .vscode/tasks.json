@@ -2,23 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build OpenCL",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g", "${workspaceFolder}\\main.cpp",
-                "-I", "${env:OPENCL_PATH}\\include",
-                "-L", "${env:OPENCL_PATH}\\lib",
-                "-lOpenCL",
-                "-o", "example.exe",
-                "-std=c++17"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-        },
-        {
             "label": "Build CUDA",
             "type": "shell",
             "command": "nvcc",
@@ -26,8 +9,10 @@
                 "-g", "${workspaceFolder}\\main.cu",
                 "-I", "${env:CUDA_PATH_V12_4}\\include",
                 "-I", "${env:OPENCL_PATH}\\include",
+                "-I", "${env:OPENCL_BLAST_PATH}\\include",
                 "-L", "${env:CUDA_PATH_V12_4}\\lib\\x64",
                 "-L", "${env:OPENCL_PATH}\\lib",
+                "-L", "${env:OPENCL_BLAST_PATH}\\lib",
                 "-lOpenCL",
                 "-lcudart",
                 "-o", "example.exe",
