@@ -71,7 +71,14 @@ public:
         cublasHandle_t handle;
         cublasCreate(&handle);
 
-        cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, o.cols(), this->rows(), this->cols(), &alpha, d_B, o.cols(), d_A, o.rows(), &beta, d_C, o.cols());
+        cublasSgemm(
+            handle,
+            CUBLAS_OP_N,
+            CUBLAS_OP_N,
+            o.cols(),
+            this->rows(),
+            this->cols(),
+            &alpha, d_B, o.cols(), d_A, o.rows(), &beta, d_C, o.cols());
 
         CHECK_CUDA(cudaMemcpy(r.data(), d_C, this->rows()*o.cols()*sizeof(float), cudaMemcpyDeviceToHost));
         cublasDestroy(handle);

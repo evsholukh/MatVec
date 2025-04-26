@@ -56,39 +56,50 @@ class MatrixOpenCL : public Matrix<float> {
 public:
     MatrixOpenCL(Matrix<float> mat) : Matrix<float>(mat) { }
 
-    void dot(const Matrix<float> &b, Matrix<float> &c) const {
+    void dot(const Matrix<float> &o, Matrix<float> &r) const {
 
-        // Creates the OpenCL context, queue, and an event
         auto platform = OpenCL::defaultPlatform();
         auto device = OpenCL::defaultDevice(platform);
         auto context = cl::Context(device);
         auto queue = cl::CommandQueue(context, device);
         auto event = cl_event{nullptr};
 
-        // Copy the matrices to the device
         auto device_a = cl::Buffer(context, CL_MEM_READ_WRITE, this->size()*sizeof(float));
-        auto device_b = cl::Buffer(context, CL_MEM_READ_WRITE, b.size()*sizeof(float));
-        auto device_c = cl::Buffer(context, CL_MEM_READ_WRITE, c.size()*sizeof(float));
-        
+        auto device_b = cl::Buffer(context, CL_MEM_READ_WRITE, o.size()*sizeof(float));
+        auto device_c = cl::Buffer(context, CL_MEM_READ_WRITE, r.size()*sizeof(float));
+
         CHECK_OPENCL(queue.enqueueWriteBuffer(device_a, CL_TRUE, 0, this->size()*sizeof(float), this->data()));
-        CHECK_OPENCL(queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, b.size()*sizeof(float), b.data()));
+        CHECK_OPENCL(queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, o.size()*sizeof(float), o.data()));
 
         auto queue_plain = queue();
-        auto status = clblast::Gemm(clblast::Layout::kRowMajor,
-                                    clblast::Transpose::kNo, clblast::Transpose::kNo,
-                                    this->rows(), b.cols(), this->rows(),
-                                    1.0,
-                                    device_a(), 0, this->rows(),
-                                    device_b(), 0, b.cols(),
-                                    1.0,
-                                    device_c(), 0, c.cols(),
-                                    &queue_plain, &event);
-        // Record the execution time
+
+        auto status = clblast::Gemm(
+            clblast::Layout::kRowMajor, // layout
+            clblast::Transpose::kNo,    // a_transpose
+            clblast::Transpose::kNo,    // b_transpose
+            o.cols(),     // m
+            this->rows(), // n
+            this->cols(), // k
+            1.0f,         // alpha
+            device_a(),   // a_buffer
+            0,            // a_offset
+            this->rows(), // a_ld
+            device_b(),   // b_buffer
+            0,            // b_offset
+            o.cols(),     // b_ld
+            0.0f,         // beta
+            device_c(),   // c_buffer
+            0,            // c_offset
+            r.cols(),     // c_ld
+            &queue_plain, // queue
+            &event        // event
+        );
+
         if (status == clblast::StatusCode::kSuccess) {
             CHECK_OPENCL(clWaitForEvents(1, &event));
             CHECK_OPENCL(clReleaseEvent(event));
         }
-        CHECK_OPENCL(queue.enqueueReadBuffer(device_c, CL_TRUE, 0, c.size()*sizeof(float), c.data()));
+        CHECK_OPENCL(queue.enqueueReadBuffer(device_c, CL_TRUE, 0, r.size()*sizeof(float), r.data()));
     }
 };
 

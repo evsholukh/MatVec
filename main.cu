@@ -27,10 +27,10 @@ T* random_vector(const size_t size) {
 
 int main(int argc, char **argv) {
 
-    const size_t N = 1024, M = 1024;
+    const size_t N = 20000, M = 20000;
 
     try {
-        std::cout << "Randomization data.." << std::endl;
+        std::cout << "Randomization matrix (" << N*M << ")" << std::endl;
 
         float *data_x = random_vector<float>(N*M);
         float *data_y = random_vector<float>(N*M);
@@ -80,21 +80,21 @@ int main(int argc, char **argv) {
 
         std::cout << std::left 
                   << std::setw(20)
-                  << "clBLAST matrix mul: "
-                  << std::fixed
-                  << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
-                        cl_mx.dot(cl_my, cl_mz);
-                        std::cout << "(" << cl_mz.sum() << ")" << " ";
-                  })
-                  << "s" << std::endl;
-
-        std::cout << std::left 
-                  << std::setw(20)
                   << "cuBLAS matrix mul: "
                   << std::fixed
                   << Utils::measure([&cuda_mx, &cuda_my, &cuda_mz]() {
                         cuda_mx.dot(cuda_my, cuda_mz);
                         std::cout << "(" << cuda_mz.sum() << ")" << " ";
+                  })
+                  << "s" << std::endl;
+
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "clBLAST matrix mul: "
+                  << std::fixed
+                  << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
+                      cl_mx.dot(cl_my, cl_mz);
+                      std::cout << "(" << cl_mz.sum() << ")" << " ";
                   })
                   << "s" << std::endl;
 
