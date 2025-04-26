@@ -22,9 +22,9 @@ public:
             for (int j = 0; j < o._cols; ++j) {
                 T sum = 0.0f;
                 for (int k = 0; k < _cols; ++k) {
-                    sum += _data[i * _cols + k] * o._data[k * o._cols + j];
+                    sum += this->data()[i * _cols + k] * o.data()[k * o._cols + j];
                 }
-                r._data[i * o._cols + j] = sum;
+                r.data()[i * o._cols + j] = sum;
             }
         }
     }
