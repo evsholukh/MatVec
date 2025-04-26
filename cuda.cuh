@@ -60,7 +60,7 @@ public:
 
         CHECK_CUDA(cudaMalloc(&d_A, this->size()*sizeof(float)));
         CHECK_CUDA(cudaMalloc(&d_B, o.size()*sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_C, this->rows()*o.cols()*sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_C, r.size()*sizeof(float)));
 
         CHECK_CUDA(cudaMemcpy(d_A, this->data(), this->size()*sizeof(float), cudaMemcpyHostToDevice));
         CHECK_CUDA(cudaMemcpy(d_B, o.data(), this->size()*sizeof(float), cudaMemcpyHostToDevice));
@@ -72,15 +72,22 @@ public:
         cublasCreate(&handle);
 
         cublasSgemm(
-            handle,
-            CUBLAS_OP_N,
-            CUBLAS_OP_N,
-            o.cols(),
-            this->rows(),
-            this->cols(),
-            &alpha, d_B, o.cols(), d_A, o.rows(), &beta, d_C, o.cols());
+            handle,        // handle
+            CUBLAS_OP_N,   // transa
+            CUBLAS_OP_N,   // transb
+            this->rows(),  // m
+            o.cols(),      // n
+            this->cols(),  // k
+            &alpha,        // alpha
+            d_A,           // A
+            this->rows(),  // lda
+            d_B,           // B
+            this->cols(),  // ldb
+            &beta,         // beta
+            d_C,           // C
+            this->rows()); // ldc
 
-        CHECK_CUDA(cudaMemcpy(r.data(), d_C, this->rows()*o.cols()*sizeof(float), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaMemcpy(r.data(), d_C, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
         cublasDestroy(handle);
 
         cudaFree(d_A);

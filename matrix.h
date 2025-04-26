@@ -18,11 +18,13 @@ public:
 
     virtual void dot(const Matrix<T> &o, Matrix<T> &r) const {
 
-        for (size_t i = 0; i < _cols; i++) {
-            for (size_t j = 0; j < o._rows; j++) {
-                for (size_t k = 0; k < _rows; k++) {
-                    r._data[r._rows*i + j] += _data[_rows*i + k] * o._data[_rows*k + j];
+        for (int i = 0; i < _rows; ++i) {
+            for (int j = 0; j < o._cols; ++j) {
+                T sum = 0.0f;
+                for (int k = 0; k < _cols; ++k) {
+                    sum += _data[i * _cols + k] * o._data[k * o._cols + j];
                 }
+                r._data[i * o._cols + j] = sum;
             }
         }
     }

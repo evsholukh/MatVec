@@ -111,20 +111,20 @@ public:
             clblast::Layout::kRowMajor, // layout
             clblast::Transpose::kNo,    // a_transpose
             clblast::Transpose::kNo,    // b_transpose
-            o.cols(),     // m
-            this->rows(), // n
+            this->rows(), // m
+            o.cols(),     // n
             this->cols(), // k
             1.0f,         // alpha
             device_a(),   // a_buffer
             0,            // a_offset
-            this->rows(), // a_ld
+            this->cols(), // a_ld
             device_b(),   // b_buffer
             0,            // b_offset
             o.cols(),     // b_ld
             0.0f,         // beta
             device_c(),   // c_buffer
             0,            // c_offset
-            r.cols(),     // c_ld
+            o.cols(),     // c_ld
             &queue_plain, // queue
             &event        // event
         );
