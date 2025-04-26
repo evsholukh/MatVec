@@ -10,6 +10,7 @@
 #include "utils.h"
 
 #include "opencl.h"
+#include "openblas.h"
 
 
 int main(int argc, char **argv) {
@@ -25,41 +26,37 @@ int main(int argc, char **argv) {
     try {
         std::cout << "Randomization array (size: " << N*M << ").." << std::endl;
 
-        float *data_x = random_vector<float>(N*M);
-        float *data_y = random_vector<float>(N*M);
-        float *data_z = random_vector<float>(N*N);
+        float *data_x = values_vector<float>(N*M, 0.000001f);
+        float *data_y = values_vector<float>(N*M, 0.000001f);
+        float *data_z = values_vector<float>(N*N, 0.000001f);
 
-        Vector<float> vx(data_x, N*M);
-        Vector<float> vy(data_x, N*M);
+        Vector<float> vx(data_x, N*M), vy(data_x, N*M);
+        VectorBLAS vbx(vx), vby(vy);
+        VectorOpenCL cl_vx(vx), cl_vy(vy);
 
-        Matrix<float> mx(data_x, N, M);
-        Matrix<float> my(data_y, M, N);
-        Matrix<float> mz(data_z, N, N);
+        Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
+        MatrixBLAS mbx(mx), mby(my), mbz(mz);
+        MatrixOpenCL cl_mx(mx), cl_my(my), cl_mz(mz);
 
         std::cout << "Memory size: " << mx.size_mb() << "MB" << std::endl;
 
-        std::cout << std::left 
+        // std::cout << std::left 
+        //         << std::setw(20)
+        //         << "C++ vector dot: "
+        //         << std::fixed
+        //         << Utils::measure([&vx, &vy]() {
+        //             std::cout << "(" << vx.dot(vy) << ")" << " ";
+        //         })
+        //         << "s" << std::endl;
+
+        std::cout << std::left
                 << std::setw(20)
-                << "C++ vector dot: "
+                << "OpenBLAS vector dot: "
                 << std::fixed
-                << Utils::measure([&vx, &vy]() {
-                    std::cout << "(" << vx.dot(vy) << ")" << " ";
+                << Utils::measure([&vbx, &vby]() {
+                    std::cout << "(" << vbx.dot(vby) << ")" << " ";
                 })
                 << "s" << std::endl;
-
-        std::cout << std::left 
-                << std::setw(20)
-                << "C++ matrix mul: "
-                << std::fixed
-                << Utils::measure([&mx, &my, &mz]() {
-                    mx.dot(my, mz);
-                    std::cout << "(" << mz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
-
-        VectorOpenCL cl_vx(vx), cl_vy(vy);
-        MatrixOpenCL cl_mx(mx), cl_my(my);
-        MatrixOpenCL cl_mz(mz);
 
         std::cout << std::left
                 << std::setw(20)
@@ -67,6 +64,26 @@ int main(int argc, char **argv) {
                 << std::fixed
                 << Utils::measure([&cl_vx, &cl_vy]() {
                     std::cout << "(" << cl_vx.dot(cl_vy) << ")" << " ";
+                })
+                << "s" << std::endl;
+
+        // std::cout << std::left 
+        //         << std::setw(20)
+        //         << "C++ matrix mul: "
+        //         << std::fixed
+        //         << Utils::measure([&mx, &my, &mz]() {
+        //             mx.dot(my, mz);
+        //             std::cout << "(" << mz.sum() << ")" << " ";
+        //         })
+        //         << "s" << std::endl;
+
+        std::cout << std::left 
+                << std::setw(20)
+                << "OpenBLAS matrix mul: "
+                << std::fixed
+                << Utils::measure([&mbx, &mby, &mbz]() {
+                    mbx.dot(mby, mbz);
+                    std::cout << "(" << mbz.sum() << ")" << " ";
                 })
                 << "s" << std::endl;
 

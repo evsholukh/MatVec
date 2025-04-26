@@ -30,3 +30,13 @@ T* random_vector(const size_t size) {
     }
     return data;
 }
+
+template<typename T>
+T* values_vector(const size_t size, T val) {
+    T *data = new T[size];
+
+    for (size_t i = 0; i < size; i++) {
+        data[i] = val;
+    }
+    return data;
+}

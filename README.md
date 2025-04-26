@@ -1,8 +1,7 @@
 # GPU matrix operations examples
-## clBLAST
-## cuBLAS
-### Running
-```
-build.bat
-```
+
+* OpenBlas (CPU)
+* CLBLAST (GPU)
+* CUBLAS (CUDA)
+
 
