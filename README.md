@@ -1,6 +1,6 @@
 # GPU matrix operations examples
 
-* OpenBlas (CPU)
+* OpenBLAS (CPU)
 * CLBLAST (GPU)
 * CUBLAS (CUDA)
 
