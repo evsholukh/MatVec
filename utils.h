@@ -18,3 +18,15 @@ public:
 };
 
 
+template<typename T>
+T* random_vector(const size_t size) {
+    T *data = new T[size];
+
+    std::mt19937 generator(42);
+    std::uniform_real_distribution<T> dist(-1, 1);
+
+    for (size_t i = 0; i < size; i++) {
+        data[i] = dist(generator);
+    }
+    return data;
+}

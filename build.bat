@@ -2,7 +2,6 @@
 
 
 nvcc main.cu -o cu_example.exe ^
-    -D BUILD_CUDA ^
     -I"%CUDA_PATH_V12_4%\include" ^
     -L"%CUDA_PATH_V12_4%\lib\x64" ^
     -I%OPENCL_PATH%\include ^

@@ -14,8 +14,8 @@ public:
     size_t size() const { return _size; }
 
     virtual T sum() const {
-        T val = _data[0];
-        for (size_t i = 1; i < _size; i++) {
+        T val = T(0);
+        for (size_t i = 0; i < _size; i++) {
             val += _data[i];
         }
         return val;

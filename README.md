@@ -1,11 +1,8 @@
-# Matrix operations on GPU 
-## OpenCL
-## CUDA
+# GPU matrix operations examples
+## clBLAST
+## cuBLAS
 ### Running
 ```
-build_opencl.bat
+build.bat
 ```
 
-```
-build_cuda.bat
-```
