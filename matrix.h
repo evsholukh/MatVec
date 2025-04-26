@@ -7,7 +7,7 @@ template <typename T>
 class Matrix : public Vector<T> {
 
 public:
-    Matrix(T *data, size_t cols, size_t rows) : Vector<T>(data, cols*rows),
+    Matrix(T *data, size_t rows, size_t cols) : Vector<T>(data, cols*rows),
         _cols(cols), _rows(rows) { }
 
     size_t cols() const { return _cols; }
@@ -16,23 +16,13 @@ public:
 
     Vector<T> row(size_t n) const { return Vector<T>(this->data()+_cols*n, _cols); }
 
-    Vector<T> col(size_t n) const {
-        T *h_c = new T[_rows]; // [!]
-        T *data = this->data();
-        for (size_t i = 0; i < _rows; i++) {
-            h_c[i] = data[i*_rows + n];
-        }
-        return Vector<T>(h_c, _rows);
-    }
-
     virtual void dot(const Matrix<T> &o, Matrix<T> &r) const {
-        for (size_t i = 0; i < _rows; i++) {
-            for (size_t j = 0; j < o._cols; j++) {
-                Vector<T> vcol = o.col(j);
-                Vector<T> vrow = this->row(i);
 
-                r._data[o._cols*i + j] = vrow.dot(vcol);
-                delete[] vcol.data();
+        for (size_t i = 0; i < _cols; i++) {
+            for (size_t j = 0; j < o._rows; j++) {
+                for (size_t k = 0; k < _rows; k++) {
+                    r._data[r._rows*i + j] += _data[_rows*i + k] * o._data[_rows*k + j];
+                }
             }
         }
     }
