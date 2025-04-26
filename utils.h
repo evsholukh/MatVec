@@ -26,7 +26,7 @@ T* random_vector(const size_t size) {
     std::uniform_real_distribution<T> dist(-1, 1);
 
     for (size_t i = 0; i < size; i++) {
-        data[i] = 1.0f; // dist(generator);
+        data[i] = dist(generator);
     }
     return data;
 }

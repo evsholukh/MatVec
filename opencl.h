@@ -4,7 +4,7 @@
 #define CL_HPP_ENABLE_EXCEPTIONS
 
 #include <CL/opencl.hpp>
-#include <clblast.h>
+#include <clblast_c.h>
 
 #include "matrix.h"
 
@@ -59,7 +59,7 @@ public:
 
         auto queue_plain = queue();
 
-        auto status = clblast::Dot<float>(
+        auto status = CLBlastSdot(
             this->size(), // size
             device_c(),   // result
             0,            // offset
@@ -73,7 +73,7 @@ public:
             &event        // event
         );
 
-        if (status == clblast::StatusCode::kSuccess) {
+        if (status == CLBlastSuccess) {
             clWaitForEvents(1, &event);
             clReleaseEvent(event);
         }
@@ -107,10 +107,10 @@ public:
 
         auto queue_plain = queue();
 
-        auto status = clblast::Gemm(
-            clblast::Layout::kRowMajor, // layout
-            clblast::Transpose::kNo,    // a_transpose
-            clblast::Transpose::kNo,    // b_transpose
+        auto status = CLBlastSgemm(
+            CLBlastLayoutRowMajor, // layout
+            CLBlastTransposeNo,    // a_transpose
+            CLBlastTransposeNo,    // b_transpose
             this->rows(), // m
             o.cols(),     // n
             this->cols(), // k
@@ -129,7 +129,7 @@ public:
             &event        // event
         );
 
-        if (status == clblast::StatusCode::kSuccess) {
+        if (status == CLBlastSuccess) {
             clWaitForEvents(1, &event);
             clReleaseEvent(event);
         }

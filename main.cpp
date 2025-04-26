@@ -9,6 +9,7 @@
 #include "vector.h"
 #include "utils.h"
 
+#include "opencl.h"
 
 
 int main(int argc, char **argv) {
@@ -38,23 +39,46 @@ int main(int argc, char **argv) {
         std::cout << "Memory size: " << mx.size_mb() << "MB" << std::endl;
 
         std::cout << std::left 
-                  << std::setw(20)
-                  << "C++ vector dot: "
-                  << std::fixed
-                  << Utils::measure([&vx, &vy]() {
-                      std::cout << "(" << vx.dot(vy) << ")" << " ";
-                  })
-                  << "s" << std::endl;
+                << std::setw(20)
+                << "C++ vector dot: "
+                << std::fixed
+                << Utils::measure([&vx, &vy]() {
+                    std::cout << "(" << vx.dot(vy) << ")" << " ";
+                })
+                << "s" << std::endl;
 
         std::cout << std::left 
-                  << std::setw(20)
-                  << "C++ matrix mul: "
-                  << std::fixed
-                  << Utils::measure([&mx, &my, &mz]() {
-                        mx.dot(my, mz);
-                        std::cout << "(" << mz.sum() << ")" << " ";
-                  })
-                  << "s" << std::endl;
+                << std::setw(20)
+                << "C++ matrix mul: "
+                << std::fixed
+                << Utils::measure([&mx, &my, &mz]() {
+                    mx.dot(my, mz);
+                    std::cout << "(" << mz.sum() << ")" << " ";
+                })
+                << "s" << std::endl;
+
+        VectorOpenCL cl_vx(vx), cl_vy(vy);
+        MatrixOpenCL cl_mx(mx), cl_my(my);
+        MatrixOpenCL cl_mz(mz);
+
+        std::cout << std::left
+                << std::setw(20)
+                << "clBLASt vector dot: "
+                << std::fixed
+                << Utils::measure([&cl_vx, &cl_vy]() {
+                    std::cout << "(" << cl_vx.dot(cl_vy) << ")" << " ";
+                })
+                << "s" << std::endl;
+
+        std::cout << std::left
+                << std::setw(20)
+                << "clBLASt matrix mul: "
+                << std::fixed
+                << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
+                    cl_mx.dot(cl_my, cl_mz);
+                    std::cout << "(" << cl_mz.sum() << ")" << " ";
+                })
+                << "s" << std::endl;
 
         delete[] data_x;
         delete[] data_y;

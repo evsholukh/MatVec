@@ -4,9 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${env:OPENCL_PATH}\\include",
-                "${env:CUDA_PATH_V12_4}\\include",
-                "${env:OPENCL_BLAST_PATH}\\include"
+                "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "C:\\CLBlast-1.6.3-windows-x64\\include"
             ],
             "defines": [
                 "_DEBUG",
