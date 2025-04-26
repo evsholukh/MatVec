@@ -1,7 +1,7 @@
-# GPU matrix operations examples
+# Benchmarking matrix operations runtimes
 
-* OpenBLAS (CPU)
-* CLBLAST (GPU)
-* CUBLAS (CUDA)
+* OpenBLAS (https://github.com/OpenMathLib/OpenBLAS)
+* CLBLAST (https://github.com/CNugteren/CLBlast)
+* CUBLAS (https://developer.nvidia.com/cuda-toolkit)
 
 
