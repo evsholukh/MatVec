@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     std::cin >> M;
 
     try {
-        std::cout << "Randomization array (size: " << N*M << ").." << std::endl;
+        std::cout << "Creating array (size: " << N*M << ").." << std::endl;
 
         float *data_x = values_vector<float>(N*M, 0.000001f);
         float *data_y = values_vector<float>(N*M, 0.000001f);
