@@ -1,4 +1,4 @@
-# Benchmarking matrix operations runtimes
+# Benchmarking matrix operation runtimes
 
 * OpenBLAS (https://github.com/OpenMathLib/OpenBLAS)
 * CLBLAST (https://github.com/CNugteren/CLBlast)
