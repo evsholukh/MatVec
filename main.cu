@@ -7,8 +7,8 @@
 
 #include "matrix.h"
 #include "vector.h"
-#include "opencl.h"
 #include "utils.h"
+
 #include "cuda.cuh"
 
 

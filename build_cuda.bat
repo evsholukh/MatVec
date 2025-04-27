@@ -1,15 +1,8 @@
 @echo off
 
-
 nvcc main.cu -o cu_example.exe ^
     -I"%CUDA_PATH_V12_4%\include" ^
     -L"%CUDA_PATH_V12_4%\lib\x64" ^
-    -I%OPENCL_PATH%\include ^
-    -I%OPENCL_BLAST_PATH%\include ^
-    -L%OPENCL_PATH%\lib ^
-    -L%OPENCL_BLAST_PATH%\lib ^
-    -lOpenCL ^
-    -lclblast ^
     -lcudart ^
     -lcublas ^
     -allow-unsupported-compiler ^
