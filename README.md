@@ -1,4 +1,4 @@
-# Matrix multiplication runtimes
+# Matrix multiplication runtimes examples
 
 * OpenBLAS
   (https://github.com/OpenMathLib/OpenBLAS)
