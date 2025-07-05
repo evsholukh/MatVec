@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "C:\\CLBlast-1.6.3-windows-x64\\include",
-                "C:\\OpenBLAS-0.3.29_x64\\include",
+                "D:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "D:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "D:\\3d\\OpenBLAS-0.3.29_x64\\include",
             ],
             "defines": [
                 "_DEBUG",

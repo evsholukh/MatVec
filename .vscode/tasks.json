@@ -9,17 +9,17 @@
                 "-o", "${workspaceFolder}\\example.exe",
 
                 "-I", "${workspaceFolder}",
-                "-I", "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\OpenBLAS-0.3.29_x64\\include",
-                "-L", "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\OpenBLAS-0.3.29_x64\\lib",
+                "-I", "D:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I", "D:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I", "D:\\3d\\OpenBLAS-0.3.29_x64\\include",
+                "-L", "D:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L", "D:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L", "D:\\3d\\OpenBLAS-0.3.29_x64\\lib",
 
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17"
+                "-std=c++17",
             ],
             "group": {
                 "kind": "build",
