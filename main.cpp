@@ -32,22 +32,14 @@ int main(int argc, char **argv) {
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
         VectorBLAS vbx(vx), vby(vy);
-        VectorOpenCL cl_vx(vx), cl_vy(vy);
+        VectorCLBlast cl_vx(vx), cl_vy(vy);
+        VectorReductionOpenCL vrx(vx);
 
         Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
         MatrixBLAS mbx(mx), mby(my), mbz(mz);
-        MatrixOpenCL cl_mx(mx), cl_my(my), cl_mz(mz);
+        MatrixCLBlast cl_mx(mx), cl_my(my), cl_mz(mz);
 
         std::cout << "Memory size: " << mx.size_mb() << "MB" << std::endl;
-
-        // std::cout << std::left 
-        //         << std::setw(20)
-        //         << "C++ vector dot: "
-        //         << std::fixed
-        //         << Utils::measure([&vx, &vy]() {
-        //             std::cout << "(" << vx.dot(vy) << ")" << " ";
-        //         })
-        //         << "s" << std::endl;
 
         std::cout << std::left
                 << std::setw(20)
@@ -67,15 +59,14 @@ int main(int argc, char **argv) {
                 })
                 << "s" << std::endl;
 
-        // std::cout << std::left 
-        //         << std::setw(20)
-        //         << "C++ matrix mul: "
-        //         << std::fixed
-        //         << Utils::measure([&mx, &my, &mz]() {
-        //             mx.dot(my, mz);
-        //             std::cout << "(" << mz.sum() << ")" << " ";
-        //         })
-        //         << "s" << std::endl;
+        std::cout << std::left
+                << std::setw(20)
+                << "OpenCL reduction vector dot: "
+                << std::fixed
+                << Utils::measure([&vrx, &vy]() {
+                    std::cout << "(" << vrx.dot(vy) << ")" << " ";
+                })
+                << "s" << std::endl;
 
         std::cout << std::left 
                 << std::setw(20)
