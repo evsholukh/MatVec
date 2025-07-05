@@ -21,7 +21,7 @@ public:
         return platforms.back();
     }
 
-    static cl::Device defaultDevice(cl::Platform platform) {
+    static cl::Device defaultDevice(const cl::Platform &platform) {
         std::vector<cl::Device> devices;
         platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
         if (devices.empty()) {
@@ -30,21 +30,14 @@ public:
         return devices.back();
     }
 
-    static size_t maxGroupSize(cl::Device device) {
+    static size_t maxGroupSize(const cl::Device &device) {
         size_t size;
         device.getInfo(CL_DEVICE_MAX_WORK_GROUP_SIZE, &size);
 
         return size;
     }
 
-    static size_t maxComputeUnits(cl::Device device) {
-        size_t units;
-        device.getInfo(CL_DEVICE_MAX_COMPUTE_UNITS, &units);
-
-        return units;
-    }
-
-    static int memoryAvailable(cl::Device device) {
+    static int memoryAvailable(const cl::Device &device) {
         cl_ulong mem_size;
         device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &mem_size);
 
@@ -63,8 +56,9 @@ public:
         auto platform = OpenCL::defaultPlatform();
         auto device = OpenCL::defaultDevice(platform);
 
-        const int group_size = 64;
+        const int group_size = OpenCL::maxGroupSize(device);
         const int groups_count = (this->size() + group_size - 1) / group_size;
+        const int global_size = group_size*groups_count;
 
         cl::Context context(device);
         cl::CommandQueue queue(context, device);
@@ -72,11 +66,9 @@ public:
 
         program.build();
 
-        cl::Buffer device_a(context, CL_MEM_READ_ONLY, this->size()*sizeof(float));
-        cl::Buffer device_b(context, CL_MEM_READ_ONLY, o.size()*sizeof(float));
-
+        cl::Buffer device_a(context, CL_MEM_READ_ONLY, global_size*sizeof(float));
+        cl::Buffer device_b(context, CL_MEM_READ_ONLY, global_size*sizeof(float));
         cl::Buffer device_res(context, CL_MEM_WRITE_ONLY, groups_count*sizeof(float));
-        cl::Buffer device_group(context, CL_MEM_WRITE_ONLY, group_size*sizeof(float));
 
         queue.enqueueWriteBuffer(device_a, CL_TRUE, 0, this->size()*sizeof(float), this->data());
         queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, o.size()*sizeof(float), o.data());
@@ -86,10 +78,9 @@ public:
         add_kernel.setArg(0, device_a);
         add_kernel.setArg(1, device_b);
         add_kernel.setArg(2, device_res);
-        add_kernel.setArg(3, static_cast<uint32_t>(this->size()));
-        add_kernel.setArg(4, device_group);
+        add_kernel.setArg(3, group_size * sizeof(float), nullptr);
 
-        cl::NDRange global_range(this->size());
+        cl::NDRange global_range(global_size);
         cl::NDRange group_range(group_size);
 
         float *res_data = new float[groups_count];
@@ -103,7 +94,7 @@ public:
 
     const std::string kernel = R"(
         __kernel void float_dot_prod(__global const float* a, __global const float* b,
-            __global float* result, const uint vector_size, __local float* local_sum)
+            __global float* result, __local float* local_sum)
         {
             uint gid = get_global_id(0);
             uint lid = get_local_id(0);
@@ -112,7 +103,7 @@ public:
             local_sum[lid] = a[gid] * b[gid];
             barrier(CLK_LOCAL_MEM_FENCE);
 
-            for ( uint i = l_size >> 1; i > 0; i >>= 1)
+            for (uint i = l_size >> 1; i > 0; i >>= 1)
             {
                 if (lid < i)
                     local_sum[lid] += local_sum[lid+i];
