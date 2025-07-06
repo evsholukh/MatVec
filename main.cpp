@@ -32,18 +32,18 @@ int main(int argc, char **argv) {
 
         float *data_x = Utils::create_array<float>(N*M, group_size, 0.000001f);
         float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
-        float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
+        // float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
         VectorBLAS vbx(vx), vby(vy);
         VectorCLBlast cl_vx(vx, device), cl_vy(vy, device);
         VectorReductionOpenCL vrx(vx, device);
 
-        Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
-        MatrixBLAS mbx(mx), mby(my), mbz(mz);
-        MatrixCLBlast cl_mx(mx, device), cl_my(my, device), cl_mz(mz, device);
+        // Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
+        // MatrixBLAS mbx(mx), mby(my), mbz(mz);
+        // MatrixCLBlast cl_mx(mx, device), cl_my(my, device), cl_mz(mz, device);
 
-        std::cout << "Memory size: " << mx.size_mb() << "MB" << std::endl;
+        std::cout << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
         std::cout << std::left
                 << std::setw(20)
@@ -72,29 +72,29 @@ int main(int argc, char **argv) {
                 })
                 << "s" << std::endl;
 
-        std::cout << std::left 
-                << std::setw(20)
-                << "OpenBLAS matrix mul: "
-                << std::fixed
-                << Utils::measure([&mbx, &mby, &mbz]() {
-                    mbx.dot(mby, mbz);
-                    std::cout << "(" << mbz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
+        // std::cout << std::left 
+        //         << std::setw(20)
+        //         << "OpenBLAS matrix mul: "
+        //         << std::fixed
+        //         << Utils::measure([&mbx, &mby, &mbz]() {
+        //             mbx.dot(mby, mbz);
+        //             std::cout << "(" << mbz.sum() << ")" << " ";
+        //         })
+        //         << "s" << std::endl;
 
-        std::cout << std::left
-                << std::setw(20)
-                << "clBLASt matrix mul: "
-                << std::fixed
-                << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
-                    cl_mx.dot(cl_my, cl_mz);
-                    std::cout << "(" << cl_mz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
+        // std::cout << std::left
+        //         << std::setw(20)
+        //         << "clBLASt matrix mul: "
+        //         << std::fixed
+        //         << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
+        //             cl_mx.dot(cl_my, cl_mz);
+        //             std::cout << "(" << cl_mz.sum() << ")" << " ";
+        //         })
+        //         << "s" << std::endl;
 
         delete[] data_x;
         delete[] data_y;
-        delete[] data_z;
+        // delete[] data_z;
 
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
