@@ -120,13 +120,10 @@ public:
 };
 
 
-class VectorCLBlast : public Vector<float> {
-
-protected:
-    cl::Device _device;
+class VectorCLBlast : public VectorReductionOpenCL {
 
 public:
-    VectorCLBlast(Vector<float> vec, cl::Device device) : Vector<float>(vec), _device(device) { }
+    VectorCLBlast(Vector<float> vec, cl::Device device) : VectorReductionOpenCL(vec, device) { }
 
     float dot(const Vector<float> &o) const override {
 
