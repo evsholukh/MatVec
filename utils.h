@@ -22,13 +22,15 @@ public:
         const int global_size = group_size * groups_count;
 
         auto data = new T[global_size];
-        fill_array(data, global_size, val);
+
+        fill_array(data, global_size, T(0));
+        fill_array(data, size, val);
 
         return data;
     }
 
     template<typename T>
-    static T* randomize_array(const T* data, const size_t size) {
+    static void randomize_array(T* data, const size_t size) {
         std::mt19937 generator(42);
         std::uniform_real_distribution<T> dist(-1, 1);
 

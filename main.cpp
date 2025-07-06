@@ -34,6 +34,9 @@ int main(int argc, char **argv) {
         float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
         // float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
 
+        // Utils::randomize_array(data_x, N*M);
+        // Utils::randomize_array(data_y, N*M);
+
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
         VectorBLAS vbx(vx), vby(vy);
         VectorCLBlast cl_vx(vx, device), cl_vy(vy, device);
@@ -44,6 +47,15 @@ int main(int argc, char **argv) {
         // MatrixCLBlast cl_mx(mx, device), cl_my(my, device), cl_mz(mz, device);
 
         std::cout << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
+
+        std::cout << std::left
+                << std::setw(20)
+                << "C++ vector dot: "
+                << std::fixed
+                << Utils::measure([&vx, &vy]() {
+                    std::cout << "(" << vx.dot(vy) << ")" << " ";
+                })
+                << "s" << std::endl;
 
         std::cout << std::left
                 << std::setw(20)
