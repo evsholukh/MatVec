@@ -7,18 +7,12 @@ template <typename T>
 class Vector {
 
 public:
-    Vector(T *data, size_t size, size_t block_size = 1): 
-        _data(data), _size(size), _block_size(block_size) {}
+    Vector(T *data, size_t size): 
+        _data(data), _size(size) {}
 
     T* data() const { return _data; }
 
     size_t size() const { return _size; }
-
-    size_t block_size() const { return _block_size; }
-
-    size_t blocks_count() const  { return (_size + _block_size - 1) / _block_size; }
-
-    size_t total_size() const { return this->block_size() * this->blocks_count(); }
 
     virtual T sum() const {
         T val = T(0);
@@ -64,5 +58,5 @@ public:
 
 protected:
     T *_data;
-    size_t _size, _block_size;
+    size_t _size;
 };

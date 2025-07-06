@@ -48,20 +48,20 @@ public:
 
 class VectorReductionOpenCL : public Vector<float> {
 
+protected:
+    cl::Device _device;
+
 public:
-    VectorReductionOpenCL(Vector<float> vec) : Vector<float>(vec) { }
+    VectorReductionOpenCL(Vector<float> vec, cl::Device device) : Vector<float>(vec), _device(device) { }
 
-    float dot(const Vector<float> &o) const override {
+    virtual float dot(const Vector<float> &o) const override {
 
-        auto platform = OpenCL::defaultPlatform();
-        auto device = OpenCL::defaultDevice(platform);
-
-        const int group_size = OpenCL::maxGroupSize(device);
+        const int group_size = OpenCL::maxGroupSize(_device);
         const int groups_count = (this->size() + group_size - 1) / group_size;
         const int global_size = group_size*groups_count;
 
-        cl::Context context(device);
-        cl::CommandQueue queue(context, device);
+        cl::Context context(_device);
+        cl::CommandQueue queue(context, _device);
         cl::Program program(context, kernel);
 
         program.build();
@@ -84,12 +84,15 @@ public:
         cl::NDRange group_range(group_size);
 
         float *res_data = new float[groups_count];
-        Vector<float> res(res_data, groups_count);
+        Vector<float> vec(res_data, groups_count);
 
         queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range, group_range);
-        queue.enqueueReadBuffer(device_res, CL_TRUE, 0, res.size()*sizeof(float), res.data());
+        queue.enqueueReadBuffer(device_res, CL_TRUE, 0, vec.size() * sizeof(float), vec.data());
 
-        return res.sum();
+        auto res = vec.sum();
+        delete[] res_data;
+
+        return res;
     }
 
     const std::string kernel = R"(
@@ -119,14 +122,16 @@ public:
 
 class VectorCLBlast : public Vector<float> {
 
+protected:
+    cl::Device _device;
+
 public:
-    VectorCLBlast(Vector<float> vec) : Vector<float>(vec) { }
+    VectorCLBlast(Vector<float> vec, cl::Device device) : Vector<float>(vec), _device(device) { }
 
     float dot(const Vector<float> &o) const override {
-        auto platform = OpenCL::defaultPlatform();
-        auto device = OpenCL::defaultDevice(platform);
-        auto context = cl::Context(device);
-        auto queue = cl::CommandQueue(context, device);
+
+        auto context = cl::Context(_device);
+        auto queue = cl::CommandQueue(context, _device);
         auto event = cl_event{nullptr};
 
         auto device_a = cl::Buffer(context, CL_MEM_READ_WRITE, this->size()*sizeof(float));
@@ -166,15 +171,16 @@ public:
 
 class MatrixCLBlast : public Matrix<float> {
 
+protected:
+    cl::Device _device;
+
 public:
-    MatrixCLBlast(Matrix<float> mat) : Matrix<float>(mat) { }
+    MatrixCLBlast(Matrix<float> mat, cl::Device device) : Matrix<float>(mat), _device(device) { }
 
     void dot(const Matrix<float> &o, Matrix<float> &r) const {
 
-        auto platform = OpenCL::defaultPlatform();
-        auto device = OpenCL::defaultDevice(platform);
-        auto context = cl::Context(device);
-        auto queue = cl::CommandQueue(context, device);
+        auto context = cl::Context(_device);
+        auto queue = cl::CommandQueue(context, _device);
         auto event = cl_event{nullptr};
 
         auto device_a = cl::Buffer(context, CL_MEM_READ_WRITE, this->size()*sizeof(float));

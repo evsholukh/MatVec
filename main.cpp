@@ -26,18 +26,22 @@ int main(int argc, char **argv) {
     try {
         std::cout << "Creating array (size: " << N*M << ").." << std::endl;
 
-        float *data_x = values_vector<float>(N*M, 0.000001f);
-        float *data_y = values_vector<float>(N*M, 0.000001f);
-        float *data_z = values_vector<float>(N*N, 0.000001f);
+        auto platform = OpenCL::defaultPlatform();
+        auto device = OpenCL::defaultDevice(platform);
+        auto group_size = OpenCL::maxGroupSize(device);
+
+        float *data_x = Utils::create_array<float>(N*M, group_size, 0.000001f);
+        float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
+        float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
         VectorBLAS vbx(vx), vby(vy);
-        VectorCLBlast cl_vx(vx), cl_vy(vy);
-        VectorReductionOpenCL vrx(vx);
+        VectorCLBlast cl_vx(vx, device), cl_vy(vy, device);
+        VectorReductionOpenCL vrx(vx, device);
 
         Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
         MatrixBLAS mbx(mx), mby(my), mbz(mz);
-        MatrixCLBlast cl_mx(mx), cl_my(my), cl_mz(mz);
+        MatrixCLBlast cl_mx(mx, device), cl_my(my, device), cl_mz(mz, device);
 
         std::cout << "Memory size: " << mx.size_mb() << "MB" << std::endl;
 

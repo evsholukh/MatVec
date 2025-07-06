@@ -12,31 +12,35 @@ public:
         func();
         auto end_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed = end_time - start_time;
-    
+
         return elapsed.count();
     }
+
+    template<typename T>
+    static T* create_array(const size_t size, const size_t group_size = 1, const T val = T(0)) {
+        const int groups_count = (size + group_size - 1) / group_size;
+        const int global_size = group_size * groups_count;
+
+        auto data = new T[global_size];
+        fill_array(data, global_size, val);
+
+        return data;
+    }
+
+    template<typename T>
+    static T* randomize_array(const T* data, const size_t size) {
+        std::mt19937 generator(42);
+        std::uniform_real_distribution<T> dist(-1, 1);
+
+        for (size_t i = 0; i < size; i++) {
+            data[i] = dist(generator);
+        }
+    }
+
+    template<typename T>
+    static void fill_array(T* data, const size_t size, const T val = T(0)) {
+        for (size_t i = 0; i < size; i++) {
+            data[i] = val;
+        }
+    }
 };
-
-
-template<typename T>
-T* random_vector(const size_t size) {
-    T *data = new T[size];
-
-    std::mt19937 generator(42);
-    std::uniform_real_distribution<T> dist(-1, 1);
-
-    for (size_t i = 0; i < size; i++) {
-        data[i] = dist(generator);
-    }
-    return data;
-}
-
-template<typename T>
-T* values_vector(const size_t size, T val) {
-    T *data = new T[size];
-
-    for (size_t i = 0; i < size; i++) {
-        data[i] = val;
-    }
-    return data;
-}
