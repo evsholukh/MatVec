@@ -7,11 +7,18 @@ template <typename T>
 class Vector {
 
 public:
-    Vector(T *data, size_t size): _data(data), _size(size) {}
+    Vector(T *data, size_t size, size_t block_size = 1): 
+        _data(data), _size(size), _block_size(block_size) {}
 
     T* data() const { return _data; }
 
     size_t size() const { return _size; }
+
+    size_t block_size() const { return _block_size; }
+
+    size_t blocks_count() const  { return (_size + _block_size - 1) / _block_size; }
+
+    size_t total_size() const { return this->block_size() * this->blocks_count(); }
 
     virtual T sum() const {
         T val = T(0);
@@ -34,23 +41,12 @@ public:
     }
 
     virtual T dot(const Vector<T> &o) const {
-        return (*this * o).sum();
-    }
+        T val = T(0);
 
-    virtual Vector<T> operator+(const Vector<T> &o) const {
-        T *new_data = new T[_size];
         for (size_t i = 0; i < _size; i++) {
-            new_data[i] = _data[i] + o._data[i];
+            val += _data[i] * o._data[i];
         }
-        return Vector<T>(new_data, _size);
-    }
-
-    virtual Vector<T> operator*(const Vector<T> &o) const {
-        T *new_data = new T[_size];
-        for (size_t i = 0; i < _size; i++) {
-            new_data[i] = _data[i] * o._data[i];
-        }
-        return Vector<T>(new_data, _size);
+        return val;
     }
 
     virtual void print() const {
@@ -68,5 +64,5 @@ public:
 
 protected:
     T *_data;
-    size_t _size;
+    size_t _size, _block_size;
 };
