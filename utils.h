@@ -35,7 +35,7 @@ public:
         std::uniform_real_distribution<T> dist(-1, 1);
 
         for (size_t i = 0; i < size; i++) {
-            data[i] = dist(generator);
+            data[i] *= dist(generator);
         }
     }
 

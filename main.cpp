@@ -30,9 +30,12 @@ int main(int argc, char **argv) {
         auto device = OpenCL::defaultDevice(platform);
         auto group_size = OpenCL::maxGroupSize(device);
 
-        float *data_x = Utils::create_array<float>(N*M, group_size, 0.000001f);
-        float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
-        float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
+        float *data_x = Utils::create_array<float>(N*M, group_size, 0.0001f);
+        float *data_y = Utils::create_array<float>(N*M, group_size, 0.0001f);
+        float *data_z = Utils::create_array<float>(N*N, group_size, 0.0f);
+
+        Utils::randomize_array(data_x, N*M);
+        Utils::randomize_array(data_y, N*M);
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
         VectorBLAS vbx(vx), vby(vy);
@@ -78,6 +81,16 @@ int main(int argc, char **argv) {
                 << std::fixed
                 << Utils::measure([&vrx, &vy]() {
                     std::cout << "(" << vrx.dot(vy) << ")" << " ";
+                })
+                << "s" << std::endl;
+
+        std::cout << std::left
+                << std::setw(20)
+                << "C++ matrix mul: "
+                << std::fixed
+                << Utils::measure([&mx, &my, &mz]() {
+                    mx.dot(my, mz);
+                    std::cout << "(" << mz.sum() << ")" << " ";
                 })
                 << "s" << std::endl;
 
