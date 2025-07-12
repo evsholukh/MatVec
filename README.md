@@ -1,4 +1,4 @@
-# Matrix multiplication runtimes examples
+# Matrix operations benchamrks
 
 * OpenBLAS
   (https://github.com/OpenMathLib/OpenBLAS)
