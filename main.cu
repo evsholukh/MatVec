@@ -25,9 +25,11 @@ int main(int argc, char **argv) {
     try {
         std::cout << "Creating array (size: " << N*M << ").." << std::endl;
 
-        float *data_x = values_vector<float>(N*M, 0.000001f);
-        float *data_y = values_vector<float>(N*M, 0.000001f);
-        float *data_z = values_vector<float>(N*N, 0.000001f);
+        const size_t group_size = 1024;
+
+        float *data_x = Utils::create_array<float>(N*M, group_size, 0.000001f);
+        float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
+        float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
 
@@ -36,16 +38,16 @@ int main(int argc, char **argv) {
         VectorCuda cuda_vx(vx), cuda_vy(vy);
         MatrixCuda cuda_mx(mx), cuda_my(my), cuda_mz(mz);
 
-        std::cout << "Vector size: " << mx.size_mb() << "MB" << std::endl;
+        std::cout << "Vector size: " << mx.size_mb() + my.size_mb() + mz.size_mb() << "MB" << std::endl;
 
-        // std::cout << std::left 
-        //           << std::setw(20)
-        //           << "C++ vector dot: "
-        //           << std::fixed
-        //           << Utils::measure([&vx, &vy]() {
-        //               std::cout << "(" << vx.dot(vy) << ")" << " ";
-        //           })
-        //           << "s" << std::endl;
+        std::cout << std::left 
+                  << std::setw(20)
+                  << "C++ vector dot: "
+                  << std::fixed
+                  << Utils::measure([&vx, &vy]() {
+                      std::cout << "(" << vx.dot(vy) << ")" << " ";
+                  })
+                  << "s" << std::endl;
 
         std::cout << std::left
                   << std::setw(20)
