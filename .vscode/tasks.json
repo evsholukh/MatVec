@@ -9,12 +9,12 @@
                 "-o", "${workspaceFolder}\\example.exe",
 
                 "-I", "${workspaceFolder}",
-                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
-                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
+                "-I", "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I", "C:\\CLBlast-1.6.3-windows-x64\\include",
+                "-I", "C:\\OpenBLAS-0.3.29_x64\\include",
+                "-L", "C:\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L", "C:\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L", "C:\\OpenBLAS-0.3.29_x64\\lib",
 
                 "-lopencl",
                 "-lopenblas",

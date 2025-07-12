@@ -15,7 +15,7 @@
             "environment": [
                 {
                     "name": "Path",
-                    "value": "C:\\3d\\OpenBLAS-0.3.29_x64\\bin;C:\\3d\\CLBlast-1.6.3-windows-x64\\bin;C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\bin;${env:Path}"
+                    "value": "C:\\OpenBLAS-0.3.29_x64\\bin;C:\\CLBlast-1.6.3-windows-x64\\bin;C:\\OpenCL-SDK-v2024.10.24-Win-x64\\bin;${env:Path}"
                 },
             ],
             "externalConsole": false,
