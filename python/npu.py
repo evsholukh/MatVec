@@ -14,16 +14,22 @@ def timeit(call):
 
 
 N, M = int(input('N: ')), int(input('M: '))
-x = np.zeros((N, M)) + 0.0001
+
+np.random.seed(42)
+x = np.random.random((N, M))
 y = x
-print('Created: x', str(x.shape), 'y', str(y.shape))
+
+F = 0.0001
+
+x = x.astype(np.float16) * F
+y = y.astype(np.float16) * F
+
+print('Created: x', str(x.shape), 'y', str(y.shape), x.dtype)
 
 inC = x.shape[1]
 outC = y.shape[0]
 batch = x.shape[0]
 
-x = x.astype(np.float16)
-y = y.astype(np.float16)
 
 v, t = timeit(lambda: MatMul(inC, outC, batch).run(x, y).sum())
 print('[Intel NPU]', 'Sum:', v, 'Time:', f'{t}s')

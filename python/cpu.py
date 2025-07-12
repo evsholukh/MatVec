@@ -22,11 +22,15 @@ def single_cpu_vector_dot(x: np.ndarray, y: np.ndarray) -> np.ndarray:
             z[i, j] = s
     return z
 
-
 N, M = int(input('N: ')), int(input('M: '))
-x = np.zeros((N, M)) + 0.0001
+
+F = 0.0001
+
+np.random.seed(42)
+x = np.random.random((N, M)) * F
 y = x
-print('Created: x', str(x.shape), 'y', str(y.shape))
+
+print('Created: x', str(x.shape), 'y', str(y.shape), x.dtype)
 
 v, t = timeit(lambda: single_cpu_vector_dot(x, y.T).sum())
 print('[CPU]', 'Sum:', v, 'Time:', f'{t}s')

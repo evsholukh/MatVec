@@ -14,13 +14,19 @@ def timeit(call):
 assert torch.xpu.is_available()
 
 N, M = int(input('N: ')), int(input('M: '))
-x = np.zeros((N, M)) + 0.0001
+
+np.random.seed(42)
+x = np.random.random((N, M))
 y = x
-print('Created: x', str(x.shape), 'y', str(y.shape))
+
+print('Created: x', str(x.shape), 'y', str(y.shape), x.dtype)
 
 device = torch.device('xpu')
-tx = torch.tensor(x).to(device)
-ty = torch.tensor(y).to(device)
+
+F = 0.0001
+
+tx = torch.tensor(x).to(device) * F
+ty = torch.tensor(y).to(device) * F
 
 v, t = timeit(lambda: tx.matmul(ty.T).cpu().numpy().sum())
 print('[Intel GPU]', 'Sum:', v, 'Time:', f'{t}s')
