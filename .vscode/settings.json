@@ -7,5 +7,6 @@
         "string_view": "cpp",
         "vector": "cpp"
     },
-    "C_Cpp.default.browse.path": []
+    "C_Cpp.default.browse.path": [],
+    "python.terminal.activateEnvironment": false,
 }

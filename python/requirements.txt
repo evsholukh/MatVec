@@ -1,0 +1,2 @@
+intel-npu-acceleration-library
+torch --index-url https://download.pytorch.org/whl/xpu
