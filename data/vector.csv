@@ -1,0 +1,25 @@
+﻿Device,Type,Operation,Language,Compiler,Runtime,OS,Data,Rows,Cols,Time
+,,,,,,,,,,
+Intel(R) Core(TM) Ultra 7 155H,CPU,Vector dot,C++,msys g++ ,C++,Windows 11,float32,1000,1000,0.001871s
+Intel(R) Core(TM) Ultra 7 155H,CPU,Vector dot,C++,msys g++ ,OpenBLAS,Windows 11,float32,1000,1000,0.000221s
+Intel(R) Arc(TM) Graphics,GPU,Vector dot,C++,msys g++ ,clBLASt,Windows 11,float32,1000,1000,0.008907s
+Intel(R) Arc(TM) Graphics,GPU,Vector dot,C++,msys g++ ,OpenCL Reduction,Windows 11,float32,1000,1000,0.002115s
+,,,,,,,,,,
+Intel(R) Core(TM) Ultra 7 155H,CPU,Vector dot,C++,msys g++,C++,Windows 11,float32,10000,10000,0.197382s
+Intel(R) Core(TM) Ultra 7 155H,CPU,Vector dot,C++,msys g++,OpenBLAS,Windows 11,float32,10000,10000,0.017169s
+Intel(R) Arc(TM) Graphics,GPU,Vector dot,C++,msys g++,clBLASt,Windows 11,float32,10000,10000,0.165762s
+Intel(R) Arc(TM) Graphics,GPU,Vector dot,C++,msys g++,OpenCL Reduction,Windows 11,float32,10000,10000,0.238850s
+,,,,,,,,,,
+AMD Ryzen 9,CPU,Vector dot,C++,msys g++ ,C++,Windows 11,float32,10000,10000,0.260832s
+AMD Ryzen 9,CPU,Vector dot,C++,msys g++ ,OpenBLAS,Windows 11,float32,10000,10000,0.026209s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,clBLASt,Windows 11,float32,10000,10000,0.411051s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,cuBLAS,Windows 11,float32,10000,10000,0.441458s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,OpenCL Reduction,Windows 11,float32,10000,10000,0.297671s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,CUDA Reduce Kernel,Windows 11,float32,10000,10000,0.174676s
+,,,,,,,,,,
+AMD Ryzen 9,CPU,Vector dot,C++,msys g++,C++,Windows 11,float32,20000,20000,1.032898s
+AMD Ryzen 9,CPU,Vector dot,C++,msys g++,OpenBLAS,Windows 11,float32,20000,20000,0.094412s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,cuBLAS,Windows 11,float32,20000,20000,0.843010s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,clBLASt,Windows 11,float32,20000,20000,0.792014s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,OpenCL Reduction,Windows 11,float32,20000,20000,0.763142s
+NVIDIA RTX 2060,GPU,Vector dot,C++,msys g++,CUDA Reduce Kernel,Windows 11,float32,20000,20000,0.663076s

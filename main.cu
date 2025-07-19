@@ -27,15 +27,18 @@ int main(int argc, char **argv) {
 
         const size_t group_size = 1024;
 
-        float *data_x = Utils::create_array<float>(N*M, group_size, 0.000001f);
-        float *data_y = Utils::create_array<float>(N*M, group_size, 0.000001f);
-        float *data_z = Utils::create_array<float>(N*N, group_size, 0.000001f);
+        float *data_x = Utils::create_array<float>(N*M, group_size, 0.1f);
+        float *data_y = Utils::create_array<float>(N*M, group_size, 0.1f);
+        float *data_z = Utils::create_array<float>(N*N, group_size, 0.0f);
+
+        Utils::randomize_array(data_x, N*M);
+        Utils::randomize_array(data_y, N*M);
 
         Vector<float> vx(data_x, N*M), vy(data_x, N*M);
-
         Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
 
         VectorCuda cuda_vx(vx), cuda_vy(vy);
+        VectorReduceCuda cuda_rvx(vx), cuda_rvy(vy);
         MatrixCuda cuda_mx(mx), cuda_my(my), cuda_mz(mz);
 
         std::cout << "Vector size: " << mx.size_mb() + my.size_mb() + mz.size_mb() << "MB" << std::endl;
@@ -58,6 +61,14 @@ int main(int argc, char **argv) {
                   })
                   << "s" << std::endl;
 
+        std::cout << std::left
+                  << std::setw(20)
+                  << "CUDA reduce vector dot: "
+                  << std::fixed
+                  << Utils::measure([&cuda_rvx, &cuda_rvy]() {
+                      std::cout << "(" << cuda_rvx.dot(cuda_rvy) << ")" << " ";
+                  })
+                  << "s" << std::endl;
         // std::cout << std::left 
         //           << std::setw(20)
         //           << "C++ matrix mul: "
