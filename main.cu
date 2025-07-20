@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
         Utils::randomize_array(data_x, N*M);
         Utils::randomize_array(data_y, N*M);
 
-        Vector<float> vx(data_x, N*M), vy(data_x, N*M);
+        Vector<float> vx(data_x, N*M), vy(data_y, N*M);
         Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
 
         VectorCuda cuda_vx(vx), cuda_vy(vy);

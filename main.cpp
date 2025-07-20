@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
         Utils::randomize_array(data_x, N*M);
         Utils::randomize_array(data_y, N*M);
 
-        Vector<float> vx(data_x, N*M), vy(data_x, N*M);
+        Vector<float> vx(data_x, N*M), vy(data_y, N*M);
         VectorBLAS vbx(vx), vby(vy);
         VectorCLBlast cl_vx(vx, device), cl_vy(vy, device);
         VectorReductionOpenCL vrx(vx, device);
