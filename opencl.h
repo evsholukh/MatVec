@@ -12,6 +12,13 @@
 class OpenCL {
 
 public:
+
+    static cl::Context defaultContext() {
+        auto device = defaultDevice();
+
+        return cl::Context(device);
+    }
+
     static cl::Platform defaultPlatform() {
         std::vector<cl::Platform> platforms;
         cl::Platform::get(&platforms);
@@ -21,7 +28,8 @@ public:
         return platforms.back();
     }
 
-    static cl::Device defaultDevice(const cl::Platform &platform) {
+    static cl::Device defaultDevice() {
+        auto platform = defaultPlatform();
         std::vector<cl::Device> devices;
         platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
         if (devices.empty()) {
@@ -46,53 +54,76 @@ public:
 };
 
 
-class VectorReductionOpenCL : public Vector<float> {
+class VectorOpenCL {
+
+public:
+    static cl::Device defaultDevice;
+    static cl::Context defaultContext;
+    static cl::CommandQueue defaultQueue;
 
 protected:
     cl::Device _device;
+    cl::Context _context;
+    cl::CommandQueue _queue;
+    cl::Program _program;
+
+    Vector<float> _vec;
+    cl::Buffer _deviceVec;
+
+    size_t _blockSize, _blocksCount, _globalSize;
 
 public:
-    VectorReductionOpenCL(Vector<float> vec, cl::Device device) : Vector<float>(vec), _device(device) { }
+    VectorOpenCL(
+        Vector<float> vec,
+        size_t blockSize = 0,
+        cl::Device device = VectorOpenCL::defaultDevice,
+        cl::Context context = VectorOpenCL::defaultContext,
+        cl::CommandQueue queue = VectorOpenCL::defaultQueue
+    ) : _vec(vec),
+        _device(device),
+        _context(context),
+        _queue(queue) {
 
-    virtual float dot(const Vector<float> &o) const override {
+        if (blockSize == 0) {
+            blockSize = OpenCL::maxGroupSize(device);
+        }
+        _blockSize = blockSize;
+        _blocksCount = (vec.size() + blockSize - 1) / blockSize;
+        _globalSize = _blockSize * _blocksCount;
 
-        const int group_size = OpenCL::maxGroupSize(_device);
-        const int groups_count = (this->size() + group_size - 1) / group_size;
-        const int global_size = group_size*groups_count;
+        _deviceVec = cl::Buffer(_context, CL_MEM_READ_ONLY, _globalSize*sizeof(float));
 
-        cl::Context context(_device);
-        cl::CommandQueue queue(context, _device);
-        cl::Program program(context, kernel);
+        _program = cl::Program(_context, kernel);
+        _program.build();
+    }
 
-        program.build();
+    float dot(const VectorOpenCL &o) const {
+        auto deviceResult = cl::Buffer(_context, CL_MEM_WRITE_ONLY, _blocksCount*sizeof(float));
 
-        cl::Buffer device_a(context, CL_MEM_READ_ONLY, global_size*sizeof(float));
-        cl::Buffer device_b(context, CL_MEM_READ_ONLY, global_size*sizeof(float));
-        cl::Buffer device_res(context, CL_MEM_WRITE_ONLY, groups_count*sizeof(float));
+        _queue.enqueueWriteBuffer(_deviceVec, CL_TRUE, 0, this->_vec.size()*sizeof(float), this->_vec.data());
+        _queue.enqueueWriteBuffer(o._deviceVec, CL_TRUE, 0, o._vec.size()*sizeof(float), o._vec.data());
 
-        queue.enqueueWriteBuffer(device_a, CL_TRUE, 0, this->size()*sizeof(float), this->data());
-        queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, o.size()*sizeof(float), o.data());
+        auto addKernel = cl::Kernel(_program, "float_dot_prod");
 
-        cl::Kernel add_kernel(program, "float_dot_prod");
+        addKernel.setArg(0, _deviceVec);
+        addKernel.setArg(1, o._deviceVec);
+        addKernel.setArg(2, deviceResult);
+        addKernel.setArg(3, _blockSize * sizeof(float), nullptr);
 
-        add_kernel.setArg(0, device_a);
-        add_kernel.setArg(1, device_b);
-        add_kernel.setArg(2, device_res);
-        add_kernel.setArg(3, group_size * sizeof(float), nullptr);
+        auto globalRange = cl::NDRange(_globalSize);
+        auto groupRange = cl::NDRange(_blockSize);
 
-        cl::NDRange global_range(global_size);
-        cl::NDRange group_range(group_size);
+        float *resData = new float[_blocksCount];
 
-        float *res_data = new float[groups_count];
-        Vector<float> vec(res_data, groups_count);
+        _queue.enqueueNDRangeKernel(addKernel, cl::NullRange, globalRange, groupRange);
+        _queue.enqueueReadBuffer(deviceResult, CL_TRUE, 0, _blocksCount * sizeof(float), resData);
 
-        queue.enqueueNDRangeKernel(add_kernel, cl::NullRange, global_range, group_range);
-        queue.enqueueReadBuffer(device_res, CL_TRUE, 0, vec.size() * sizeof(float), vec.data());
+        auto resVec = Vector<float>(resData, _blocksCount);
+        auto result = resVec.sum();
 
-        auto res = vec.sum();
-        delete[] res_data;
+        delete[] resData;
 
-        return res;
+        return result;
     }
 
     const std::string kernel = R"(
@@ -120,38 +151,40 @@ public:
 };
 
 
-class VectorCLBlast : public VectorReductionOpenCL {
+cl::Device VectorOpenCL::defaultDevice = OpenCL::defaultDevice();
+
+cl::Context VectorOpenCL::defaultContext = OpenCL::defaultContext();
+
+cl::CommandQueue VectorOpenCL::defaultQueue = cl::CommandQueue(VectorOpenCL::defaultContext, VectorOpenCL::defaultDevice);
+
+
+class VectorCLBlast : public VectorOpenCL {
 
 public:
-    VectorCLBlast(Vector<float> vec, cl::Device device) : VectorReductionOpenCL(vec, device) { }
 
-    float dot(const Vector<float> &o) const override {
+    VectorCLBlast(Vector<float> vec) : VectorOpenCL(vec) {}
 
-        auto context = cl::Context(_device);
-        auto queue = cl::CommandQueue(context, _device);
+    float dot(const VectorCLBlast &o) const {
         auto event = cl_event{nullptr};
+        auto device_c = cl::Buffer(_context, CL_MEM_WRITE_ONLY, sizeof(float));
 
-        auto device_a = cl::Buffer(context, CL_MEM_READ_WRITE, this->size()*sizeof(float));
-        auto device_b = cl::Buffer(context, CL_MEM_READ_WRITE, o.size()*sizeof(float));
-        auto device_c = cl::Buffer(context, CL_MEM_WRITE_ONLY, sizeof(float));
+        _queue.enqueueWriteBuffer(this->_deviceVec, CL_TRUE, 0, this->_vec.size()*sizeof(float), this->_vec.data());
+        _queue.enqueueWriteBuffer(o._deviceVec, CL_TRUE, 0, o._vec.size()*sizeof(float), o._vec.data());
 
-        queue.enqueueWriteBuffer(device_a, CL_TRUE, 0, this->size()*sizeof(float), this->data());
-        queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, o.size()*sizeof(float), o.data());
-
-        auto queue_plain = queue();
+        auto queue_plain = _queue();
 
         auto status = CLBlastSdot(
-            this->size(), // size
-            device_c(),   // result
-            0,            // offset
-            device_a(),   // x_buffer
-            0,            // x_offset
-            1,            // x_inc
-            device_b(),   // y_buffer
-            0,            // y_offset
-            1,            // y_inc
-            &queue_plain, // queue
-            &event        // event
+            this->_vec.size(),  // size
+            device_c(),         // result
+            0,                  // offset
+            this->_deviceVec(), // x_buffer
+            0,                  // x_offset
+            1,                  // x_inc
+            o._deviceVec(),     // y_buffer
+            0,                  // y_offset
+            1,                  // y_inc
+            &queue_plain,       // queue
+            &event              // event
         );
 
         if (status == CLBlastSuccess) {
@@ -160,7 +193,7 @@ public:
         }
 
         float result = 0.0f;
-        queue.enqueueReadBuffer(device_c, CL_TRUE, 0, sizeof(float), &result);
+        _queue.enqueueReadBuffer(device_c, CL_TRUE, 0, sizeof(float), &result);
 
         return result;
     }
@@ -172,7 +205,7 @@ protected:
     cl::Device _device;
 
 public:
-    MatrixCLBlast(Matrix<float> mat, cl::Device device) : Matrix<float>(mat), _device(device) { }
+    MatrixCLBlast(Matrix<float> mat, cl::Device device = VectorOpenCL::defaultDevice) : Matrix<float>(mat), _device(device) { }
 
     void dot(const Matrix<float> &o, Matrix<float> &r) const {
 

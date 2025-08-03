@@ -15,7 +15,7 @@
 
 int main(int argc, char **argv) {
 
-    size_t N, M;
+    size_t N, M, blockSize;
 
     std::cout << "N: ";
     std::cin >> N;
@@ -23,28 +23,27 @@ int main(int argc, char **argv) {
     std::cout << "M: ";
     std::cin >> M;
 
+    std::cout << "Block size: ";
+    std::cin >> blockSize;
+
     try {
         std::cout << "Creating array (size: " << N*M << ").." << std::endl;
 
-        auto platform = OpenCL::defaultPlatform();
-        auto device = OpenCL::defaultDevice(platform);
-        auto group_size = OpenCL::maxGroupSize(device);
+        float *dataX = Utils::create_array<float>(N*M, blockSize, 0.0001f);
+        float *dataY = Utils::create_array<float>(N*M, blockSize, 0.0001f);
+        float *dataZ = Utils::create_array<float>(N*N, blockSize, 0.0f);
 
-        float *data_x = Utils::create_array<float>(N*M, group_size, 0.0001f);
-        float *data_y = Utils::create_array<float>(N*M, group_size, 0.0001f);
-        float *data_z = Utils::create_array<float>(N*N, group_size, 0.0f);
+        Utils::randomize_array(dataX, N*M);
+        Utils::randomize_array(dataY, N*M);
 
-        Utils::randomize_array(data_x, N*M);
-        Utils::randomize_array(data_y, N*M);
-
-        Vector<float> vx(data_x, N*M), vy(data_y, N*M);
+        Vector<float> vx(dataX, N*M), vy(dataY, N*M);
         VectorBLAS vbx(vx), vby(vy);
-        VectorCLBlast cl_vx(vx, device), cl_vy(vy, device);
-        VectorReductionOpenCL vrx(vx, device);
+        VectorCLBlast cl_vx(vx), cl_vy(vy);
+        VectorOpenCL vrx(vx, blockSize);
 
-        Matrix<float> mx(data_x, N, M), my(data_y, M, N), mz(data_z, N, N);
+        Matrix<float> mx(dataX, N, M), my(dataY, M, N), mz(dataZ, N, N);
         MatrixBLAS mbx(mx), mby(my), mbz(mz);
-        MatrixCLBlast cl_mx(mx, device), cl_my(my, device), cl_mz(mz, device);
+        MatrixCLBlast cl_mx(mx), cl_my(my), cl_mz(mz);
 
         std::cout << "Memory size: " << mx.size_mb() + my.size_mb() + mz.size_mb() << "MB" << std::endl;
 
@@ -114,9 +113,9 @@ int main(int argc, char **argv) {
                 })
                 << "s" << std::endl;
 
-        delete[] data_x;
-        delete[] data_y;
-        delete[] data_z;
+        delete[] dataX;
+        delete[] dataY;
+        delete[] dataZ;
 
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
