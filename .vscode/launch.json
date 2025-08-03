@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\example.exe",
-            "args": [],
+            "args": ["-n", "1000", "-m", "1000", "-b", "64"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [

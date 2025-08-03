@@ -12,19 +12,63 @@
 #include "opencl.h"
 #include "openblas.h"
 
+#include "CLI11.hpp"
+
+
+
+// #include <CLI/CLI.hpp>
+// #include <iostream>
+
+// int main(int argc, char* argv[]) {
+//     CLI::App app{"Example CLI"};
+
+//     bool verbose = false;
+//     std::string filename;
+
+//     app.add_flag("-v,--verbose", verbose, "Enable verbose mode");
+//     app.add_option("-f,--file", filename, "Input file");
+
+//     CLI11_PARSE(app, argc, argv);
+
+//     std::cout << "Verbose: " << (verbose ? "yes" : "no") << "\n";
+//     std::cout << "Filename: " << (filename.empty() ? "not provided" : filename) << "\n";
+// }
+
 
 int main(int argc, char **argv) {
-
+    
     size_t N, M, blockSize;
 
-    std::cout << "N: ";
-    std::cin >> N;
+    CLI::App app{"MatMul"};
+    std::string rows, cols, bs;
+    bool useMatrix;
 
-    std::cout << "M: ";
-    std::cin >> M;
+    app.add_option("-n,--rows", rows, "rows");
+    app.add_option("-m,--cols", cols, "cols");
+    app.add_option("-b,--block-size", bs, "block size");
 
-    std::cout << "Block size: ";
-    std::cin >> blockSize;
+    app.add_flag("--matrix", useMatrix, "use matrix");
+
+    CLI11_PARSE(app, argc, argv);
+
+    if (rows.empty()) {
+        std::cout << "N: ";
+        std::cin >> N;
+    } else {
+        N = std::atoi(rows.c_str());
+    }
+    if (cols.empty()) {
+        std::cout << "M: ";
+        std::cin >> M;
+    } else {
+        M = std::atoi(cols.c_str());
+    }
+    if (bs.empty()) {
+        std::cout << "Block Size: ";
+        std::cin >> blockSize;
+    } else {
+        blockSize = std::atoi(bs.c_str());
+    }
 
     try {
         std::cout << "Creating array (size: " << N*M << ").." << std::endl;
@@ -83,35 +127,37 @@ int main(int argc, char **argv) {
                 })
                 << "s" << std::endl;
 
-        std::cout << std::left
-                << std::setw(20)
-                << "C++ matrix mul: "
-                << std::fixed
-                << Utils::measure([&mx, &my, &mz]() {
-                    mx.dot(my, mz);
-                    std::cout << "(" << mz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
-
-        std::cout << std::left 
-                << std::setw(20)
-                << "OpenBLAS matrix mul: "
-                << std::fixed
-                << Utils::measure([&mbx, &mby, &mbz]() {
-                    mbx.dot(mby, mbz);
-                    std::cout << "(" << mbz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
-
-        std::cout << std::left
-                << std::setw(20)
-                << "clBLASt matrix mul: "
-                << std::fixed
-                << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
-                    cl_mx.dot(cl_my, cl_mz);
-                    std::cout << "(" << cl_mz.sum() << ")" << " ";
-                })
-                << "s" << std::endl;
+        if (useMatrix) {
+            std::cout << std::left
+                    << std::setw(20)
+                    << "C++ matrix mul: "
+                    << std::fixed
+                    << Utils::measure([&mx, &my, &mz]() {
+                        mx.dot(my, mz);
+                        std::cout << "(" << mz.sum() << ")" << " ";
+                    })
+                    << "s" << std::endl;
+    
+            std::cout << std::left 
+                    << std::setw(20)
+                    << "OpenBLAS matrix mul: "
+                    << std::fixed
+                    << Utils::measure([&mbx, &mby, &mbz]() {
+                        mbx.dot(mby, mbz);
+                        std::cout << "(" << mbz.sum() << ")" << " ";
+                    })
+                    << "s" << std::endl;
+    
+            std::cout << std::left
+                    << std::setw(20)
+                    << "clBLASt matrix mul: "
+                    << std::fixed
+                    << Utils::measure([&cl_mx, &cl_my, &cl_mz]() {
+                        cl_mx.dot(cl_my, cl_mz);
+                        std::cout << "(" << cl_mz.sum() << ")" << " ";
+                    })
+                    << "s" << std::endl;
+                }
 
         delete[] dataX;
         delete[] dataY;
