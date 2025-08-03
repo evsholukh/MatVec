@@ -15,26 +15,6 @@
 #include "CLI11.hpp"
 
 
-
-// #include <CLI/CLI.hpp>
-// #include <iostream>
-
-// int main(int argc, char* argv[]) {
-//     CLI::App app{"Example CLI"};
-
-//     bool verbose = false;
-//     std::string filename;
-
-//     app.add_flag("-v,--verbose", verbose, "Enable verbose mode");
-//     app.add_option("-f,--file", filename, "Input file");
-
-//     CLI11_PARSE(app, argc, argv);
-
-//     std::cout << "Verbose: " << (verbose ? "yes" : "no") << "\n";
-//     std::cout << "Filename: " << (filename.empty() ? "not provided" : filename) << "\n";
-// }
-
-
 int main(int argc, char **argv) {
     
     size_t N, M, blockSize;
