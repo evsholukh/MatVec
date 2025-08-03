@@ -6,7 +6,7 @@
             "command": "g++.exe",
             "args": [
                 "-g", "${workspaceFolder}\\main.cpp",
-                "-o", "${workspaceFolder}\\example.exe",
+                "-o", "${workspaceFolder}\\matmul.exe",
 
                 "-I", "${workspaceFolder}",
                 "-I", "D:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
