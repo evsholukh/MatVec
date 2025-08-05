@@ -18,66 +18,63 @@
 int main(int argc, char **argv) {
 
     CLI::App app{"MatMul"};
-    std::string rows, cols, bs;
+    std::string n;
 
-    app.add_option("-n,--rows", rows, "rows");
-    app.add_option("-m,--cols", cols, "cols");
-    app.add_option("-b,--block-size", bs, "block size");
+    app.add_option("-n,--size", n, "size");
 
     CLI11_PARSE(app, argc, argv);
-    size_t N, M, blockSize;
+    size_t N, blockSize = 1024;
 
-    if (rows.empty()) {
+    if (n.empty()) {
         std::cerr << "N: ";
         std::cin >> N;
     } else {
-        N = std::atoi(rows.c_str());
+        N = std::atoi(n.c_str());
     }
-    if (cols.empty()) {
-        std::cerr << "M: ";
-        std::cin >> M;
-    } else {
-        M = std::atoi(cols.c_str());
-    }
-    if (bs.empty()) {
-        std::cerr << "Block Size: ";
-        std::cin >> blockSize;
-    } else {
-        blockSize = std::atoi(bs.c_str());
-    }
+    size_t blocks = N / blockSize;
 
     try {
-        std::cerr << "Creating array (size: " << N*M << ").." << std::endl;
+        std::cerr << "Creating array (size: " << N << ").." << std::endl;
 
-        auto dataX = Utils::create_array<float>(N*M, blockSize, 0.0001f);
-        auto dataY = Utils::create_array<float>(N*M, blockSize, 0.0001f);
+        auto dataX = Utils::create_array<float>(N, blockSize, 0.0001f);
+        auto dataY = Utils::create_array<float>(N, blockSize, 0.0001f);
 
-        Utils::randomize_array(dataX, N*M);
-        Utils::randomize_array(dataY, N*M);
+        Utils::randomize_array(dataX, N);
+        Utils::randomize_array(dataY, N);
 
-        auto vx = Vector<float>(dataX, N*M);
-        auto vy = Vector<float>(dataY, N*M);
-        auto vbx = VectorBLAS(vx); 
-        auto vby = VectorBLAS(vy);
-        auto cl_vx = VectorCLBlast(vx);
-        auto cl_vy = VectorCLBlast(vy);
-        auto vrx = VectorOpenCL(vx, blockSize);
+        auto vx = Vector<float>(dataX, N);
+        auto vy = Vector<float>(dataY, N);
 
         std::cerr << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
-        printf("[");
         auto value = 0.0f;
-        auto duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
-        printf("{\"duration\": %f, \"value\": %f, \"runtime\": \"%s\"},\n", duration, value, "C++");
+        auto duration = 0.0f;
+        printf("[");
+        {
+            duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, N, 1, "C++");
+        }
+        {
+            auto vbx = VectorBLAS(vx); 
+            auto vby = VectorBLAS(vy);
 
-        duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
-        printf("{\"duration\": %f, \"value\": %f, \"runtime\": \"%s\"},\n", duration, value, "OpenBLAS");
-
-        duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
-        printf("{\"duration\": %f, \"value\": %f, \"runtime\": \"%s\"},\n", duration, value, "clBLASt");
-    
-        duration = Utils::measure([&vrx, &vy, &value]() { value = vrx.dot(vy); });
-        printf("{\"duration\": %f, \"value\": %f, \"runtime\": \"%s\"}", duration, value, "OpenCL Reduction");
+            duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, N, 1, "OpenBLAS");
+        }
+        {
+            for (size_t i = 2; i <= 1024; i *= 2) {
+                auto vrx = VectorOpenCL(vx, i);
+                auto vry = VectorOpenCL(vy, i);
+                duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
+                printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, i, N / i, "OpenCL Reduction");
+            }
+        }
+        {
+            auto cl_vx = VectorCLBlast(vx);
+            auto cl_vy = VectorCLBlast(vy);
+            duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"}", duration, value, N, 1, "clBLASt");
+        }
         printf("]");
 
         delete[] dataX;
