@@ -5,7 +5,8 @@ import sys
 
 total = []
 
-blocks_count = [j for j in range(1000, 100000, 1000)]
+step = 10_000
+blocks_count = [j for j in range(step, 500000, step)]
 block_sizes = [2**j for j in range(2, 11)]
 num_elemets = [u*v for u, v in zip(block_sizes, blocks_count)]
 

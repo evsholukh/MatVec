@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
             auto vrx = VectorOpenCL(vx, blockSize);
             auto vry = VectorOpenCL(vy, blockSize);
             duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenCL Reducti, deviceName.c_str(o)n");
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenCL Reduction", deviceName.c_str());
         }
         {
             auto cl_vx = VectorCLBlast(vx);
