@@ -100,9 +100,15 @@ public:
 __global__ void reduceDotKernel(const float* x, const float* y, float *r, int n) {
     extern __shared__ float sdata[];
     int tid = threadIdx.x;
-    int i = blockIdx.x * blockDim.x + tid;
+    int idx = blockIdx.x * blockDim.x + tid;
+    int stride = blockDim.x * gridDim.x;
 
-    sdata[tid] = (i < n) ? x[i]*y[i] : 0;
+    float sum = 0.0f;
+    for (int i = idx; i < n; i += stride) {
+        sum += x[i] * y[i];
+    }
+
+    sdata[tid] = sum;
     __syncthreads();
 
     for (int s = blockDim.x / 2; s > 0; s >>= 1) {
@@ -118,8 +124,12 @@ __global__ void reduceDotKernel(const float* x, const float* y, float *r, int n)
 
 class VectorReduceCuda : public Vector<float> {
 
+protected:
+    size_t blockSize, gridSize;
+
 public:
-    VectorReduceCuda(Vector<float> vec) : Vector<float>(vec) { }
+    VectorReduceCuda(Vector<float> vec, size_t blockSize = 1024, size_t gridSize = 512)
+        : Vector<float>(vec), blockSize(blockSize), gridSize(gridSize) { }
 
     float dot(const Vector<float> &o) const override {
         float *d_x, *d_y, *d_r;
@@ -128,20 +138,18 @@ public:
         CHECK_CUDA(cudaMalloc(&d_y, o.size() * sizeof(float)));
 
         CHECK_CUDA(cudaMemcpy(d_x, this->data(), this->size() * sizeof(float), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_y, o.data(), this->size() * sizeof(float), cudaMemcpyHostToDevice));
+        CHECK_CUDA(cudaMemcpy(d_y, o.data(), o.size() * sizeof(float), cudaMemcpyHostToDevice));
 
-        const int threadsPerBlock = 1024;
-        const int blocksPerGrid = (this->size() + threadsPerBlock - 1) / threadsPerBlock;
-        const size_t sharedMemSize = threadsPerBlock * sizeof(float);
+        const size_t sharedMemSize = blockSize * sizeof(float);
 
-        CHECK_CUDA(cudaMalloc(&d_r, blocksPerGrid * sizeof(float)));
+        CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(float)));
 
-        reduceDotKernel<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_x, d_y, d_r, this->size());
+        reduceDotKernel<<<gridSize, blockSize, sharedMemSize>>>(d_x, d_y, d_r, this->size());
 
-        float *res_data = new float[blocksPerGrid];
-        Vector<float> vec(res_data, blocksPerGrid);
+        float *res_data = new float[gridSize];
+        Vector<float> vec(res_data, gridSize);
 
-        cudaMemcpy(res_data, d_r, blocksPerGrid * sizeof(float), cudaMemcpyDeviceToHost);
+        cudaMemcpy(res_data, d_r, gridSize * sizeof(float), cudaMemcpyDeviceToHost);
 
         auto res = vec.sum();
         delete[] res_data;
