@@ -18,12 +18,17 @@
 int main(int argc, char **argv) {
 
     CLI::App app{"MatMul"};
-    std::string n;
+    std::string n, bs;
 
-    app.add_option("-n,--size", n, "size");
+    app.add_option("-n,--count", n, "blocks");
+    app.add_option("-b,--block-size", bs, "block size");
 
     CLI11_PARSE(app, argc, argv);
-    size_t N, blockSize = 1024;
+
+    auto device = OpenCL::defaultDevice();
+    auto deviceName = OpenCL::deviceName(device);
+
+    size_t N = 1, blockSize = OpenCL::maxGroupSize(device);
 
     if (n.empty()) {
         std::cerr << "N: ";
@@ -31,19 +36,21 @@ int main(int argc, char **argv) {
     } else {
         N = std::atoi(n.c_str());
     }
-    size_t blocks = N / blockSize;
-
+    if (!bs.empty()) {
+        blockSize = std::atoi(bs.c_str());
+    }
+    auto size = N * blockSize;
     try {
-        std::cerr << "Creating array (size: " << N << ").." << std::endl;
+        std::cerr << "Creating array (size: " << size << ").." << std::endl;
 
-        auto dataX = Utils::create_array<float>(N, blockSize, 0.0001f);
-        auto dataY = Utils::create_array<float>(N, blockSize, 0.0001f);
+        auto dataX = Utils::create_array<float>(size, blockSize, 0.0001f);
+        auto dataY = Utils::create_array<float>(size, blockSize, 0.0001f);
 
-        Utils::randomize_array(dataX, N);
-        Utils::randomize_array(dataY, N);
+        Utils::randomize_array(dataX, size);
+        Utils::randomize_array(dataY, size);
 
-        auto vx = Vector<float>(dataX, N);
-        auto vy = Vector<float>(dataY, N);
+        auto vx = Vector<float>(dataX, size);
+        auto vy = Vector<float>(dataY, size);
 
         std::cerr << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
@@ -52,28 +59,26 @@ int main(int argc, char **argv) {
         printf("[");
         {
             duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, N, 1, "C++");
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "C++", deviceName.c_str());
         }
         {
             auto vbx = VectorBLAS(vx); 
             auto vby = VectorBLAS(vy);
 
             duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, N, 1, "OpenBLAS");
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenBLAS", deviceName.c_str());
         }
         {
-            for (size_t i = 2; i <= 1024; i *= 2) {
-                auto vrx = VectorOpenCL(vx, i);
-                auto vry = VectorOpenCL(vy, i);
-                duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-                printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"},\n", duration, value, i, N / i, "OpenCL Reduction");
-            }
+            auto vrx = VectorOpenCL(vx, blockSize);
+            auto vry = VectorOpenCL(vy, blockSize);
+            duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenCL Reducti, deviceName.c_str(o)n");
         }
         {
             auto cl_vx = VectorCLBlast(vx);
             auto cl_vy = VectorCLBlast(vy);
             duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"blocks\": %d, \"runtime\": \"%s\"}", duration, value, N, 1, "clBLASt");
+            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"}", duration, value, blockSize, N, "clBLASt", deviceName.c_str());
         }
         printf("]");
 

@@ -19,6 +19,10 @@ public:
         return cl::Context(device);
     }
 
+    static std::string deviceName(cl::Device device) {
+        return device.getInfo<CL_DEVICE_NAME>();
+    }
+
     static cl::Platform defaultPlatform() {
         std::vector<cl::Platform> platforms;
         cl::Platform::get(&platforms);
