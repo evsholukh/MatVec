@@ -1,0 +1,1091 @@
+[
+  {
+    "size": 10000000,
+    "duration": 0.523555,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.378713,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.286935,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.208837,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.154184,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.130497,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.125189,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.127765,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11761,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111064,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111842,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 1,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.42237,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.283411,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.207562,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.150289,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.13608,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.129048,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.120615,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112127,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115387,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117022,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110513,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 2,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.305851,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.210677,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.150274,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.128292,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.132318,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.120317,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.122174,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118845,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113438,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11389,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.109963,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 4,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.228428,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.163712,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.14492,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.124569,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.130612,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117982,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.109933,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110251,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.124043,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118124,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110855,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 8,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.165575,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.136514,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.133459,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116681,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118308,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.120543,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.107448,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11429,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116693,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.114153,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110936,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 16,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.138485,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.134193,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11756,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11639,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113853,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11878,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115021,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110442,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.114051,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113583,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111296,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 32,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.127713,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117476,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.120194,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111935,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116346,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115932,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.129171,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112168,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110912,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111246,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11511,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.125318,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116539,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116138,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11804,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118535,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.114312,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112224,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112543,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111172,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112188,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118573,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.120354,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117599,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110291,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110156,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.109899,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115162,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112339,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.116131,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112964,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113802,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11225,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.114806,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115156,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112208,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.11097,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117428,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115499,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115211,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.117742,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110631,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111442,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.115255,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112928,
+    "value": 0.0,
+    "block_size": 1,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.118583,
+    "value": 0.0,
+    "block_size": 2,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113731,
+    "value": 0.0,
+    "block_size": 4,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.110288,
+    "value": 0.0,
+    "block_size": 8,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.109582,
+    "value": 0.0,
+    "block_size": 16,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.112347,
+    "value": 0.0,
+    "block_size": 32,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.128383,
+    "value": 0.0,
+    "block_size": 64,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.113253,
+    "value": 0.0,
+    "block_size": 128,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.111932,
+    "value": 0.0,
+    "block_size": 256,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.10983,
+    "value": 0.0,
+    "block_size": 512,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  },
+  {
+    "size": 10000000,
+    "duration": 0.114056,
+    "value": 0.0,
+    "block_size": 1024,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "TODO"
+  }
+]

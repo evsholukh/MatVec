@@ -1,6 +1,6 @@
 @echo off
 
-nvcc main.cu -o cu_example.exe ^
+nvcc main.cu -o matmul_cuda.exe ^
     -I"%CUDA_PATH_V12_4%\include" ^
     -L"%CUDA_PATH_V12_4%\lib\x64" ^
     -lcudart ^
@@ -10,4 +10,4 @@ nvcc main.cu -o cu_example.exe ^
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-cu_example.exe
+matmul_cuda.exe

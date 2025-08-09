@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
     }
-    std::cout << "Exited" << std::endl;
+    std::cerr << "Exited" << std::endl;
 
     return EXIT_SUCCESS;
 }
