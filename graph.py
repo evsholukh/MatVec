@@ -7,7 +7,7 @@ total = []
 
 block_sizes = [2**i for i in range(11)]
 grid_sizes = [2**i for i in range(11)]
-num_elemets = [10**7] #[10**i for i in range(7)]
+num_elemets = [10**8] #[10**i for i in range(7)]
 
 
 pg = tqdm.tqdm(total=len(block_sizes)*len(grid_sizes)*len(num_elemets), file=sys.stderr)
