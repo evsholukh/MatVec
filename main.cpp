@@ -18,28 +18,25 @@
 int main(int argc, char **argv) {
 
     CLI::App app{"MatMul"};
-    std::string n, bs;
+    std::string size_str, blockSize_str, gridSize_str;
 
-    app.add_option("-n,--count", n, "blocks");
-    app.add_option("-b,--block-size", bs, "block size");
+    app.add_option("-s,--size", size_str, "vector size");
+    app.add_option("-b,--block-size", blockSize_str, "block size");
+    app.add_option("-g,--grid-size", gridSize_str, "grid size");
 
     CLI11_PARSE(app, argc, argv);
 
-    auto device = OpenCL::defaultDevice();
-    auto deviceName = OpenCL::deviceName(device);
+    size_t size = 10000000, blockSize = 512, gridSize = 128;
 
-    size_t N = 1, blockSize = OpenCL::maxGroupSize(device);
-
-    if (n.empty()) {
-        std::cerr << "N: ";
-        std::cin >> N;
-    } else {
-        N = std::atoi(n.c_str());
+    if (!size_str.empty()) {
+        size = std::atoi(size_str.c_str());
     }
-    if (!bs.empty()) {
-        blockSize = std::atoi(bs.c_str());
+    if (!blockSize_str.empty()) {
+        blockSize = std::atoi(blockSize_str.c_str());
     }
-    auto size = N * blockSize;
+    if (!gridSize_str.empty()) {
+        gridSize = std::atoi(gridSize_str.c_str());
+    }
     try {
         std::cerr << "Creating array (size: " << size << ").." << std::endl;
 
@@ -54,31 +51,65 @@ int main(int argc, char **argv) {
 
         std::cerr << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
-        auto value = 0.0f;
-        auto duration = 0.0f;
         printf("[");
-        {
-            duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "C++", deviceName.c_str());
+        {   
+            auto value = 0.0f;
+            auto duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
+
+            printf("{\"duration\": %f,"
+                    "\"value\": %f,"
+                    "\"block_size\": %d,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"},\n", duration, value, blockSize, size, "C++", "CPU");
         }
         {
             auto vbx = VectorBLAS(vx); 
             auto vby = VectorBLAS(vy);
+            auto value = 0.0f;
+            auto duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
+            auto device = OpenCL::defaultDevice();
+            auto deviceName = OpenCL::deviceName(device);
 
-            duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenBLAS", deviceName.c_str());
+            printf("{\"duration\": %f,"
+                   "\"value\": %f,"
+                   "\"block_size\": %d,"
+                   "\"grid_size\": %d,"
+                   "\"size\": %d,"
+                   "\"runtime\": \"%s\","
+                   "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenBLAS", "CPU");
         }
         {
-            auto vrx = VectorOpenCL(vx, blockSize);
-            auto vry = VectorOpenCL(vy, blockSize);
-            duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"},\n", duration, value, blockSize, N, "OpenCL Reduction", deviceName.c_str());
+            auto vrx = VectorOpenCL(vx, blockSize, gridSize);
+            auto vry = VectorOpenCL(vy, blockSize, gridSize);
+            auto value = 0.0f;
+            auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
+            auto device = OpenCL::defaultDevice();
+            auto deviceName = OpenCL::deviceName(device);
+
+            printf("{\"duration\": %f,"
+                    "\"value\": %f,"
+                    "\"block_size\": %d,"
+                    "\"grid_size\": %d,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenCL", deviceName.c_str());
         }
         {
             auto cl_vx = VectorCLBlast(vx);
             auto cl_vy = VectorCLBlast(vy);
-            duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
-            printf("{\"duration\": %f, \"value\": %f, \"block_size\": %d, \"count\": %d, \"runtime\": \"%s\", \"device\": \"%s\"}", duration, value, blockSize, N, "clBLASt", deviceName.c_str());
+            auto value = 0.0f;
+            auto duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
+            auto device = OpenCL::defaultDevice();
+            auto deviceName = OpenCL::deviceName(device);
+
+            printf("{\"duration\": %f,"
+                    "\"value\": %f,"
+                    "\"block_size\": %d,"
+                    "\"grid_size\": %d,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"}", duration, value, blockSize, gridSize, size, "clBLASt", deviceName.c_str());
         }
         printf("]");
 

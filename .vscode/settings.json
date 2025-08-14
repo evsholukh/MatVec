@@ -63,7 +63,9 @@
         "mutex": "cpp",
         "semaphore": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "complex": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.default.browse.path": [],
     "python-envs.defaultEnvManager": "ms-python.python:system",
