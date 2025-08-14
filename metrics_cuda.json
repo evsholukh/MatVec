@@ -1,439 +1,7 @@
 [
   {
     "size": 100000000,
-    "duration": 3.676688,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 2.998379,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 2.075491,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 1.314167,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.775366,
-    "value": 0.0,
-    "block_size": 16,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.583521,
-    "value": 0.0,
-    "block_size": 32,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.40945,
-    "value": 0.0,
-    "block_size": 64,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.361999,
-    "value": 0.0,
-    "block_size": 128,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.317539,
-    "value": 0.0,
-    "block_size": 256,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.311384,
-    "value": 0.0,
-    "block_size": 512,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.306277,
-    "value": 0.0,
-    "block_size": 1024,
-    "grid_size": 1,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 2.968538,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 2.071986,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 1.336761,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.737361,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.540944,
-    "value": 0.0,
-    "block_size": 16,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.407079,
-    "value": 0.0,
-    "block_size": 32,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.346527,
-    "value": 0.0,
-    "block_size": 64,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.308991,
-    "value": 0.0,
-    "block_size": 128,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.29093,
-    "value": 0.0,
-    "block_size": 256,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.295191,
-    "value": 0.0,
-    "block_size": 512,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.286678,
-    "value": 0.0,
-    "block_size": 1024,
-    "grid_size": 2,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 2.06145,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 1.315129,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.74802,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.516527,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.398757,
-    "value": 0.0,
-    "block_size": 16,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.340073,
-    "value": 0.0,
-    "block_size": 32,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.326398,
-    "value": 0.0,
-    "block_size": 64,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.295217,
-    "value": 0.0,
-    "block_size": 128,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.285751,
-    "value": 0.0,
-    "block_size": 256,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.296829,
-    "value": 0.0,
-    "block_size": 512,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.293082,
-    "value": 0.0,
-    "block_size": 1024,
-    "grid_size": 4,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 1.311885,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.73,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.511284,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.40997,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.341825,
-    "value": 0.0,
-    "block_size": 16,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.310818,
-    "value": 0.0,
-    "block_size": 32,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.298117,
-    "value": 0.0,
-    "block_size": 64,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.287207,
-    "value": 0.0,
-    "block_size": 128,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.283633,
-    "value": 0.0,
-    "block_size": 256,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.272365,
-    "value": 0.0,
-    "block_size": 512,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.282752,
-    "value": 0.0,
-    "block_size": 1024,
-    "grid_size": 8,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.708125,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 16,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.499583,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 16,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.398325,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 16,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.333843,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 16,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.307062,
+    "duration": 0.424025,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 16,
@@ -442,7 +10,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.297609,
+    "duration": 0.325093,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 16,
@@ -451,7 +19,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.312168,
+    "duration": 0.330832,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 16,
@@ -460,7 +28,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.310754,
+    "duration": 0.311096,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 16,
@@ -469,7 +37,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.281161,
+    "duration": 0.32694,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 16,
@@ -478,7 +46,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.278329,
+    "duration": 0.318722,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 16,
@@ -487,7 +55,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.284122,
+    "duration": 0.308171,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 16,
@@ -496,43 +64,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.541258,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 32,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.439114,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 32,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.374644,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 32,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.352177,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 32,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.322779,
+    "duration": 0.331425,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 32,
@@ -541,7 +73,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.288608,
+    "duration": 0.322132,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 32,
@@ -550,7 +82,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.28438,
+    "duration": 0.319263,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 32,
@@ -559,7 +91,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.31343,
+    "duration": 0.310711,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 32,
@@ -568,7 +100,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.284481,
+    "duration": 0.334729,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 32,
@@ -577,7 +109,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.294855,
+    "duration": 0.309978,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 32,
@@ -586,7 +118,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.288904,
+    "duration": 0.330041,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 32,
@@ -595,43 +127,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.417209,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 64,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.348118,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 64,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.328244,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 64,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.293501,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 64,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.285201,
+    "duration": 0.314965,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 64,
@@ -640,7 +136,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.285686,
+    "duration": 0.3235,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 64,
@@ -649,7 +145,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.293238,
+    "duration": 0.331084,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 64,
@@ -658,7 +154,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.274806,
+    "duration": 0.31308,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 64,
@@ -667,7 +163,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.288129,
+    "duration": 0.31017,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 64,
@@ -676,7 +172,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.278897,
+    "duration": 0.303241,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 64,
@@ -685,7 +181,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.277324,
+    "duration": 0.31915,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 64,
@@ -694,43 +190,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.351894,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 128,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.312048,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 128,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.299241,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 128,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.286605,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 128,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.285792,
+    "duration": 0.329225,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 128,
@@ -739,7 +199,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.283375,
+    "duration": 0.312351,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 128,
@@ -748,7 +208,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.284352,
+    "duration": 0.322239,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 128,
@@ -757,7 +217,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.271958,
+    "duration": 0.30801,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 128,
@@ -766,7 +226,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.275367,
+    "duration": 0.316933,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 128,
@@ -775,7 +235,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.288736,
+    "duration": 0.320593,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 128,
@@ -784,7 +244,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.292105,
+    "duration": 0.305217,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 128,
@@ -793,43 +253,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.322265,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 256,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.296614,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 256,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.305757,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 256,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.277826,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 256,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.272847,
+    "duration": 0.327354,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 256,
@@ -838,7 +262,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.276508,
+    "duration": 0.31068,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 256,
@@ -847,7 +271,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.275556,
+    "duration": 0.323976,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 256,
@@ -856,7 +280,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.285973,
+    "duration": 0.309178,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 256,
@@ -865,7 +289,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.278847,
+    "duration": 0.345945,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 256,
@@ -874,7 +298,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.290618,
+    "duration": 0.303876,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 256,
@@ -883,7 +307,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.281108,
+    "duration": 0.314094,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 256,
@@ -892,43 +316,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.323148,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 512,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.297113,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 512,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.283427,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 512,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.286209,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 512,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.2811,
+    "duration": 0.317285,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 512,
@@ -937,7 +325,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.296743,
+    "duration": 0.32303,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 512,
@@ -946,7 +334,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.2911,
+    "duration": 0.312716,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 512,
@@ -955,7 +343,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.275528,
+    "duration": 0.336564,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 512,
@@ -964,7 +352,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.283045,
+    "duration": 0.342757,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 512,
@@ -973,7 +361,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.292807,
+    "duration": 0.352845,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 512,
@@ -982,7 +370,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.278954,
+    "duration": 0.315865,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 512,
@@ -991,43 +379,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.299932,
-    "value": 0.0,
-    "block_size": 1,
-    "grid_size": 1024,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.29426,
-    "value": 0.0,
-    "block_size": 2,
-    "grid_size": 1024,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.286414,
-    "value": 0.0,
-    "block_size": 4,
-    "grid_size": 1024,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.277301,
-    "value": 0.0,
-    "block_size": 8,
-    "grid_size": 1024,
-    "runtime": "CUDA Reduction",
-    "device": "TODO"
-  },
-  {
-    "size": 100000000,
-    "duration": 0.282428,
+    "duration": 0.345239,
     "value": 0.0,
     "block_size": 16,
     "grid_size": 1024,
@@ -1036,7 +388,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.274541,
+    "duration": 0.331818,
     "value": 0.0,
     "block_size": 32,
     "grid_size": 1024,
@@ -1045,7 +397,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.282478,
+    "duration": 0.34179,
     "value": 0.0,
     "block_size": 64,
     "grid_size": 1024,
@@ -1054,7 +406,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.293947,
+    "duration": 0.337118,
     "value": 0.0,
     "block_size": 128,
     "grid_size": 1024,
@@ -1063,7 +415,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.284114,
+    "duration": 0.416974,
     "value": 0.0,
     "block_size": 256,
     "grid_size": 1024,
@@ -1072,7 +424,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.274084,
+    "duration": 0.322019,
     "value": 0.0,
     "block_size": 512,
     "grid_size": 1024,
@@ -1081,7 +433,7 @@
   },
   {
     "size": 100000000,
-    "duration": 0.274478,
+    "duration": 0.339723,
     "value": 0.0,
     "block_size": 1024,
     "grid_size": 1024,

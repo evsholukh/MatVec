@@ -16,7 +16,7 @@ for gs in grid_sizes:
     for bs in block_sizes:
         for sz in num_elemets:
             try:
-                args = ["matmul.exe", "-s", str(sz), "-b", str(bs), "-g", str(gs)]
+                args = ["matmul_cuda.exe", "-s", str(sz), "-b", str(bs), "-g", str(gs)]
                 print(args, file=sys.stderr)
 
                 output = subprocess.check_output(args, timeout=120.0, start_new_session=True)
