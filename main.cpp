@@ -40,8 +40,8 @@ int main(int argc, char **argv) {
     try {
         std::cerr << "Creating array (size: " << size << ").." << std::endl;
 
-        auto dataX = Utils::create_array<float>(size, blockSize, 0.0001f);
-        auto dataY = Utils::create_array<float>(size, blockSize, 0.0001f);
+        auto dataX = Utils::create_array<float>(size, 1, 0.0001f);
+        auto dataY = Utils::create_array<float>(size, 1, 0.0001f);
 
         Utils::randomize_array(dataX, size);
         Utils::randomize_array(dataY, size);
@@ -58,10 +58,9 @@ int main(int argc, char **argv) {
 
             printf("{\"duration\": %f,"
                     "\"value\": %f,"
-                    "\"block_size\": %d,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, blockSize, size, "C++", "CPU");
+                    "\"device\": \"%s\"},\n", duration, value, size, "C++", "CPU");
         }
         {
             auto vbx = VectorBLAS(vx); 
@@ -72,12 +71,10 @@ int main(int argc, char **argv) {
             auto deviceName = OpenCL::deviceName(device);
 
             printf("{\"duration\": %f,"
-                   "\"value\": %f,"
-                   "\"block_size\": %d,"
-                   "\"grid_size\": %d,"
-                   "\"size\": %d,"
-                   "\"runtime\": \"%s\","
-                   "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenBLAS", "CPU");
+                    "\"value\": %f,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"},\n", duration, value, size, "OpenBLAS", "CPU");
         }
         {
             auto vrx = VectorOpenCL(vx, blockSize, gridSize);
@@ -93,7 +90,7 @@ int main(int argc, char **argv) {
                     "\"grid_size\": %d,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenCL", deviceName.c_str());
+                    "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenCL Reduction", deviceName.c_str());
         }
         {
             auto cl_vx = VectorCLBlast(vx);
@@ -105,11 +102,9 @@ int main(int argc, char **argv) {
 
             printf("{\"duration\": %f,"
                     "\"value\": %f,"
-                    "\"block_size\": %d,"
-                    "\"grid_size\": %d,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, blockSize, gridSize, size, "clBLASt", deviceName.c_str());
+                    "\"device\": \"%s\"}", duration, value, size, "clBLASt", deviceName.c_str());
         }
         printf("]");
 
