@@ -7,7 +7,3 @@ nvcc main.cu -o matmul_cuda.exe ^
     -lcublas ^
     -allow-unsupported-compiler ^
     -std=c++17
-
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-matmul_cuda.exe

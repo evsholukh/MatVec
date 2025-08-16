@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 10000000, gridSize = 128, blockSize = 512;
+    size_t size = 800000000, gridSize = 1024, blockSize = 1024;
 
     if (!size_str.empty()) {
         size = std::atoi(size_str.c_str());
@@ -35,7 +35,6 @@ int main(int argc, char **argv) {
     if (!gridSize_str.empty()) {
         gridSize = std::atoi(gridSize_str.c_str());
     }
-
     try {
         std::cerr << "Creating array (size: " << size << ")" << std::endl;
 
@@ -51,19 +50,23 @@ int main(int argc, char **argv) {
         std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
         printf("[");
-        {
-            auto cuda_rvx = VectorReduceCuda(vx, blockSize, gridSize);
-            auto cuda_rvy = VectorReduceCuda(vy, blockSize, gridSize);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&cuda_rvx, &cuda_rvy, &value]() { value = cuda_rvx.dot(cuda_rvy); });
-            printf("{\"duration\": %f,"
-                    "\"size\": %zd,"
-                    "\"value\": %f,"
-                    "\"block_size\": %zd,"
-                    "\"grid_size\": %zd,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n",
-                duration, size, value, blockSize, gridSize, "CUDA Reduction", "GPU");
+        for (size_t i = 64; i <= blockSize; i *= 2) {
+            for (size_t j = 1024; j <= gridSize; j *= 2) {
+                {
+                    auto cuda_rvx = VectorReduceCuda(vx, i, j);
+                    auto cuda_rvy = VectorReduceCuda(vy, i, j);
+                    auto value = 0.0f;
+                    auto duration = Utils::measure([&cuda_rvx, &cuda_rvy, &value]() { value = cuda_rvx.dot(cuda_rvy); });
+                    printf("{\"duration\": %f,"
+                            "\"size\": %zd,"
+                            "\"value\": %f,"
+                            "\"block_size\": %zd,"
+                            "\"grid_size\": %zd,"
+                            "\"runtime\": \"%s\","
+                            "\"device\": \"%s\"},\n",
+                        duration, size, value, i, j, "CUDA Reduction", "GPU");
+                }
+            }
         }
         {
             auto cuda_vx = VectorCuda(vx);

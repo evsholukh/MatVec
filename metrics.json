@@ -1,1468 +1,930 @@
 [
   {
-    "duration": 0.255482,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046819,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.259722,
-    "value": 0.333296,
-    "block_size": 16,
-    "grid_size": 10000,
+    "duration": 0.305003,
+    "value": 0.333295,
+    "block_size": 64,
+    "grid_size": 1024,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.173046,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.29923,
-    "size": 100000000,
-    "value": 0.333296,
-    "block_size": 16,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.189817,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256341,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046373,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.272961,
-    "value": 0.333296,
-    "block_size": 32,
-    "grid_size": 10000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.173722,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.314546,
-    "size": 100000000,
-    "value": 0.333296,
-    "block_size": 32,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.183787,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.255948,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046378,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.276495,
+    "duration": 0.166339,
     "value": 0.333296,
     "block_size": 64,
-    "grid_size": 10000,
+    "grid_size": 2048,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.173741,
+    "duration": 0.159741,
     "value": 0.333295,
+    "block_size": 64,
+    "grid_size": 4096,
     "size": 100000000,
-    "runtime": "clBLASt",
+    "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.314409,
-    "size": 100000000,
+    "duration": 0.160327,
     "value": 0.333296,
     "block_size": 64,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.187074,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.254421,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046454,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.37117,
-    "value": 0.333297,
-    "block_size": 128,
-    "grid_size": 10000,
+    "grid_size": 8192,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.174441,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.299613,
-    "size": 100000000,
-    "value": 0.333297,
-    "block_size": 128,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.182302,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256095,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046394,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.276994,
-    "value": 0.333295,
-    "block_size": 256,
-    "grid_size": 10000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.173063,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.294845,
-    "size": 100000000,
-    "value": 0.333295,
-    "block_size": 256,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.188649,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256635,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046497,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.367734,
-    "value": 0.333295,
-    "block_size": 512,
-    "grid_size": 10000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.173872,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.317102,
-    "size": 100000000,
-    "value": 0.333295,
-    "block_size": 512,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.188425,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.253865,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046511,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.27568,
-    "value": 0.333295,
-    "block_size": 1024,
-    "grid_size": 10000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.173227,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.303969,
-    "size": 100000000,
-    "value": 0.333295,
-    "block_size": 1024,
-    "grid_size": 10000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.188592,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.254152,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046438,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.354728,
-    "value": 0.333295,
-    "block_size": 16,
-    "grid_size": 100000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.174582,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.305909,
-    "size": 100000000,
-    "value": 0.333295,
-    "block_size": 16,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.182786,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256636,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046391,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.250031,
-    "value": 0.333297,
-    "block_size": 32,
-    "grid_size": 100000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.172972,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.310405,
-    "size": 100000000,
-    "value": 0.333297,
-    "block_size": 32,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.18847,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.253985,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046466,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.310368,
+    "duration": 0.159115,
     "value": 0.333296,
     "block_size": 64,
-    "grid_size": 100000,
+    "grid_size": 16384,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.174093,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.345417,
-    "size": 100000000,
-    "value": 0.333296,
-    "block_size": 64,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.221953,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.270939,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.050948,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.260641,
-    "value": 0.333297,
-    "block_size": 128,
-    "grid_size": 100000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.194693,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.349444,
-    "size": 100000000,
-    "value": 0.333297,
-    "block_size": 128,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.209742,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.271653,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.059778,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.312869,
+    "duration": 0.158836,
     "value": 0.333294,
-    "block_size": 256,
-    "grid_size": 100000,
+    "block_size": 64,
+    "grid_size": 32768,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.189955,
-    "value": 0.333295,
+    "duration": 0.159977,
+    "value": 0.333297,
+    "block_size": 64,
+    "grid_size": 65536,
     "size": 100000000,
-    "runtime": "clBLASt",
+    "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.329221,
+    "duration": 0.160144,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 131072,
     "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160098,
+    "value": 0.33329,
+    "block_size": 64,
+    "grid_size": 262144,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.163411,
+    "value": 0.333303,
+    "block_size": 64,
+    "grid_size": 524288,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.172492,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 1024,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158916,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 2048,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.159249,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 4096,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158441,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 8192,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158621,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 16384,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160271,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 32768,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158733,
     "value": 0.333294,
-    "block_size": 256,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
+    "block_size": 128,
+    "grid_size": 65536,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.19735,
+    "duration": 0.15879,
+    "value": 0.333293,
+    "block_size": 128,
+    "grid_size": 131072,
     "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160286,
+    "value": 0.333297,
+    "block_size": 128,
+    "grid_size": 262144,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160829,
+    "value": 0.333299,
+    "block_size": 128,
+    "grid_size": 524288,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.15779,
     "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.267138,
-    "value": 0.245709,
+    "block_size": 256,
+    "grid_size": 1024,
     "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.049676,
-    "value": 0.332568,
+    "duration": 0.158993,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 2048,
     "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.365439,
+    "duration": 0.158337,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 4096,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158101,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 8192,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.157943,
+    "value": 0.333295,
+    "block_size": 256,
+    "grid_size": 16384,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158641,
+    "value": 0.333297,
+    "block_size": 256,
+    "grid_size": 32768,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158709,
+    "value": 0.333297,
+    "block_size": 256,
+    "grid_size": 65536,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.159273,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 131072,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160812,
+    "value": 0.333293,
+    "block_size": 256,
+    "grid_size": 262144,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.164764,
+    "value": 0.333295,
+    "block_size": 256,
+    "grid_size": 524288,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158635,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 1024,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158963,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 2048,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158148,
     "value": 0.333295,
     "block_size": 512,
-    "grid_size": 100000,
+    "grid_size": 4096,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.179888,
-    "value": 0.333295,
+    "duration": 0.159059,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 8192,
     "size": 100000000,
-    "runtime": "clBLASt",
+    "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.32276,
+    "duration": 0.162579,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 16384,
     "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158772,
     "value": 0.333295,
     "block_size": 512,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.219713,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.26878,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.051628,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.359351,
-    "value": 0.333297,
-    "block_size": 1024,
-    "grid_size": 100000,
+    "grid_size": 32768,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.189471,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.350059,
-    "size": 100000000,
-    "value": 0.333297,
-    "block_size": 1024,
-    "grid_size": 100000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.200198,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.27064,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.047785,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.309648,
-    "value": 0.333284,
-    "block_size": 16,
-    "grid_size": 1000000,
+    "duration": 0.159359,
+    "value": 0.333298,
+    "block_size": 512,
+    "grid_size": 65536,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.183286,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.315363,
-    "size": 100000000,
-    "value": 0.333284,
-    "block_size": 16,
-    "grid_size": 1000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.205934,
-    "size": 100000000,
+    "duration": 0.160412,
     "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.255445,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046451,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.288086,
-    "value": 0.333302,
-    "block_size": 32,
-    "grid_size": 1000000,
+    "block_size": 512,
+    "grid_size": 131072,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.173126,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.329835,
-    "size": 100000000,
-    "value": 0.333302,
-    "block_size": 32,
-    "grid_size": 1000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.193235,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.257206,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046369,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.279181,
-    "value": 0.333296,
-    "block_size": 64,
-    "grid_size": 1000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.174295,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.309999,
-    "size": 100000000,
-    "value": 0.333296,
-    "block_size": 64,
-    "grid_size": 1000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.188937,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.257347,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046237,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.272382,
-    "value": 0.333289,
-    "block_size": 128,
-    "grid_size": 1000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.175934,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.323032,
-    "size": 100000000,
-    "value": 0.333289,
-    "block_size": 128,
-    "grid_size": 1000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.182107,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.25697,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046315,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.316923,
-    "value": 0.333295,
-    "block_size": 256,
-    "grid_size": 1000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.176842,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.323146,
-    "size": 100000000,
-    "value": 0.333295,
-    "block_size": 256,
-    "grid_size": 1000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.189979,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256927,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046374,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.324263,
+    "duration": 0.163335,
     "value": 0.333299,
     "block_size": 512,
-    "grid_size": 1000000,
+    "grid_size": 262144,
     "size": 100000000,
     "runtime": "OpenCL Reduction",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.172995,
+    "duration": 0.170568,
+    "value": 0.333299,
+    "block_size": 512,
+    "grid_size": 524288,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158343,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 1024,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.15842,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 2048,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158438,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 4096,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.158163,
+    "value": 0.333295,
+    "block_size": 1024,
+    "grid_size": 8192,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.157794,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 16384,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.160402,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 32768,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.161338,
+    "value": 0.333295,
+    "block_size": 1024,
+    "grid_size": 65536,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.164835,
+    "value": 0.333297,
+    "block_size": 1024,
+    "grid_size": 131072,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.17394,
+    "value": 0.333297,
+    "block_size": 1024,
+    "grid_size": 262144,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.189219,
+    "value": 0.333297,
+    "block_size": 1024,
+    "grid_size": 524288,
+    "size": 100000000,
+    "runtime": "OpenCL Reduction",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  {
+    "duration": 0.261163,
+    "value": 0.245709,
+    "size": 100000000,
+    "runtime": "C++",
+    "device": "CPU"
+  },
+  {
+    "duration": 0.049739,
+    "value": 0.332568,
+    "size": 100000000,
+    "runtime": "OpenBLAS",
+    "device": "CPU"
+  },
+  {
+    "duration": 0.177107,
     "value": 0.333295,
     "size": 100000000,
     "runtime": "clBLASt",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 0.342067,
+    "duration": 0.281018,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 64,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.167539,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 2048,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161299,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 64,
+    "grid_size": 4096,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.162813,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 8192,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161037,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 16384,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.163769,
+    "size": 100000000,
+    "value": 0.333294,
+    "block_size": 64,
+    "grid_size": 32768,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160763,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 65536,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.178414,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 64,
+    "grid_size": 131072,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.165812,
+    "size": 100000000,
+    "value": 0.33329,
+    "block_size": 64,
+    "grid_size": 262144,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.171601,
+    "size": 100000000,
+    "value": 0.333303,
+    "block_size": 64,
+    "grid_size": 524288,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.159987,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160089,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 2048,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160366,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 4096,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.168472,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 8192,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.18786,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 128,
+    "grid_size": 16384,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.164934,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 128,
+    "grid_size": 32768,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160636,
+    "size": 100000000,
+    "value": 0.333294,
+    "block_size": 128,
+    "grid_size": 65536,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160818,
+    "size": 100000000,
+    "value": 0.333293,
+    "block_size": 128,
+    "grid_size": 131072,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160603,
+    "size": 100000000,
+    "value": 0.333297,
+    "block_size": 128,
+    "grid_size": 262144,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.162414,
+    "size": 100000000,
+    "value": 0.333299,
+    "block_size": 128,
+    "grid_size": 524288,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160228,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160933,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 2048,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.159741,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 4096,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.15965,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 8192,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160971,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 256,
+    "grid_size": 16384,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160929,
+    "size": 100000000,
+    "value": 0.333297,
+    "block_size": 256,
+    "grid_size": 32768,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160057,
+    "size": 100000000,
+    "value": 0.333297,
+    "block_size": 256,
+    "grid_size": 65536,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160942,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 256,
+    "grid_size": 131072,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.162412,
+    "size": 100000000,
+    "value": 0.333293,
+    "block_size": 256,
+    "grid_size": 262144,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.165562,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 256,
+    "grid_size": 524288,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160658,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160893,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 2048,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.159692,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 512,
+    "grid_size": 4096,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.159843,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 8192,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161697,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 16384,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.16059,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 512,
+    "grid_size": 32768,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161129,
+    "size": 100000000,
+    "value": 0.333298,
+    "block_size": 512,
+    "grid_size": 65536,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161992,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 512,
+    "grid_size": 131072,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.16618,
     "size": 100000000,
     "value": 0.333299,
     "block_size": 512,
-    "grid_size": 1000000,
+    "grid_size": 262144,
     "runtime": "CUDA Reduction",
     "device": "GPU"
   },
   {
-    "duration": 0.188405,
+    "duration": 0.172592,
     "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
+    "value": 0.333299,
+    "block_size": 512,
+    "grid_size": 524288,
+    "runtime": "CUDA Reduction",
     "device": "GPU"
   },
   {
-    "duration": 0.263469,
-    "value": 0.245709,
+    "duration": 0.161517,
     "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 1024,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
   },
   {
-    "duration": 0.046329,
-    "value": 0.332568,
+    "duration": 0.160716,
     "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 2048,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
   },
   {
-    "duration": 0.446074,
+    "duration": 0.160578,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 4096,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.160023,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 1024,
+    "grid_size": 8192,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.162112,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 16384,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.161749,
+    "size": 100000000,
+    "value": 0.333296,
+    "block_size": 1024,
+    "grid_size": 32768,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.163705,
+    "size": 100000000,
+    "value": 0.333295,
+    "block_size": 1024,
+    "grid_size": 65536,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.167552,
+    "size": 100000000,
     "value": 0.333297,
     "block_size": 1024,
-    "grid_size": 1000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
+    "grid_size": 131072,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
   },
   {
-    "duration": 0.173808,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.378584,
+    "duration": 0.176495,
     "size": 100000000,
     "value": 0.333297,
     "block_size": 1024,
-    "grid_size": 1000000,
+    "grid_size": 262144,
     "runtime": "CUDA Reduction",
     "device": "GPU"
   },
   {
-    "duration": 0.187096,
+    "duration": 0.191771,
     "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.257022,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046291,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.324143,
-    "value": 0.333845,
-    "block_size": 16,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.171663,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.36185,
-    "size": 100000000,
-    "value": 0.333845,
-    "block_size": 16,
-    "grid_size": 10000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.184296,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256767,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046359,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.361516,
-    "value": 0.333281,
-    "block_size": 32,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.172136,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.350809,
-    "size": 100000000,
-    "value": 0.333281,
-    "block_size": 32,
-    "grid_size": 10000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.188398,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256831,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046267,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.328739,
-    "value": 0.333292,
-    "block_size": 64,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.170386,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.367262,
-    "size": 100000000,
-    "value": 0.333292,
-    "block_size": 64,
-    "grid_size": 10000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.185148,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.256062,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046523,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.417163,
-    "value": 0.333289,
-    "block_size": 128,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.172072,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.391953,
-    "size": 100000000,
-    "value": 0.333289,
-    "block_size": 128,
-    "grid_size": 10000000,
-    "runtime": "CUDA Reduction",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.185283,
-    "size": 100000000,
-    "value": 0.333296,
-    "runtime": "cuBLAS",
-    "device": "GPU"
-  },
-  {
-    "duration": 0.255865,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046186,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.524486,
-    "value": 0.333295,
-    "block_size": 256,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.169982,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.256924,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046285,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.652577,
-    "value": 0.666596,
-    "block_size": 512,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.169544,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.257844,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046427,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.92683,
-    "value": 0.99987,
+    "value": 0.333297,
     "block_size": 1024,
-    "grid_size": 10000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.16733,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.255308,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046521,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.99555,
-    "value": 0.333845,
-    "block_size": 16,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.169069,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.84699,
-    "size": 100000000,
-    "value": 0.333845,
-    "block_size": 16,
-    "grid_size": 100000000,
+    "grid_size": 524288,
     "runtime": "CUDA Reduction",
     "device": "GPU"
   },
   {
-    "duration": 0.184807,
+    "duration": 0.181969,
     "size": 100000000,
     "value": 0.333296,
     "runtime": "cuBLAS",
     "device": "GPU"
-  },
-  {
-    "duration": 0.254908,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046116,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 1.082007,
-    "value": 0.333281,
-    "block_size": 32,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.167971,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.260579,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046431,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 1.077708,
-    "value": 0.666744,
-    "block_size": 64,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.16809,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.255858,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046148,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 1.248092,
-    "value": 1.151063,
-    "block_size": 128,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.167801,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.258723,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046131,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 1.741187,
-    "value": 1.998321,
-    "block_size": 256,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.167411,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.257159,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046187,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 2.973316,
-    "value": 3.98438,
-    "block_size": 512,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.168205,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.257923,
-    "value": 0.245709,
-    "size": 100000000,
-    "runtime": "C++",
-    "device": "CPU"
-  },
-  {
-    "duration": 0.046402,
-    "value": 0.332568,
-    "size": 100000000,
-    "runtime": "OpenBLAS",
-    "device": "CPU"
-  },
-  {
-    "duration": 6.736412,
-    "value": 7.933875,
-    "block_size": 1024,
-    "grid_size": 100000000,
-    "size": 100000000,
-    "runtime": "OpenCL Reduction",
-    "device": "NVIDIA GeForce RTX 2060"
-  },
-  {
-    "duration": 0.167358,
-    "value": 0.333295,
-    "size": 100000000,
-    "runtime": "clBLASt",
-    "device": "NVIDIA GeForce RTX 2060"
   }
 ]

@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 10000000, blockSize = 512, gridSize = 128;
+    size_t size = 800000000, gridSize = 1024, blockSize = 1024;
 
     if (!size_str.empty()) {
         size = std::atoi(size_str.c_str());
@@ -52,7 +52,27 @@ int main(int argc, char **argv) {
         std::cerr << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
         printf("[");
-        {   
+        for (size_t i = 64; i <= blockSize; i *= 2) {
+            for (size_t j = 1024; j <= gridSize; j *= 2) {
+                {
+                    auto vrx = VectorOpenCL(vx, i, j);
+                    auto vry = VectorOpenCL(vy, i, j);
+                    auto value = 0.0f;
+                    auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
+                    auto device = OpenCL::defaultDevice();
+                    auto deviceName = OpenCL::deviceName(device);
+
+                    printf("{\"duration\": %f,"
+                            "\"value\": %f,"
+                            "\"block_size\": %d,"
+                            "\"grid_size\": %d,"
+                            "\"size\": %d,"
+                            "\"runtime\": \"%s\","
+                            "\"device\": \"%s\"},\n", duration, value, i, j, size, "OpenCL Reduction", deviceName.c_str());
+                }
+            }
+        }
+        {
             auto value = 0.0f;
             auto duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
 
@@ -75,22 +95,6 @@ int main(int argc, char **argv) {
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
                     "\"device\": \"%s\"},\n", duration, value, size, "OpenBLAS", "CPU");
-        }
-        {
-            auto vrx = VectorOpenCL(vx, blockSize, gridSize);
-            auto vry = VectorOpenCL(vy, blockSize, gridSize);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-            auto device = OpenCL::defaultDevice();
-            auto deviceName = OpenCL::deviceName(device);
-
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"block_size\": %d,"
-                    "\"grid_size\": %d,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, blockSize, gridSize, size, "OpenCL Reduction", deviceName.c_str());
         }
         {
             auto cl_vx = VectorCLBlast(vx);
