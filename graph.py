@@ -7,9 +7,9 @@ progs = ["matmul.exe", "matmul_cuda.exe"]
 
 for exe in progs:
     try:
-        args = [exe, "-s", str(10**8), "-b", str(1024), "-g", str(1000000)]
+        args = [exe, "-s", str(10**8), "-b", str(1024), "-g", str(1024*1024)]
         print(*args)
-        output = subprocess.check_output(args, timeout=120.0)
+        output = subprocess.check_output(args, timeout=1200.0)
         data = json.loads(str(output, encoding="utf-8"))
         total += data
     except KeyboardInterrupt:
