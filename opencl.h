@@ -92,12 +92,10 @@ public:
         queue(queue) {
 
         globalSize = blockSize * blocksCount;
-        deviceVec = cl::Buffer(context, CL_MEM_READ_ONLY, vec.size()*sizeof(float));
+        deviceVec = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, vec.size()*sizeof(float), vec.data());
 
         program = cl::Program(context, kernel);
         program.build();
-
-        queue.enqueueWriteBuffer(deviceVec, CL_TRUE, 0, vec.size()*sizeof(float), vec.data());
     }
 
     float dot(const VectorOpenCL &o) const {
@@ -171,7 +169,6 @@ cl::CommandQueue VectorOpenCL::defaultQueue = cl::CommandQueue(VectorOpenCL::def
 class VectorCLBlast : public VectorOpenCL {
 
 public:
-
     VectorCLBlast(Vector<float> vec) : VectorOpenCL(vec) {}
 
     float dot(const VectorCLBlast &o) const {
@@ -180,13 +177,13 @@ public:
         auto queue_plain = queue();
 
         auto status = CLBlastSdot(
-            vec.size(),  // size
+            vec.size(),         // size
             device_c(),         // result
             0,                  // offset
-            deviceVec(), // x_buffer
+            deviceVec(),        // x_buffer
             0,                  // x_offset
             1,                  // x_inc
-            o.deviceVec(),     // y_buffer
+            o.deviceVec(),      // y_buffer
             0,                  // y_offset
             1,                  // y_inc
             &queue_plain,       // queue
@@ -232,22 +229,22 @@ public:
             CLBlastLayoutRowMajor, // layout
             CLBlastTransposeNo,    // a_transpose
             CLBlastTransposeNo,    // b_transpose
-            rows(), // m
-            o.cols(),     // n
-            cols(), // k
-            1.0f,         // alpha
-            device_a(),   // a_buffer
-            0,            // a_offset
-            cols(), // a_ld
-            device_b(),   // b_buffer
-            0,            // b_offset
-            o.cols(),     // b_ld
-            0.0f,         // beta
-            device_c(),   // c_buffer
-            0,            // c_offset
-            o.cols(),     // c_ld
-            &queue_plain, // queue
-            &event        // event
+            rows(),                // m
+            o.cols(),              // n
+            cols(),                // k
+            1.0f,                  // alpha
+            device_a(),            // a_buffer
+            0,                     // a_offset
+            cols(),                // a_ld
+            device_b(),            // b_buffer
+            0,                     // b_offset
+            o.cols(),              // b_ld
+            0.0f,                  // beta
+            device_c(),            // c_buffer
+            0,                     // c_offset
+            o.cols(),              // c_ld
+            &queue_plain,          // queue
+            &event                 // event
         );
 
         if (status == CLBlastSuccess) {
