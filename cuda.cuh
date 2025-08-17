@@ -22,29 +22,29 @@ void handleError(cudaError_t err) {
     }
 }
 
-class VectorCuda : public Vector<float> {
+class VectorCuda {
+
+protected:
+    Vector<float> vec;
+    float *d_x;
 
 public:
-    VectorCuda(Vector<float> vec) : Vector<float>(vec) { }
+    VectorCuda(Vector<float> vec) : vec(vec) {
+        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(float)));
+        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(float), cudaMemcpyHostToDevice));
+    }
 
-    float dot(const Vector<float> &o) const override {
-        float *d_x, *d_y;
+    ~VectorCuda() {
+        cudaFree(d_x);
+    }
 
-        CHECK_CUDA(cudaMalloc(&d_x, this->size() * sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_y, o.size() * sizeof(float)));
-
-        CHECK_CUDA(cudaMemcpy(d_x, this->data(), this->size() * sizeof(float), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_y, o.data(), this->size() * sizeof(float), cudaMemcpyHostToDevice));
-
+    float dot(const VectorCuda &o) const {
         cublasHandle_t handle;
         cublasCreate(&handle);
 
         float result = 0;
-        cublasSdot(handle, this->size(), d_x, 1, d_y, 1, &result);
-
+        cublasSdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
         cublasDestroy(handle);
-        cudaFree(d_x);
-        cudaFree(d_y);
 
         return result;
     }

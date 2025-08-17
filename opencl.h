@@ -96,14 +96,12 @@ public:
 
         program = cl::Program(context, kernel);
         program.build();
+
+        queue.enqueueWriteBuffer(deviceVec, CL_TRUE, 0, vec.size()*sizeof(float), vec.data());
     }
 
     float dot(const VectorOpenCL &o) const {
         auto deviceResult = cl::Buffer(context, CL_MEM_WRITE_ONLY, blocksCount*sizeof(float));
-
-        queue.enqueueWriteBuffer(deviceVec, CL_TRUE, 0, vec.size()*sizeof(float), vec.data());
-        queue.enqueueWriteBuffer(o.deviceVec, CL_TRUE, 0, o.vec.size()*sizeof(float), o.vec.data());
-
         auto addKernel = cl::Kernel(program, "float_dot_prod");
 
         addKernel.setArg(0, deviceVec);
@@ -179,10 +177,6 @@ public:
     float dot(const VectorCLBlast &o) const {
         auto event = cl_event{nullptr};
         auto device_c = cl::Buffer(context, CL_MEM_WRITE_ONLY, sizeof(float));
-
-        queue.enqueueWriteBuffer(deviceVec, CL_TRUE, 0, vec.size()*sizeof(float), vec.data());
-        queue.enqueueWriteBuffer(o.deviceVec, CL_TRUE, 0, o.vec.size()*sizeof(float), o.vec.data());
-
         auto queue_plain = queue();
 
         auto status = CLBlastSdot(
