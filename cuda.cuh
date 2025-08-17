@@ -122,29 +122,37 @@ __global__ void reduceDotKernel(const float* x, const float* y, float *r, int n)
     }
 }
 
-class VectorReduceCuda : public Vector<float> {
+class VectorReduceCuda {
 
 protected:
+    Vector<float> vec;
+    float *d_x;
     size_t blockSize, gridSize;
 
 public:
-    VectorReduceCuda(Vector<float> vec, size_t blockSize = 1024, size_t gridSize = 512)
-        : Vector<float>(vec), blockSize(blockSize), gridSize(gridSize) { }
+    VectorReduceCuda(
+        Vector<float> vec,
+        size_t blockSize = 1024,
+        size_t gridSize = 512
+    ) : vec(vec),
+        blockSize(blockSize),
+        gridSize(gridSize) {
 
-    float dot(const Vector<float> &o) const override {
-        float *d_x, *d_y, *d_r;
+        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(float)));
+        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(float), cudaMemcpyHostToDevice));
+    }
 
-        CHECK_CUDA(cudaMalloc(&d_x, this->size() * sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_y, o.size() * sizeof(float)));
+    ~VectorReduceCuda() {
+        cudaFree(d_x);
+    }
 
-        CHECK_CUDA(cudaMemcpy(d_x, this->data(), this->size() * sizeof(float), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_y, o.data(), o.size() * sizeof(float), cudaMemcpyHostToDevice));
-
+    float dot(const VectorReduceCuda &o) const {
         const size_t sharedMemSize = blockSize * sizeof(float);
 
+        float *d_r;
         CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(float)));
 
-        reduceDotKernel<<<gridSize, blockSize, sharedMemSize>>>(d_x, d_y, d_r, this->size());
+        reduceDotKernel<<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, vec.size());
 
         float *res_data = new float[gridSize];
         Vector<float> vec(res_data, gridSize);
@@ -154,8 +162,6 @@ public:
         auto res = vec.sum();
         delete[] res_data;
 
-        cudaFree(d_x);
-        cudaFree(d_y);
         cudaFree(d_r);
 
         return res;

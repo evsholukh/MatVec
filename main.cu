@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         gridSize = std::atoi(gridSize_str.c_str());
     }
     try {
-        std::cerr << "Creating array (size: " << size << ")" << std::endl;
+        std::cerr << "Creating vector (N: " << size << ")" << std::endl;
 
         auto data_x = Utils::create_array<float>(size, 1, 0.0001f);
         auto data_y = Utils::create_array<float>(size, 1, 0.0001f);

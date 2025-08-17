@@ -1,6 +1,6 @@
 [
   {
-    "duration": 1.770535,
+    "duration": 1.688376,
     "value": 2.66647,
     "block_size": 64,
     "grid_size": 1024,
@@ -9,7 +9,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.40415,
+    "duration": 1.398454,
     "value": 2.666471,
     "block_size": 64,
     "grid_size": 2048,
@@ -18,7 +18,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.44977,
+    "duration": 1.432345,
     "value": 2.666476,
     "block_size": 64,
     "grid_size": 4096,
@@ -27,7 +27,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.571157,
+    "duration": 1.389245,
     "value": 2.666478,
     "block_size": 64,
     "grid_size": 8192,
@@ -36,7 +36,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.437094,
+    "duration": 1.431183,
     "value": 2.666473,
     "block_size": 64,
     "grid_size": 16384,
@@ -45,7 +45,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.433965,
+    "duration": 1.394629,
     "value": 2.666479,
     "block_size": 64,
     "grid_size": 32768,
@@ -54,7 +54,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.43593,
+    "duration": 1.422183,
     "value": 2.666486,
     "block_size": 64,
     "grid_size": 65536,
@@ -63,7 +63,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.405114,
+    "duration": 1.41128,
     "value": 2.666465,
     "block_size": 64,
     "grid_size": 131072,
@@ -72,7 +72,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.437651,
+    "duration": 1.418999,
     "value": 2.666447,
     "block_size": 64,
     "grid_size": 262144,
@@ -81,7 +81,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.390125,
+    "duration": 1.406855,
     "value": 2.666519,
     "block_size": 64,
     "grid_size": 524288,
@@ -90,7 +90,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.439356,
+    "duration": 1.420933,
     "value": 2.668264,
     "block_size": 64,
     "grid_size": 1048576,
@@ -99,7 +99,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.460148,
+    "duration": 1.423105,
     "value": 2.666471,
     "block_size": 128,
     "grid_size": 1024,
@@ -108,7 +108,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.459415,
+    "duration": 1.431015,
     "value": 2.666472,
     "block_size": 128,
     "grid_size": 2048,
@@ -117,7 +117,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.443563,
+    "duration": 1.388304,
     "value": 2.666468,
     "block_size": 128,
     "grid_size": 4096,
@@ -126,7 +126,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.383484,
+    "duration": 1.420522,
     "value": 2.666476,
     "block_size": 128,
     "grid_size": 8192,
@@ -135,7 +135,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.434655,
+    "duration": 1.402869,
     "value": 2.666476,
     "block_size": 128,
     "grid_size": 16384,
@@ -144,7 +144,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.380996,
+    "duration": 1.479129,
     "value": 2.666467,
     "block_size": 128,
     "grid_size": 32768,
@@ -153,7 +153,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.433985,
+    "duration": 1.387893,
     "value": 2.666467,
     "block_size": 128,
     "grid_size": 65536,
@@ -162,7 +162,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.390727,
+    "duration": 1.416581,
     "value": 2.666473,
     "block_size": 128,
     "grid_size": 131072,
@@ -171,7 +171,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.438963,
+    "duration": 1.417558,
     "value": 2.666481,
     "block_size": 128,
     "grid_size": 262144,
@@ -180,7 +180,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.384194,
+    "duration": 1.418602,
     "value": 2.6665,
     "block_size": 128,
     "grid_size": 524288,
@@ -189,7 +189,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.441503,
+    "duration": 1.413296,
     "value": 2.668194,
     "block_size": 128,
     "grid_size": 1048576,
@@ -198,7 +198,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.394317,
+    "duration": 1.433414,
     "value": 2.666471,
     "block_size": 256,
     "grid_size": 1024,
@@ -207,7 +207,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.438867,
+    "duration": 1.398036,
     "value": 2.666476,
     "block_size": 256,
     "grid_size": 2048,
@@ -216,7 +216,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.385889,
+    "duration": 1.42025,
     "value": 2.66647,
     "block_size": 256,
     "grid_size": 4096,
@@ -225,7 +225,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.434622,
+    "duration": 1.402726,
     "value": 2.666476,
     "block_size": 256,
     "grid_size": 8192,
@@ -234,7 +234,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.382281,
+    "duration": 1.414794,
     "value": 2.66647,
     "block_size": 256,
     "grid_size": 16384,
@@ -243,7 +243,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.469399,
+    "duration": 1.417923,
     "value": 2.666481,
     "block_size": 256,
     "grid_size": 32768,
@@ -252,7 +252,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.392675,
+    "duration": 1.43792,
     "value": 2.666471,
     "block_size": 256,
     "grid_size": 65536,
@@ -261,7 +261,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.439216,
+    "duration": 1.473585,
     "value": 2.666487,
     "block_size": 256,
     "grid_size": 131072,
@@ -270,7 +270,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.382954,
+    "duration": 1.47616,
     "value": 2.666459,
     "block_size": 256,
     "grid_size": 262144,
@@ -279,7 +279,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.438281,
+    "duration": 1.469998,
     "value": 2.666452,
     "block_size": 256,
     "grid_size": 524288,
@@ -288,7 +288,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.395249,
+    "duration": 1.404249,
     "value": 2.667941,
     "block_size": 256,
     "grid_size": 1048576,
@@ -297,7 +297,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.440768,
+    "duration": 1.466642,
     "value": 2.666472,
     "block_size": 512,
     "grid_size": 1024,
@@ -306,7 +306,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.381635,
+    "duration": 1.430836,
     "value": 2.666472,
     "block_size": 512,
     "grid_size": 2048,
@@ -315,7 +315,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.438714,
+    "duration": 1.481007,
     "value": 2.666475,
     "block_size": 512,
     "grid_size": 4096,
@@ -324,7 +324,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.380989,
+    "duration": 1.587623,
     "value": 2.666476,
     "block_size": 512,
     "grid_size": 8192,
@@ -333,7 +333,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.435755,
+    "duration": 1.497704,
     "value": 2.666469,
     "block_size": 512,
     "grid_size": 16384,
@@ -342,7 +342,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.415849,
+    "duration": 1.478314,
     "value": 2.66647,
     "block_size": 512,
     "grid_size": 32768,
@@ -351,7 +351,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.439807,
+    "duration": 1.446571,
     "value": 2.666487,
     "block_size": 512,
     "grid_size": 65536,
@@ -360,7 +360,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.447821,
+    "duration": 1.451813,
     "value": 2.666454,
     "block_size": 512,
     "grid_size": 131072,
@@ -369,7 +369,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.43832,
+    "duration": 1.462883,
     "value": 2.666497,
     "block_size": 512,
     "grid_size": 262144,
@@ -378,7 +378,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.44393,
+    "duration": 1.525989,
     "value": 2.666418,
     "block_size": 512,
     "grid_size": 524288,
@@ -387,7 +387,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.45623,
+    "duration": 1.57747,
     "value": 2.66154,
     "block_size": 512,
     "grid_size": 1048576,
@@ -396,7 +396,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.445001,
+    "duration": 1.48356,
     "value": 2.666474,
     "block_size": 1024,
     "grid_size": 1024,
@@ -405,7 +405,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.436826,
+    "duration": 1.513628,
     "value": 2.66647,
     "block_size": 1024,
     "grid_size": 2048,
@@ -414,7 +414,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.434796,
+    "duration": 1.485673,
     "value": 2.666472,
     "block_size": 1024,
     "grid_size": 4096,
@@ -423,7 +423,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.436692,
+    "duration": 1.524054,
     "value": 2.666468,
     "block_size": 1024,
     "grid_size": 8192,
@@ -432,7 +432,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.393264,
+    "duration": 1.539109,
     "value": 2.666473,
     "block_size": 1024,
     "grid_size": 16384,
@@ -441,7 +441,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.438253,
+    "duration": 1.478986,
     "value": 2.666472,
     "block_size": 1024,
     "grid_size": 32768,
@@ -450,7 +450,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.384417,
+    "duration": 1.485572,
     "value": 2.666468,
     "block_size": 1024,
     "grid_size": 65536,
@@ -459,7 +459,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.497191,
+    "duration": 1.513107,
     "value": 2.666466,
     "block_size": 1024,
     "grid_size": 131072,
@@ -468,7 +468,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.413627,
+    "duration": 1.556185,
     "value": 2.666458,
     "block_size": 1024,
     "grid_size": 262144,
@@ -477,7 +477,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.460631,
+    "duration": 1.575019,
     "value": 2.665919,
     "block_size": 1024,
     "grid_size": 524288,
@@ -486,7 +486,7 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.497379,
+    "duration": 1.589648,
     "value": 2.665797,
     "block_size": 1024,
     "grid_size": 1048576,
@@ -495,28 +495,64 @@
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 2.037003,
+    "duration": 2.155731,
     "value": 0.25,
     "size": 800000000,
     "runtime": "C++",
     "device": "CPU"
   },
   {
-    "duration": 0.371025,
+    "duration": 0.377727,
     "value": 2.532301,
     "size": 800000000,
     "runtime": "OpenBLAS",
     "device": "CPU"
   },
   {
-    "duration": 1.531959,
+    "duration": 1.636587,
     "value": 2.666441,
     "size": 800000000,
     "runtime": "clBLASt",
     "device": "NVIDIA GeForce RTX 2060"
   },
   {
-    "duration": 1.708727,
+    "duration": 0.083599,
+    "size": 800000000,
+    "value": 2.666384,
+    "block_size": 64,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.088403,
+    "size": 800000000,
+    "value": 2.666441,
+    "block_size": 64,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.087016,
+    "size": 800000000,
+    "value": 2.666461,
+    "block_size": 64,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.086929,
+    "size": 800000000,
+    "value": 2.666468,
+    "block_size": 64,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.085273,
     "size": 800000000,
     "value": 2.66647,
     "block_size": 64,
@@ -525,7 +561,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.588055,
+    "duration": 0.08281,
     "size": 800000000,
     "value": 2.666471,
     "block_size": 64,
@@ -534,7 +570,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.635128,
+    "duration": 0.078829,
     "size": 800000000,
     "value": 2.666476,
     "block_size": 64,
@@ -543,7 +579,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.518678,
+    "duration": 0.069377,
     "size": 800000000,
     "value": 2.666478,
     "block_size": 64,
@@ -552,7 +588,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511873,
+    "duration": 0.066887,
     "size": 800000000,
     "value": 2.666473,
     "block_size": 64,
@@ -561,7 +597,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.493457,
+    "duration": 0.065611,
     "size": 800000000,
     "value": 2.666479,
     "block_size": 64,
@@ -570,7 +606,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511386,
+    "duration": 0.065416,
     "size": 800000000,
     "value": 2.666486,
     "block_size": 64,
@@ -579,7 +615,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.495406,
+    "duration": 0.065528,
     "size": 800000000,
     "value": 2.666465,
     "block_size": 64,
@@ -588,7 +624,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.514495,
+    "duration": 0.0659,
     "size": 800000000,
     "value": 2.666447,
     "block_size": 64,
@@ -597,7 +633,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.495467,
+    "duration": 0.066764,
     "size": 800000000,
     "value": 2.666519,
     "block_size": 64,
@@ -606,7 +642,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.513321,
+    "duration": 0.068752,
     "size": 800000000,
     "value": 2.668264,
     "block_size": 64,
@@ -615,7 +651,43 @@
     "device": "GPU"
   },
   {
-    "duration": 1.521214,
+    "duration": 0.088329,
+    "size": 800000000,
+    "value": 2.666441,
+    "block_size": 128,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.08667,
+    "size": 800000000,
+    "value": 2.666461,
+    "block_size": 128,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.086476,
+    "size": 800000000,
+    "value": 2.66647,
+    "block_size": 128,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.084492,
+    "size": 800000000,
+    "value": 2.666471,
+    "block_size": 128,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.080742,
     "size": 800000000,
     "value": 2.666471,
     "block_size": 128,
@@ -624,7 +696,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.520395,
+    "duration": 0.075985,
     "size": 800000000,
     "value": 2.666472,
     "block_size": 128,
@@ -633,7 +705,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.513811,
+    "duration": 0.071633,
     "size": 800000000,
     "value": 2.666468,
     "block_size": 128,
@@ -642,7 +714,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.513228,
+    "duration": 0.066597,
     "size": 800000000,
     "value": 2.666475,
     "block_size": 128,
@@ -651,7 +723,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511124,
+    "duration": 0.065475,
     "size": 800000000,
     "value": 2.666476,
     "block_size": 128,
@@ -660,7 +732,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.510929,
+    "duration": 0.065274,
     "size": 800000000,
     "value": 2.666467,
     "block_size": 128,
@@ -669,7 +741,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.514127,
+    "duration": 0.065246,
     "size": 800000000,
     "value": 2.666467,
     "block_size": 128,
@@ -678,7 +750,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511106,
+    "duration": 0.065356,
     "size": 800000000,
     "value": 2.666473,
     "block_size": 128,
@@ -687,7 +759,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.512346,
+    "duration": 0.065847,
     "size": 800000000,
     "value": 2.666481,
     "block_size": 128,
@@ -696,7 +768,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.513967,
+    "duration": 0.066813,
     "size": 800000000,
     "value": 2.6665,
     "block_size": 128,
@@ -705,7 +777,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.514962,
+    "duration": 0.069051,
     "size": 800000000,
     "value": 2.668195,
     "block_size": 128,
@@ -714,7 +786,43 @@
     "device": "GPU"
   },
   {
-    "duration": 1.515175,
+    "duration": 0.086618,
+    "size": 800000000,
+    "value": 2.666462,
+    "block_size": 256,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.086308,
+    "size": 800000000,
+    "value": 2.666469,
+    "block_size": 256,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.08417,
+    "size": 800000000,
+    "value": 2.666472,
+    "block_size": 256,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.080318,
+    "size": 800000000,
+    "value": 2.666473,
+    "block_size": 256,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.072245,
     "size": 800000000,
     "value": 2.666471,
     "block_size": 256,
@@ -723,7 +831,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.512522,
+    "duration": 0.067587,
     "size": 800000000,
     "value": 2.666476,
     "block_size": 256,
@@ -732,7 +840,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.509532,
+    "duration": 0.066161,
     "size": 800000000,
     "value": 2.66647,
     "block_size": 256,
@@ -741,7 +849,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.508682,
+    "duration": 0.065571,
     "size": 800000000,
     "value": 2.666476,
     "block_size": 256,
@@ -750,7 +858,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.519813,
+    "duration": 0.065241,
     "size": 800000000,
     "value": 2.66647,
     "block_size": 256,
@@ -759,7 +867,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.510253,
+    "duration": 0.065064,
     "size": 800000000,
     "value": 2.666481,
     "block_size": 256,
@@ -768,7 +876,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.504761,
+    "duration": 0.065132,
     "size": 800000000,
     "value": 2.666471,
     "block_size": 256,
@@ -777,7 +885,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.512408,
+    "duration": 0.065315,
     "size": 800000000,
     "value": 2.666487,
     "block_size": 256,
@@ -786,7 +894,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.502611,
+    "duration": 0.06623,
     "size": 800000000,
     "value": 2.666459,
     "block_size": 256,
@@ -795,7 +903,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.514991,
+    "duration": 0.067195,
     "size": 800000000,
     "value": 2.666453,
     "block_size": 256,
@@ -804,7 +912,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.502098,
+    "duration": 0.07365,
     "size": 800000000,
     "value": 2.667941,
     "block_size": 256,
@@ -813,7 +921,43 @@
     "device": "GPU"
   },
   {
-    "duration": 1.515475,
+    "duration": 0.086815,
+    "size": 800000000,
+    "value": 2.666469,
+    "block_size": 512,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.084744,
+    "size": 800000000,
+    "value": 2.666471,
+    "block_size": 512,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.079009,
+    "size": 800000000,
+    "value": 2.666473,
+    "block_size": 512,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.075129,
+    "size": 800000000,
+    "value": 2.666472,
+    "block_size": 512,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.06724,
     "size": 800000000,
     "value": 2.666472,
     "block_size": 512,
@@ -822,7 +966,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.487601,
+    "duration": 0.066006,
     "size": 800000000,
     "value": 2.666472,
     "block_size": 512,
@@ -831,7 +975,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511538,
+    "duration": 0.065364,
     "size": 800000000,
     "value": 2.666475,
     "block_size": 512,
@@ -840,7 +984,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.48816,
+    "duration": 0.065091,
     "size": 800000000,
     "value": 2.666477,
     "block_size": 512,
@@ -849,7 +993,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.508431,
+    "duration": 0.06508,
     "size": 800000000,
     "value": 2.666469,
     "block_size": 512,
@@ -858,7 +1002,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.491073,
+    "duration": 0.06503,
     "size": 800000000,
     "value": 2.66647,
     "block_size": 512,
@@ -867,7 +1011,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.510479,
+    "duration": 0.065118,
     "size": 800000000,
     "value": 2.666487,
     "block_size": 512,
@@ -876,7 +1020,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.499177,
+    "duration": 0.065383,
     "size": 800000000,
     "value": 2.666454,
     "block_size": 512,
@@ -885,7 +1029,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.523241,
+    "duration": 0.066216,
     "size": 800000000,
     "value": 2.666497,
     "block_size": 512,
@@ -894,7 +1038,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.479435,
+    "duration": 0.072016,
     "size": 800000000,
     "value": 2.666418,
     "block_size": 512,
@@ -903,7 +1047,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.536709,
+    "duration": 0.08752,
     "size": 800000000,
     "value": 2.66154,
     "block_size": 512,
@@ -912,7 +1056,43 @@
     "device": "GPU"
   },
   {
-    "duration": 1.475482,
+    "duration": 0.085628,
+    "size": 800000000,
+    "value": 2.666472,
+    "block_size": 1024,
+    "grid_size": 64,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.079382,
+    "size": 800000000,
+    "value": 2.666472,
+    "block_size": 1024,
+    "grid_size": 128,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.072774,
+    "size": 800000000,
+    "value": 2.666473,
+    "block_size": 1024,
+    "grid_size": 256,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.067482,
+    "size": 800000000,
+    "value": 2.666473,
+    "block_size": 1024,
+    "grid_size": 512,
+    "runtime": "CUDA Reduction",
+    "device": "GPU"
+  },
+  {
+    "duration": 0.066319,
     "size": 800000000,
     "value": 2.666475,
     "block_size": 1024,
@@ -921,7 +1101,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.513909,
+    "duration": 0.06557,
     "size": 800000000,
     "value": 2.66647,
     "block_size": 1024,
@@ -930,7 +1110,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.474526,
+    "duration": 0.065127,
     "size": 800000000,
     "value": 2.666472,
     "block_size": 1024,
@@ -939,7 +1119,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.510743,
+    "duration": 0.065043,
     "size": 800000000,
     "value": 2.666468,
     "block_size": 1024,
@@ -948,7 +1128,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.476262,
+    "duration": 0.064979,
     "size": 800000000,
     "value": 2.666473,
     "block_size": 1024,
@@ -957,7 +1137,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.512005,
+    "duration": 0.064951,
     "size": 800000000,
     "value": 2.666472,
     "block_size": 1024,
@@ -966,7 +1146,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.486448,
+    "duration": 0.065114,
     "size": 800000000,
     "value": 2.666468,
     "block_size": 1024,
@@ -975,7 +1155,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.511085,
+    "duration": 0.065882,
     "size": 800000000,
     "value": 2.666466,
     "block_size": 1024,
@@ -984,7 +1164,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.492702,
+    "duration": 0.072245,
     "size": 800000000,
     "value": 2.666458,
     "block_size": 1024,
@@ -993,7 +1173,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.536348,
+    "duration": 0.092807,
     "size": 800000000,
     "value": 2.665919,
     "block_size": 1024,
@@ -1002,7 +1182,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.542234,
+    "duration": 0.129539,
     "size": 800000000,
     "value": 2.665796,
     "block_size": 1024,
@@ -1011,7 +1191,7 @@
     "device": "GPU"
   },
   {
-    "duration": 1.54658,
+    "duration": 1.516514,
     "size": 800000000,
     "value": 2.666471,
     "runtime": "cuBLAS",

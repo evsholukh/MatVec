@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
         gridSize = std::atoi(gridSize_str.c_str());
     }
     try {
-        std::cerr << "Creating array (size: " << size << ").." << std::endl;
+        std::cerr << "Creating vector (N: " << size << ").." << std::endl;
 
         auto dataX = Utils::create_array<float>(size, 1, 0.0001f);
         auto dataY = Utils::create_array<float>(size, 1, 0.0001f);
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
         auto vx = Vector<float>(dataX, size);
         auto vy = Vector<float>(dataY, size);
 
-        std::cerr << "Memory size: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
+        std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
         printf("[");
         for (size_t i = 64; i <= blockSize; i *= 2) {
