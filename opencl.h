@@ -12,7 +12,6 @@
 class OpenCL {
 
 public:
-
     static cl::Context defaultContext() {
         auto device = defaultDevice();
 
@@ -202,47 +201,52 @@ public:
     }
 };
 
-class MatrixCLBlast : public Matrix<float> {
+class MatrixCLBlast {
 
 protected:
-    cl::Device _device;
+    Matrix<float> mat;
+
+    cl::Device device;
+    cl::Context context;
+    cl::CommandQueue queue;
+    cl::Buffer deviceBuf;
 
 public:
-    MatrixCLBlast(Matrix<float> mat, cl::Device device = VectorOpenCL::defaultDevice) : Matrix<float>(mat), _device(device) { }
+    MatrixCLBlast(
+        Matrix<float> mat,
+        cl::Device device = VectorOpenCL::defaultDevice,
+        cl::Context context = VectorOpenCL::defaultContext,
+        cl::CommandQueue queue = VectorOpenCL::defaultQueue
+    ) : mat(mat),
+        device(device),
+        context(context),
+        queue(queue) {
+            deviceBuf = cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, mat.size()*sizeof(float), mat.data());
+        }
 
-    void dot(const Matrix<float> &o, Matrix<float> &r) const {
-
-        auto context = cl::Context(_device);
-        auto queue = cl::CommandQueue(context, _device);
-        auto event = cl_event{nullptr};
-
-        auto device_a = cl::Buffer(context, CL_MEM_READ_WRITE, size()*sizeof(float));
-        auto device_b = cl::Buffer(context, CL_MEM_READ_WRITE, o.size()*sizeof(float));
+    void dot(const MatrixCLBlast &o, Matrix<float> &r) const {
         auto device_c = cl::Buffer(context, CL_MEM_READ_WRITE, r.size()*sizeof(float));
-
-        queue.enqueueWriteBuffer(device_a, CL_TRUE, 0, size()*sizeof(float), data());
-        queue.enqueueWriteBuffer(device_b, CL_TRUE, 0, o.size()*sizeof(float), o.data());
-
+        auto event = cl_event{nullptr};
         auto queue_plain = queue();
 
         auto status = CLBlastSgemm(
             CLBlastLayoutRowMajor, // layout
             CLBlastTransposeNo,    // a_transpose
             CLBlastTransposeNo,    // b_transpose
-            rows(),                // m
-            o.cols(),              // n
-            cols(),                // k
+            mat.rows(),            // m
+            o.mat.cols(),          // n
+            mat.cols(),            // k
             1.0f,                  // alpha
-            device_a(),            // a_buffer
+            deviceBuf(),           // a_buffer
             0,                     // a_offset
-            cols(),                // a_ld
-            device_b(),            // b_buffer
+            mat.cols(),            // a_ld
+            o.deviceBuf(),         // b_buffer
             0,                     // b_offset
-            o.cols(),              // b_ld
+            o.mat.cols(),          // b_ld
             0.0f,                  // beta
             device_c(),            // c_buffer
             0,                     // c_offset
-            o.cols(),              // c_ld
+            o.mat.cols(),          // c_ld
             &queue_plain,          // queue
             &event                 // event
         );
