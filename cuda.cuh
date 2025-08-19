@@ -50,21 +50,23 @@ public:
     }
 };
 
-class MatrixCuda : public Matrix<float> {
+class MatrixCuda {
+
+protected:
+    Matrix<float> mat;
+    float *d_A;
 
 public:
-    MatrixCuda(Matrix<float> mat) : Matrix<float>(mat) { }
+    MatrixCuda(Matrix<float> mat) : mat(mat) {
+        CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(float)));
+        CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(float), cudaMemcpyHostToDevice));
+    }
 
-    void dot(const Matrix<float> &o, Matrix<float> &r) const override {
-        float *d_A, *d_B, *d_C;
+    ~MatrixCuda() {
+        cudaFree(d_A);
+    }
 
-        CHECK_CUDA(cudaMalloc(&d_A, this->size()*sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_B, o.size()*sizeof(float)));
-        CHECK_CUDA(cudaMalloc(&d_C, r.size()*sizeof(float)));
-
-        CHECK_CUDA(cudaMemcpy(d_A, this->data(), this->size()*sizeof(float), cudaMemcpyHostToDevice));
-        CHECK_CUDA(cudaMemcpy(d_B, o.data(), this->size()*sizeof(float), cudaMemcpyHostToDevice));
-
+    void dot(const MatrixCuda &o, MatrixCuda &r) const {
         const float alpha = 1.0f;
         const float beta = 0.0f;
 
@@ -75,24 +77,20 @@ public:
             handle,        // handle
             CUBLAS_OP_N,   // transa
             CUBLAS_OP_N,   // transb
-            this->rows(),  // m
-            o.cols(),      // n
-            this->cols(),  // k
+            mat.rows(),    // m
+            o.mat.cols(),  // n
+            mat.cols(),    // k
             &alpha,        // alpha
             d_A,           // A
-            this->rows(),  // lda
-            d_B,           // B
-            this->cols(),  // ldb
+            mat.rows(),    // lda
+            o.d_A,         // B
+            mat.cols(),    // ldb
             &beta,         // beta
-            d_C,           // C
-            this->rows()); // ldc
+            r.d_A,         // C
+            mat.rows());   // ldc
 
-        CHECK_CUDA(cudaMemcpy(r.data(), d_C, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
         cublasDestroy(handle);
-
-        cudaFree(d_A);
-        cudaFree(d_B);
-        cudaFree(d_C);
     }
 };
 

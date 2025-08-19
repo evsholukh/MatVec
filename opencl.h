@@ -224,8 +224,7 @@ public:
             deviceBuf = cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, mat.size()*sizeof(float), mat.data());
         }
 
-    void dot(const MatrixCLBlast &o, Matrix<float> &r) const {
-        auto device_c = cl::Buffer(context, CL_MEM_READ_WRITE, r.size()*sizeof(float));
+    void dot(const MatrixCLBlast &o, MatrixCLBlast &r) const {
         auto event = cl_event{nullptr};
         auto queue_plain = queue();
 
@@ -244,7 +243,7 @@ public:
             0,                     // b_offset
             o.mat.cols(),          // b_ld
             0.0f,                  // beta
-            device_c(),            // c_buffer
+            r.deviceBuf(),         // c_buffer
             0,                     // c_offset
             o.mat.cols(),          // c_ld
             &queue_plain,          // queue
@@ -255,7 +254,7 @@ public:
             clWaitForEvents(1, &event);
             clReleaseEvent(event);
         }
-        queue.enqueueReadBuffer(device_c, CL_TRUE, 0, r.size()*sizeof(float), r.data());
+        queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.mat.size()*sizeof(float), r.mat.data());
     }
 };
 

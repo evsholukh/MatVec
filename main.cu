@@ -18,13 +18,13 @@ int main(int argc, char **argv) {
     CLI::App app{"MatMul"};
     std::string size_str, blockSize_str, gridSize_str;
     
-    app.add_option("-s,--size", size_str, "vector size");
+    app.add_option("-n,--size", size_str, "vector size");
     app.add_option("-b,--block-size", blockSize_str, "block size");
     app.add_option("-g,--grid-size", gridSize_str, "grid size");
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 800000000, gridSize = 1024, blockSize = 1024;
+    size_t size = 100000000, gridSize = 1024, blockSize = 1024;
 
     if (!size_str.empty()) {
         size = std::atoi(size_str.c_str());

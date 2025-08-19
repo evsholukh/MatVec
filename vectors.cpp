@@ -1,5 +1,5 @@
 #include <iostream>
-#include <random>
+
 #include <chrono>
 #include <iomanip>
 #include <string>
@@ -17,16 +17,16 @@
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"MatMul"};
+    CLI::App app{"vector"};
     std::string size_str, blockSize_str, gridSize_str;
 
-    app.add_option("-s,--size", size_str, "vector size");
+    app.add_option("-n,--size", size_str, "vector size");
     app.add_option("-b,--block-size", blockSize_str, "block size");
     app.add_option("-g,--grid-size", gridSize_str, "grid size");
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 800000000, gridSize = 1024, blockSize = 1024;
+    size_t size = 100000000, gridSize = 1024, blockSize = 1024;
 
     if (!size_str.empty()) {
         size = std::atoi(size_str.c_str());
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
         gridSize = std::atoi(gridSize_str.c_str());
     }
     try {
-        std::cerr << "Creating vector (N: " << size << ").." << std::endl;
+        std::cerr << "Creating vector.. (" << size << ")" << std::endl;
 
         auto dataX = Utils::create_array<float>(size, 1, 0.0001f);
         auto dataY = Utils::create_array<float>(size, 1, 0.0001f);
