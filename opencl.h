@@ -91,7 +91,8 @@ public:
         queue(queue) {
 
         globalSize = blockSize * blocksCount;
-        deviceVec = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, vec.size()*sizeof(float), vec.data());
+        deviceVec = cl::Buffer(context, CL_MEM_READ_ONLY, vec.size()*sizeof(float));
+        queue.enqueueWriteBuffer(deviceVec, CL_TRUE, 0, vec.size()*sizeof(float), vec.data());
 
         program = cl::Program(context, kernel);
         program.build();

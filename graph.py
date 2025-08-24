@@ -2,12 +2,13 @@ import subprocess
 import json
 
 
-total = []
+N = 2*(10**8)
 progs = ["vectors.exe", "vectors_cuda.exe"]
 
+total = []
 for exe in progs:
     try:
-        args = [exe, "-n", str(8*(10**8)), "-b", str(1024), "-g", str(1024*1024)]
+        args = [exe, "-n", str(N), "-b", str(1024), "-g", str(1024*1024)]
         print(*args)
         output = subprocess.check_output(args, timeout=1200.0)
         data = json.loads(str(output, encoding="utf-8"))
