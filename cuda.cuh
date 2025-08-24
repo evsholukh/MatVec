@@ -89,7 +89,7 @@ public:
             r.d_A,         // C
             mat.rows());   // ldc
 
-        CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
+        CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(float), cudaMemcpyDeviceToHost));
         cublasDestroy(handle);
     }
 };
