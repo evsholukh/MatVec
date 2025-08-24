@@ -21,7 +21,6 @@
                 "-lopenblas",
                 "-lclblast",
                 "-std=c++17",
-                "-O3",
             ],
             "group": {
                 "kind": "build",

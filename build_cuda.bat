@@ -6,5 +6,4 @@ nvcc vectors.cu -o vectors_cuda.exe ^
     -lcudart ^
     -lcublas ^
     -allow-unsupported-compiler ^
-    -O3 ^
     -std=c++17
