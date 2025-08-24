@@ -2,7 +2,7 @@ import subprocess
 import json
 
 
-N = 2*(10**8)
+N = 8*(10**8)
 progs = ["vectors.exe", "vectors_cuda.exe"]
 
 total = []
