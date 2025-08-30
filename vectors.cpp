@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, size, "C++", "CPU");
+                    "\"device\": \"%s\"},\n", duration, value, size, "C++", Utils::cpuName().c_str());
         }
         {
             auto vbx = VectorBLAS(vx); 
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, size, "OpenBLAS", "CPU");
+                    "\"device\": \"%s\"},\n", duration, value, size, "OpenBLAS", Utils::cpuName().c_str());
         }
         {
             auto cl_vx = VectorCLBlast(vx);

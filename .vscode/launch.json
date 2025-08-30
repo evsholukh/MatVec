@@ -32,7 +32,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: Build",
+            "preLaunchTask": "C/C++: Build Vectors",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

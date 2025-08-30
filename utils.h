@@ -3,6 +3,16 @@
 #include <chrono>
 #include <random>
 
+#include <array>
+#include <cstring>
+#include <algorithm>
+
+#ifdef _MSC_VER
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#endif
+
 class Utils {
 
 public:
@@ -44,5 +54,36 @@ public:
         for (size_t i = 0; i < size; i++) {
             data[i] = val;
         }
+    }
+
+    static inline void ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }));
+    }
+
+    static inline void rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }).base(), s.end());
+    }
+
+    static std::string cpuName() {
+        char cpuName[49] = {0};
+        unsigned int regs[4];
+
+        for (int i = 0; i < 3; i++) {
+            #ifdef _MSC_VER
+            __cpuid((int*)regs, 0x80000002 + i);
+            #else
+            __cpuid(0x80000002 + i, regs[0], regs[1], regs[2], regs[3]);
+            #endif
+            std::memcpy(cpuName + i * 16, regs, sizeof(regs));
+        }  
+        
+        std::string str(cpuName);
+        rtrim(str);
+
+        return str;
     }
 };
