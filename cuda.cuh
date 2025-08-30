@@ -22,6 +22,17 @@ void handleError(cudaError_t err) {
     }
 }
 
+class CUDA {
+
+public:
+    static std::string deviceName(const size_t idx = 0) {
+        cudaDeviceProp prop;
+        cudaGetDeviceProperties(&prop, idx);
+
+        return prop.name;
+    }
+};
+
 class VectorCuda {
 
 protected:

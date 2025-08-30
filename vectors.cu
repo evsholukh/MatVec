@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
                             "\"grid_size\": %zd,"
                             "\"runtime\": \"%s\","
                             "\"device\": \"%s\"},\n",
-                        duration, size, value, i, j, "CUDA Reduction", "GPU");
+                        duration, size, value, i, j, "CUDA Reduction", CUDA::deviceName().c_str());
                 }
             }
         }
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"runtime\": \"%s\","
                     "\"device\": \"%s\"}",
-                duration, size, value, "cuBLAS", "GPU");
+                duration, size, value, "cuBLAS", CUDA::deviceName().c_str());
         }
         printf("]");
 
