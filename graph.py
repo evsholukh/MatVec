@@ -3,8 +3,8 @@ import json
 import sys
 import tqdm
 
-T = 1_000_000
-N = [i for i in range(T, T*100, T)] # 8*(10**8)
+T = 100_000_000
+N = [i for i in range(T, T*10, T)] # 8*(10**8)
 progs = ["vectors.exe", "vectors_cuda.exe"]
 
 total = []
