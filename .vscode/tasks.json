@@ -17,6 +17,7 @@
                 "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
                 "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
 
+                "-fopenmp",
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",

@@ -11,6 +11,7 @@
 
 #include "opencl.h"
 #include "openblas.h"
+#include "openmp.h"
 
 #include "CLI11.hpp"
 
@@ -83,10 +84,20 @@ int main(int argc, char **argv) {
                     "\"device\": \"%s\"},\n", duration, value, size, "C++", Utils::cpuName().c_str());
         }
         {
-            auto vbx = VectorBLAS(vx); 
-            auto vby = VectorBLAS(vy);
+            auto mp_vx = VectorOpenMP(vx);
             auto value = 0.0f;
-            auto duration = Utils::measure([&vbx, &vby, &value]() { value = vbx.dot(vby); });
+            auto duration = Utils::measure([&mp_vx, &vy, &value]() { value = mp_vx.dot(vy); });
+
+            printf("{\"duration\": %f,"
+                    "\"value\": %f,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"},\n", duration, value, size, "OpenMP", Utils::cpuName().c_str());
+        }
+        {
+            auto vbx = VectorBLAS(vx);
+            auto value = 0.0f;
+            auto duration = Utils::measure([&vbx, &vy, &value]() { value = vbx.dot(vy); });
             auto device = OpenCL::defaultDevice();
             auto deviceName = OpenCL::deviceName(device);
 

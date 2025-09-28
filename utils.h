@@ -23,7 +23,7 @@ public:
         auto end_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed = end_time - start_time;
 
-        return elapsed.count();
+        return elapsed.count() * 1000;
     }
 
     template <typename T>
