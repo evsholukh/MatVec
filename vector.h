@@ -58,3 +58,18 @@ protected:
     T *arr;
     size_t n;
 };
+
+
+class VectorFloat : public Vector<float> {
+
+public:
+    VectorFloat(float *arr, size_t n) : Vector(arr, n) {}
+
+    float dot(const VectorFloat &o) const {
+        double val = 0.0f;
+        for (size_t i = 0; i < n; i++) {
+            val += arr[i] * o.arr[i];
+        }
+        return val;
+    }
+};

@@ -41,14 +41,14 @@ int main(int argc, char **argv) {
     try {
         std::cerr << "Creating vector.. (" << size << ")" << std::endl;
 
-        auto dataX = Utils::create_array<float>(size, 1, 0.0001f);
-        auto dataY = Utils::create_array<float>(size, 1, 0.0001f);
+        auto dataX = Utils::create_array<float>(size, 1.0);
+        auto dataY = Utils::create_array<float>(size, 1.0);
 
-        Utils::randomize_array(dataX, size);
-        Utils::randomize_array(dataY, size);
+        Utils::randomize_array<float>(dataX, size);
+        Utils::randomize_array<float>(dataY, size);
 
-        auto vx = Vector<float>(dataX, size);
-        auto vy = Vector<float>(dataY, size);
+        auto vx = VectorFloat(dataX, size);
+        auto vy = VectorFloat(dataY, size);
 
         std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
