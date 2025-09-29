@@ -19,61 +19,62 @@
 int main(int argc, char **argv) {
 
     CLI::App app{"vector"};
-    std::string size_str, blockSize_str, gridSize_str;
 
-    app.add_option("-n,--size", size_str, "vector size");
-    app.add_option("-b,--block-size", blockSize_str, "block size");
-    app.add_option("-g,--grid-size", gridSize_str, "grid size");
+    int fSize = 1000000, fBlockSize = 1024, fGridSize = 32768, fSeed = 42;
+    float fRandMin = -1.0, fRandMax = 1.0;
+    bool fCPU = false,
+        fOpenMP = false,
+        fOpenBlas = false,
+        fOpenCL = false,
+        fClBlast = false;
+
+    app.add_option("-n,--size", fSize, "vector size");
+    app.add_option("-b,--block-size", fBlockSize, "block size");
+    app.add_option("-g,--grid-size", fGridSize, "grid size");
+
+    app.add_option("-s,--seed", fSeed, "random seed");
+    app.add_option("--low", fRandMin, "random lower value");
+    app.add_option("--high", fRandMax, "random higher value");
+
+    app.add_option("--cpu", fCPU, "CPU version");
+    app.add_option("--openmp", fOpenMP, "OpenMP verision");
+    app.add_option("--openblas", fOpenBlas, "OpenBLAS version");
+    app.add_option("--blast", fClBlast, "clBLASt version");
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 100000000, gridSize = 1024, blockSize = 1024;
-
-    if (!size_str.empty()) {
-        size = std::atoi(size_str.c_str());
-    }
-    if (!blockSize_str.empty()) {
-        blockSize = std::atoi(blockSize_str.c_str());
-    }
-    if (!gridSize_str.empty()) {
-        gridSize = std::atoi(gridSize_str.c_str());
-    }
     try {
-        std::cerr << "Creating vector.. (" << size << ")" << std::endl;
+         std::cerr << "Creating vector.. " << fSize << std::endl;
 
-        auto dataX = Utils::create_array<float>(size, 1.0);
-        auto dataY = Utils::create_array<float>(size, 1.0);
+        auto dataX = Utils::create_array<float>(fSize, 1.0);
+        auto dataY = Utils::create_array<float>(fSize, 1.0);
 
-        Utils::randomize_array<float>(dataX, size);
-        Utils::randomize_array<float>(dataY, size);
+        Utils::randomize_array<float>(dataX, fSize, fRandMin, fRandMax, fSeed);
+        Utils::randomize_array<float>(dataY, fSize, fRandMin, fRandMax, fSeed);
 
-        auto vx = VectorFloat(dataX, size);
-        auto vy = VectorFloat(dataY, size);
+        auto vx = VectorFloat(dataX, fSize);
+        auto vy = VectorFloat(dataY, fSize);
 
         std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
 
-        printf("[");
-        for (size_t i = 64; i <= blockSize; i *= 2) {
-            for (size_t j = 1024; j <= gridSize; j *= 2) {
-                {
-                    auto vrx = VectorOpenCL(vx, i, j);
-                    auto vry = VectorOpenCL(vy, i, j);
-                    auto value = 0.0f;
-                    auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-                    auto device = OpenCL::defaultDevice();
-                    auto deviceName = OpenCL::deviceName(device);
+        if (fOpenCL) {
+            auto vrx = VectorOpenCL(vx, fBlockSize, fGridSize);
+            auto vry = VectorOpenCL(vy, fBlockSize, fGridSize);
+            auto value = 0.0f;
+            auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
+            auto device = OpenCL::defaultDevice();
+            auto deviceName = OpenCL::deviceName(device);
 
-                    printf("{\"duration\": %f,"
-                            "\"value\": %f,"
-                            "\"block_size\": %d,"
-                            "\"grid_size\": %d,"
-                            "\"size\": %d,"
-                            "\"runtime\": \"%s\","
-                            "\"device\": \"%s\"},\n", duration, value, i, j, size, "OpenCL Reduction", deviceName.c_str());
-                }
-            }
+            printf("{\"duration\": %f,"
+                    "\"value\": %f,"
+                    "\"block_size\": %d,"
+                    "\"grid_size\": %d,"
+                    "\"size\": %d,"
+                    "\"runtime\": \"%s\","
+                    "\"device\": \"%s\"}", duration, value, fBlockSize, fGridSize, fSize, "OpenCL Reduction", deviceName.c_str());
+
         }
-        {
+        if (fCPU) {
             auto value = 0.0f;
             auto duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
 
@@ -81,9 +82,9 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, size, "C++", Utils::cpuName().c_str());
+                    "\"device\": \"%s\"}", duration, value, fSize, "C++", Utils::cpuName().c_str());
         }
-        {
+        if (fOpenMP) {
             auto mp_vx = VectorOpenMP(vx);
             auto value = 0.0f;
             auto duration = Utils::measure([&mp_vx, &vy, &value]() { value = mp_vx.dot(vy); });
@@ -92,9 +93,9 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, size, "OpenMP", Utils::cpuName().c_str());
+                    "\"device\": \"%s\"}", duration, value, fSize, "OpenMP", Utils::cpuName().c_str());
         }
-        {
+        if (fOpenBlas) {
             auto vbx = VectorBLAS(vx);
             auto value = 0.0f;
             auto duration = Utils::measure([&vbx, &vy, &value]() { value = vbx.dot(vy); });
@@ -105,9 +106,9 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"},\n", duration, value, size, "OpenBLAS", Utils::cpuName().c_str());
+                    "\"device\": \"%s\"}", duration, value, fSize, "OpenBLAS", Utils::cpuName().c_str());
         }
-        {
+        if (fClBlast) {
             auto cl_vx = VectorCLBlast(vx);
             auto cl_vy = VectorCLBlast(vy);
             auto value = 0.0f;
@@ -119,10 +120,8 @@ int main(int argc, char **argv) {
                     "\"value\": %f,"
                     "\"size\": %d,"
                     "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, size, "clBLASt", deviceName.c_str());
+                    "\"device\": \"%s\"}", duration, value, fSize, "clBLASt", deviceName.c_str());
         }
-        printf("]");
-
         delete[] dataX;
         delete[] dataY;
 
