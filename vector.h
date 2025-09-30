@@ -59,17 +59,22 @@ protected:
     size_t n;
 };
 
-
-class VectorFloat : public Vector<float> {
+template <typename T>
+class VectorCorrected : public Vector<T> {
 
 public:
-    VectorFloat(float *arr, size_t n) : Vector(arr, n) {}
+    VectorCorrected(Vector<T> vec) : Vector<T>(vec) {}
 
-    float dot(const VectorFloat &o) const {
-        double val = 0.0f;
-        for (size_t i = 0; i < n; i++) {
-            val += arr[i] * o.arr[i];
+    float dot(const Vector<float> &o) const override {
+        float sum = 0.0f;
+        float c = 0.0f; // коррекция
+
+        for (size_t i = 0; i < this->n; i++) {
+            float y = this->arr[i] * o.data()[i] - c;
+            float t = sum + y;
+            c = (t - sum) - y;
+            sum = t;
         }
-        return val;
+        return sum;
     }
 };

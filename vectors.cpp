@@ -14,14 +14,23 @@
 #include "openmp.h"
 
 #include "CLI11.hpp"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 
 int main(int argc, char **argv) {
 
     CLI::App app{"vector"};
 
-    int fSize = 1000000, fBlockSize = 1024, fGridSize = 32768, fSeed = 42;
-    float fRandMin = -1.0, fRandMax = 1.0;
+    int fSize = 1000000,
+        fBlockSize = 1024,
+        fGridSize = 32768,
+        fSeed = -1;
+
+    float fRandMin = -1.0,
+          fRandMax = 1.0;
+
     bool fCPU = false,
         fOpenMP = false,
         fOpenBlas = false,
@@ -36,91 +45,112 @@ int main(int argc, char **argv) {
     app.add_option("--low", fRandMin, "random lower value");
     app.add_option("--high", fRandMax, "random higher value");
 
-    app.add_option("--cpu", fCPU, "CPU version");
-    app.add_option("--openmp", fOpenMP, "OpenMP verision");
-    app.add_option("--openblas", fOpenBlas, "OpenBLAS version");
-    app.add_option("--blast", fClBlast, "clBLASt version");
+    app.add_flag("--cpu", fCPU, "CPU version");
+    app.add_flag("--openmp", fOpenMP, "OpenMP verision");
+    app.add_flag("--openblas", fOpenBlas, "OpenBLAS version");
+    app.add_flag("--opencl", fOpenCL, "OpenCL version");
+    app.add_flag("--blast", fClBlast, "clBLASt version");
 
     CLI11_PARSE(app, argc, argv);
 
+    std::cerr << "Creating vector.. " << fSize << std::endl;
+
+    auto dataX = Utils::create_array<float>(fSize, 1.0);
+    auto dataY = Utils::create_array<float>(fSize, 1.0);
+
     try {
-         std::cerr << "Creating vector.. " << fSize << std::endl;
-
-        auto dataX = Utils::create_array<float>(fSize, 1.0);
-        auto dataY = Utils::create_array<float>(fSize, 1.0);
-
         Utils::randomize_array<float>(dataX, fSize, fRandMin, fRandMax, fSeed);
         Utils::randomize_array<float>(dataY, fSize, fRandMin, fRandMax, fSeed);
 
-        auto vx = VectorFloat(dataX, fSize);
-        auto vy = VectorFloat(dataY, fSize);
+        auto vX = Vector(dataX, fSize);
+        auto vY = Vector(dataY, fSize);
 
-        std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
+        std::cerr << "Memory utilized: " << vX.size_mb() + vY.size_mb() << "MB" << std::endl;
 
-        if (fOpenCL) {
-            auto vrx = VectorOpenCL(vx, fBlockSize, fGridSize);
-            auto vry = VectorOpenCL(vy, fBlockSize, fGridSize);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&vrx, &vry, &value]() { value = vrx.dot(vry); });
-            auto device = OpenCL::defaultDevice();
-            auto deviceName = OpenCL::deviceName(device);
-
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"block_size\": %d,"
-                    "\"grid_size\": %d,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, fBlockSize, fGridSize, fSize, "OpenCL Reduction", deviceName.c_str());
-
-        }
         if (fCPU) {
-            auto value = 0.0f;
-            auto duration = Utils::measure([&vx, &vy, &value]() { value = vx.dot(vy); });
+            auto result = 0.0f;
+            auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+            auto control = VectorCorrected(vX).dot(vY);
 
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, fSize, "C++", Utils::cpuName().c_str());
+            json data = {
+                {"duration", duration},
+                {"value", result}, 
+                {"control", control},
+                {"size", fSize}, 
+                {"runtime", "C++"},
+                {"device", Utils::cpuName().c_str()},
+            };
+            std::cout << data.dump(4);
         }
-        if (fOpenMP) {
-            auto mp_vx = VectorOpenMP(vx);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&mp_vx, &vy, &value]() { value = mp_vx.dot(vy); });
 
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, fSize, "OpenMP", Utils::cpuName().c_str());
+        if (fOpenMP) {
+            auto ompVx = VectorOpenMP(vX);
+            auto result = 0.0f;
+            auto duration = Utils::measure([&ompVx, &vY, &result]() { result = ompVx.dot(vY); });
+            auto control = VectorCorrected(vX).dot(vY);
+
+            json data = {
+                {"duration", duration},
+                {"result", result},
+                {"control", control},
+                {"size", fSize},
+                {"runtime", "OpenMP"},
+                {"device", Utils::cpuName().c_str()}, 
+            };
+            std::cout << data.dump(4);
         }
         if (fOpenBlas) {
-            auto vbx = VectorBLAS(vx);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&vbx, &vy, &value]() { value = vbx.dot(vy); });
-            auto device = OpenCL::defaultDevice();
-            auto deviceName = OpenCL::deviceName(device);
+            auto bVx = VectorBLAS(vX);
+            auto result = 0.0f;
+            auto duration = Utils::measure([&bVx, &vY, &result]() { result = bVx.dot(vY); });
+            auto control = VectorCorrected(vX).dot(vY);
 
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, fSize, "OpenBLAS", Utils::cpuName().c_str());
+            json data = {
+                {"duration", duration},
+                {"result", result},
+                {"control", control},
+                {"size",  fSize},
+                {"runtime", "OpenBLAS"},
+                {"device", Utils::cpuName().c_str()},
+            };
+            std::cout << data.dump(4);
+        }
+        if (fOpenCL) {
+            auto clVx = VectorOpenCL(vX, fBlockSize, fGridSize);
+            auto clVy = VectorOpenCL(vY, fBlockSize, fGridSize);
+            auto result = 0.0f;
+            auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
+            auto control = VectorCorrected(vX).dot(vY);
+
+            json data = {
+                {"duration", duration},
+                {"result", result},
+                {"control", control},
+                {"block_size", fBlockSize},
+                {"grid_size", fGridSize},
+                {"size", fSize},
+                {"runtime", "OpenCL Reduction"},
+                {"device", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
+            };
+            std::cout << data.dump(4);
         }
         if (fClBlast) {
-            auto cl_vx = VectorCLBlast(vx);
-            auto cl_vy = VectorCLBlast(vy);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&cl_vx, &cl_vy, &value]() { value = cl_vx.dot(cl_vy); });
-            auto device = OpenCL::defaultDevice();
-            auto deviceName = OpenCL::deviceName(device);
+            auto clVx = VectorCLBlast(vX);
+            auto clVy = VectorCLBlast(vY);
 
-            printf("{\"duration\": %f,"
-                    "\"value\": %f,"
-                    "\"size\": %d,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}", duration, value, fSize, "clBLASt", deviceName.c_str());
+            auto result = 0.0f;
+            auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
+            auto control = VectorCorrected(vX).dot(vY);
+
+            json data = {
+                {"duration", duration},
+                {"result", result},
+                {"control", control},
+                {"size", fSize},
+                {"runtime", "clBLASt"},
+                {"device", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()}
+            };
+            std::cout << data.dump(4);
         }
         delete[] dataX;
         delete[] dataY;

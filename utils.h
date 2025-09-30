@@ -45,8 +45,11 @@ public:
         const size_t size,
         const T low = T(-1.0),
         const T high = T(1.0),
-        const int seed = 42) {
+        int seed = -1) {
 
+        if (seed < 0) {
+            seed = std::chrono::system_clock::now().time_since_epoch().count();
+        }
         std::mt19937 generator(seed);
         std::uniform_real_distribution<T> dist(low, high);
 

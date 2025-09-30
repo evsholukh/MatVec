@@ -11,6 +11,7 @@
             "program": "${workspaceFolder}\\vectors.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
+            "args": ["--cpu", "true", "-n", "300000000"],
             "environment": [
                 {
                     "name": "Path",
