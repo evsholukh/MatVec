@@ -2,11 +2,11 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: Build Vectors",
+            "label": "C/C++: Build Vectors Release",
             "command": "g++.exe",
             "args": [
-                "-g", "${workspaceFolder}\\vectors.cpp",
-                "-o", "${workspaceFolder}\\vectors.exe",
+                "${workspaceFolder}\\vector.cpp",
+                "-o", "${workspaceFolder}\\vector.exe",
 
                 "-I", "${workspaceFolder}",
                 "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
@@ -31,11 +31,67 @@
         },
         {
             "type": "cppbuild",
-            "label": "C/C++: Build Matrix",
+            "label": "C/C++: Build Vectors Debug",
+            "command": "g++.exe",
+            "args": [
+                "-g", "${workspaceFolder}\\vector.cpp",
+                "-o", "${workspaceFolder}\\vector_debug.exe",
+
+                "-I", "${workspaceFolder}",
+                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+
+                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
+
+                "-fopenmp",
+                "-lopencl",
+                "-lopenblas",
+                "-lclblast",
+                "-std=c++17",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Matrix Release",
+            "command": "g++.exe",
+            "args": [
+                "${workspaceFolder}\\matrix.cpp",
+                "-o", "${workspaceFolder}\\matrix.exe",
+
+                "-I", "${workspaceFolder}",
+                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+
+                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
+
+                "-lopencl",
+                "-lopenblas",
+                "-lclblast",
+                "-std=c++17",
+                "-O3"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Matrix Debug",
             "command": "g++.exe",
             "args": [
                 "-g", "${workspaceFolder}\\matrix.cpp",
-                "-o", "${workspaceFolder}\\matrix.exe",
+                "-o", "${workspaceFolder}\\matrix_debug.exe",
 
                 "-I", "${workspaceFolder}",
                 "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",

@@ -8,10 +8,10 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\vectors.exe",
+            "program": "${workspaceFolder}\\vectors_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "args": ["--cpu", "true", "-n", "300000000"],
+            "args": ["--cpu"],
             "environment": [
                 {
                     "name": "Path",
@@ -33,7 +33,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: Build Vectors",
+            "preLaunchTask": "C/C++: Build Vectors Debug",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
