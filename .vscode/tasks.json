@@ -1,13 +1,24 @@
 {
     "tasks": [
         {
+            "label": "Run Metrics",
+            "command": "python",
+            "args": [
+                "graph.py"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "problemMatcher": []
+        },
+        {
             "label": "Run Vector",
             "command": "vector.exe",
             "args": [
                 "--all"
             ],
+            "dependsOrder": "sequence",
             "dependsOn": [
-                "Clean All",
+                "Clean",
                 "C/C++: Build Vector Release"
             ],
             "problemMatcher": []
@@ -15,18 +26,18 @@
         {
             "label": "Run Matrix",
             "command": "matrix.exe",
+            "dependsOrder": "sequence",
             "args": [
                 "--all"
             ],
             "dependsOn": [
-                "Clean All",
+                "Clean",
                 "C/C++: Build Matrix Release"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Clean All",
-            "type": "shell",
+            "label": "Clean",
             "command": "git",
             "args": [
                 "clean",
@@ -38,6 +49,7 @@
         },
         {
             "label": "Build All",
+            "dependsOrder": "parallel",
             "dependsOn": [
                 "C/C++: Build Vector Debug",
                 "C/C++: Build Vector Release",
