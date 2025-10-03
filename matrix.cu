@@ -27,13 +27,13 @@ int main(int argc, char **argv) {
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
-    app.add_option("-r,--rows", fRows, "cols");
+    app.add_option("-r,--rows", fRows, "rows");
 
     app.add_option("-s,--seed", fSeed, "random seed");
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
 
-    app.add_flag("--cublas", fcuBLAS, "OpenBLAS");
+    app.add_flag("--cublas", fcuBLAS, "cuBLAS");
 
     app.add_flag("-a,--all", fAll, "All");
 
@@ -103,7 +103,6 @@ int main(int argc, char **argv) {
         delete[] arrY;
         delete[] arrZ;
 
-        std::cerr << std::endl;
         std::cerr << "Finished" << std::endl;
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;

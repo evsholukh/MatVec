@@ -1,26 +1,58 @@
 import subprocess
 import json
 import sys
-import tqdm
 
-T = 100_000_000
-N = [i for i in range(T, T*10, T)] # 8*(10**8)
-progs = ["vectors.exe", "vectors_cuda.exe"]
+arg_vars = [
+    # CPU
+    ["vector.exe", "--cpu"],
+    ["vector_debug.exe", "--cpu"],
+    ["vector.exe", "--openmp"],
+    ["vector_debug.exe", "--openmp"],
+    ["vector.exe", "--openblas"],
+    ["vector_debug.exe", "--openblas"],
 
+    # GPU
+    ["vector.exe", "--opencl"],
+
+    # GPU
+    ["vector_debug.exe", "--opencl"],
+    ["vector.exe", "--clblast"],
+    ["vector_debug.exe", "--clblast"],
+    ["vector_cuda.exe", "--cuda"],
+    ["vector_cuda_debug.exe", "--cuda"],
+    ["vector_cuda.exe", "--cublas"],
+    ["vector_cuda_debug.exe", "--cublas"],
+
+    # Matrix
+    ["matrix.exe", "--cpu"],
+
+    # Matrix
+    ["matrix_debug.exe", "--cpu"],
+    ["matrix.exe", "--openblas"],
+    ["matrix_debug.exe", "--openblas"],
+    ["matrix.exe", "--clblast"],
+    ["matrix_debug.exe", "--clblast"],
+    ["matrix_cuda.exe", "--cublas"],
+    ["matrix_cuda_debug.exe", "--cublas"],
+]
+
+N = 1
 total = []
-for exe in progs:
-    for n in tqdm.tqdm(N):
+
+i = 0
+j = N * len(arg_vars)
+for _ in range(N):
+    for args in arg_vars:
         try:
-            args = [exe, "-n", str(n), "-b", str(1024), "-g", str(1024*1024)]
-            # print(*args)
+            i += 1
+            print(f"[{i}/{j}]", *args)
             output = subprocess.check_output(args, timeout=1200.0)
             data = json.loads(str(output, encoding="utf-8"))
-            # json.dump(data, sys.stderr, indent=2)
-            total += data
+            total.append(data)
         except KeyboardInterrupt:
-            break
+            print("Ctrl+C")
+            sys.exit(-1)
         except Exception as e:
             print(str(e))
-            break
 
 json.dump(total, open("metrics.json", "w"), indent=2)

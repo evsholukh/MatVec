@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
-    app.add_option("-r,--rows", fRows, "cols");
+    app.add_option("-r,--rows", fRows, "rows");
 
     app.add_option("-s,--seed", fSeed, "random seed");
     app.add_option("--low", fMin, "random lower value");
@@ -133,7 +133,6 @@ int main(int argc, char **argv) {
         delete[] arrY;
         delete[] arrZ;
 
-        std::cerr << std::endl;
         std::cerr << "Finished" << std::endl;
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
