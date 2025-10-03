@@ -23,11 +23,11 @@ public:
         auto end_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed = end_time - start_time;
 
-        return elapsed.count();
+        return elapsed.count() * 1000;
     }
 
     template <typename T>
-    static T *create_array(const size_t size, const size_t align = 1, const T val = T(0)) {
+    static T *create_array(const size_t size, const T val = T(0), const size_t align = 1) {
         const int count = (size + align - 1) / align;
         const int global_size = align * count;
 
@@ -40,9 +40,15 @@ public:
     }
 
     template <typename T>
-    static void randomize_array(T *data, const size_t size) {
-        std::mt19937 generator(42);
-        std::uniform_real_distribution<T> dist(-1, 1);
+    static void randomize_array(
+        T *data,
+        const size_t size,
+        const T low = T(-1.0),
+        const T high = T(1.0),
+        int seed = 42) {
+
+        std::mt19937 generator(seed);
+        std::uniform_real_distribution<T> dist(low, high);
 
         for (size_t i = 0; i < size; i++) {
             data[i] *= dist(generator);
