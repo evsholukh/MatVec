@@ -23,6 +23,7 @@
                 "-lclblast",
                 "-std=c++17",
                 "-O3",
+                "-DOPT_LEVEL_O3",
             ],
             "group": {
                 "kind": "build",
@@ -78,7 +79,8 @@
                 "-lopenblas",
                 "-lclblast",
                 "-std=c++17",
-                "-O3"
+                "-O3",
+                "-DOPT_LEVEL_O3",
             ],
             "group": {
                 "kind": "build",

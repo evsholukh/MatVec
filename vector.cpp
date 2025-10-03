@@ -33,9 +33,10 @@ int main(int argc, char **argv) {
 
     bool fCPU = false,
         fOpenMP = false,
-        fOpenBlas = false,
+        fOpenBLAS = false,
         fOpenCL = false,
-        fClBlast = false;
+        fClBlast = false,
+        fAll = false;
 
     app.add_option("-n,--size", fSize, "vector size");
     app.add_option("-b,--block-size", fBlockSize, "block size");
@@ -47,11 +48,20 @@ int main(int argc, char **argv) {
 
     app.add_flag("--cpu", fCPU, "CPU");
     app.add_flag("--openmp", fOpenMP, "OpenMP");
-    app.add_flag("--openblas", fOpenBlas, "OpenBLAS");
+    app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
     app.add_flag("--opencl", fOpenCL, "OpenCL");
     app.add_flag("--clblast", fClBlast, "clBLASt");
+    app.add_flag("-a,--all", fAll, "All");
 
     CLI11_PARSE(app, argc, argv);
+
+    if (fAll) {
+        fCPU = true;
+        fOpenMP = true;
+        fOpenBLAS = true;
+        fOpenCL = true;
+        fClBlast = true;
+    }
 
     std::cerr << "Creating vector.. " << fSize << std::endl;
 
@@ -66,7 +76,13 @@ int main(int argc, char **argv) {
         auto vY = Vector(dataY, fSize);
 
         std::cerr << "Memory utilized: " << vX.size_mb() + vY.size_mb() << "MB" << std::endl;
+        std::cerr << "Running control.." << std::endl;
         auto control = VectorCorrected(vX).dot(vY);
+
+        auto fO3 = false;
+        #ifdef OPT_LEVEL_O3
+            fO3 = true;
+        #endif
 
         json jsonResult = {
             {"size", fSize},
@@ -76,6 +92,7 @@ int main(int argc, char **argv) {
             {"max", fMax},
             {"cpu", Utils::cpuName().c_str()},
             {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
+            {"o3", fO3},
             {"block_size", fBlockSize},
             {"grid_size", fGridSize},
             {"tests", json::array()},
@@ -83,42 +100,57 @@ int main(int argc, char **argv) {
 
         auto result = 0.0f;
         if (fCPU) {
+            auto runtime = "C++";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
             auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", result}, 
-                {"runtime", "C++"}, 
+                {"runtime", runtime}, 
             });
         }
         if (fOpenMP) {
+            auto runtime = "OpenMP";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
             auto ompVx = VectorOpenMP(vX);
             auto duration = Utils::measure([&ompVx, &vY, &result]() { result = ompVx.dot(vY); });
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", result},
-                {"runtime", "OpenMP"},
+                {"runtime", runtime},
             });
         }
-        if (fOpenBlas) {
+        if (fOpenBLAS) {
+            auto runtime = "OpenBLAS";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
             auto bVx = VectorBLAS(vX);
             auto duration = Utils::measure([&bVx, &vY, &result]() { result = bVx.dot(vY); });
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", result},
-                {"runtime", "OpenBLAS"},
+                {"runtime", runtime},
             });
         }
         if (fOpenCL) {
+            auto runtime = "OpenCL";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
             auto clVx = VectorOpenCL(vX, fBlockSize, fGridSize);
             auto clVy = VectorOpenCL(vY, fBlockSize, fGridSize);
             auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", result},
-                {"runtime", "OpenCL"},
+                {"runtime", runtime},
             });
         }
         if (fClBlast) {
+            auto runtime = "clBLASt";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
             auto clVx = VectorCLBlast(vX);
             auto clVy = VectorCLBlast(vY);
             auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
@@ -126,7 +158,7 @@ int main(int argc, char **argv) {
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", result},
-                {"runtime", "clBLASt"},
+                {"runtime", runtime},
             });
         }
         std::cout << jsonResult.dump(4);
@@ -134,6 +166,8 @@ int main(int argc, char **argv) {
         delete[] dataX;
         delete[] dataY;
 
+        std::cerr << std::endl;
+        std::cerr << "Finished" << std::endl;
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
