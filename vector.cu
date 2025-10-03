@@ -15,7 +15,7 @@
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"vectors"};
+    CLI::App app{"vector"};
     std::string size_str, blockSize_str, gridSize_str;
     
     app.add_option("-n,--size", size_str, "vector size");

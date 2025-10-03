@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
     app.add_flag("--opencl", fOpenCL, "OpenCL");
     app.add_flag("--clblast", fClBlast, "clBLASt");
+
     app.add_flag("-a,--all", fAll, "All");
 
     CLI11_PARSE(app, argc, argv);
@@ -77,7 +78,7 @@ int main(int argc, char **argv) {
 
         std::cerr << "Memory utilized: " << vX.size_mb() + vY.size_mb() << "MB" << std::endl;
         std::cerr << "Running control.." << std::endl;
-        auto control = VectorCorrected(vX).dot(vY);
+        auto result = VectorCorrected(vX).dot(vY);
 
         auto fO3 = false;
         #ifdef OPT_LEVEL_O3
@@ -86,7 +87,7 @@ int main(int argc, char **argv) {
 
         json jsonResult = {
             {"size", fSize},
-            {"control", control},
+            {"result", result},
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
@@ -98,7 +99,6 @@ int main(int argc, char **argv) {
             {"tests", json::array()},
         };
 
-        auto result = 0.0f;
         if (fCPU) {
             auto runtime = "C++";
             std::cerr << "Running " << runtime << ".." << std::endl;

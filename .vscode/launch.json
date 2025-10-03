@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) Debug Vector",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\vectors_debug.exe",
+            "program": "${workspaceFolder}\\vector_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "args": ["--cpu"],
@@ -33,7 +33,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: Build Vectors Debug",
+            "preLaunchTask": "C/C++: Build Vector Debug",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

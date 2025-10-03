@@ -1,62 +1,119 @@
 {
     "tasks": [
         {
+            "label": "Run Vector",
+            "command": "vector.exe",
+            "args": [
+                "--all"
+            ],
+            "dependsOn": [
+                "Clean All",
+                "C/C++: Build Vector Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Matrix",
+            "command": "matrix.exe",
+            "args": [
+                "--all"
+            ],
+            "dependsOn": [
+                "Clean All",
+                "C/C++: Build Matrix Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean All",
+            "type": "shell",
+            "command": "git",
+            "args": [
+                "clean",
+                "-f",
+                "-x"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build All",
+            "dependsOn": [
+                "C/C++: Build Vector Debug",
+                "C/C++: Build Vector Release",
+                "C/C++: Build Matrix Debug",
+                "C/C++: Build Matrix Release"
+            ],
+            "problemMatcher": []
+        },
+        {
             "type": "cppbuild",
-            "label": "C/C++: Build Vectors Release",
+            "label": "C/C++: Build Vector Release",
             "command": "g++.exe",
             "args": [
                 "${workspaceFolder}\\vector.cpp",
-                "-o", "${workspaceFolder}\\vector.exe",
-
-                "-I", "${workspaceFolder}",
-                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
-
-                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
-
+                "-o",
+                "${workspaceFolder}\\vector.exe",
+                "-I",
+                "${workspaceFolder}",
+                "-I",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+                "-L",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
                 "-fopenmp",
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
                 "-std=c++17",
                 "-O3",
-                "-DOPT_LEVEL_O3",
+                "-DOPT_LEVEL_O3"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         },
         {
             "type": "cppbuild",
-            "label": "C/C++: Build Vectors Debug",
+            "label": "C/C++: Build Vector Debug",
             "command": "g++.exe",
             "args": [
-                "-g", "${workspaceFolder}\\vector.cpp",
-                "-o", "${workspaceFolder}\\vector_debug.exe",
-
-                "-I", "${workspaceFolder}",
-                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
-
-                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
-
+                "-g",
+                "${workspaceFolder}\\vector.cpp",
+                "-o",
+                "${workspaceFolder}\\vector_debug.exe",
+                "-I",
+                "${workspaceFolder}",
+                "-I",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+                "-L",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
                 "-fopenmp",
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17",
+                "-std=c++17"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         },
         {
             "type": "cppbuild",
@@ -64,55 +121,66 @@
             "command": "g++.exe",
             "args": [
                 "${workspaceFolder}\\matrix.cpp",
-                "-o", "${workspaceFolder}\\matrix.exe",
-
-                "-I", "${workspaceFolder}",
-                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
-
-                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
-
+                "-o",
+                "${workspaceFolder}\\matrix.exe",
+                "-I",
+                "${workspaceFolder}",
+                "-I",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+                "-L",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
                 "-std=c++17",
                 "-O3",
-                "-DOPT_LEVEL_O3",
+                "-DOPT_LEVEL_O3"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         },
         {
             "type": "cppbuild",
             "label": "C/C++: Build Matrix Debug",
             "command": "g++.exe",
             "args": [
-                "-g", "${workspaceFolder}\\matrix.cpp",
-                "-o", "${workspaceFolder}\\matrix_debug.exe",
-
-                "-I", "${workspaceFolder}",
-                "-I", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
-                "-I", "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
-                "-I", "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
-
-                "-L", "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
-                "-L", "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
-                "-L", "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
-
+                "-g",
+                "${workspaceFolder}\\matrix.cpp",
+                "-o",
+                "${workspaceFolder}\\matrix_debug.exe",
+                "-I",
+                "${workspaceFolder}",
+                "-I",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\include",
+                "-I",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\include",
+                "-I",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\include",
+                "-L",
+                "C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\lib",
+                "-L",
+                "C:\\3d\\CLBlast-1.6.3-windows-x64\\lib",
+                "-L",
+                "C:\\3d\\OpenBLAS-0.3.29_x64\\lib",
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17",
+                "-std=c++17"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         }
     ],
     "version": "2.0.0"

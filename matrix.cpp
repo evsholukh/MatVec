@@ -17,7 +17,11 @@ int main(int argc, char **argv) {
     CLI::App app{"matrix"};
 
     int fCols = 1000,
-        fRows = 1000;
+        fRows = 1000,
+        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
+
+    float fMin = -1.0,
+          fMax = 1.0;
 
     bool fCPU = false,
          fOpenBLAS = false,
@@ -27,9 +31,14 @@ int main(int argc, char **argv) {
     app.add_option("-c,--cols", fCols, "cols");
     app.add_option("-r,--rows", fRows, "cols");
 
+    app.add_option("-s,--seed", fSeed, "random seed");
+    app.add_option("--low", fMin, "random lower value");
+    app.add_option("--high", fMax, "random higher value");
+
     app.add_flag("--cpu", fCPU, "CPU");
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
     app.add_flag("--clblast", fClBlast, "clBLASt");
+
     app.add_flag("-a,--all", fAll, "All");
 
     CLI11_PARSE(app, argc, argv);
@@ -52,8 +61,8 @@ int main(int argc, char **argv) {
         std::cerr << "Creating matrix " << fRows << "x" << fRows << ".." << std::endl;
         auto arrZ = Utils::create_array<float>(M, 1);
 
-        Utils::randomize_array(arrX, N);
-        Utils::randomize_array(arrY, N);
+        Utils::randomize_array(arrX, N, fMin, fMax, fSeed);
+        Utils::randomize_array(arrY, N, fMin, fMax, fSeed);
 
         auto matX = Matrix<float>(arrX, fRows, fCols);
         auto matY = Matrix<float>(arrY, fCols, fRows);
@@ -63,7 +72,7 @@ int main(int argc, char **argv) {
 
         std::cerr << "Running control.." << std::endl;
         matX.dot(matY, matZ);
-        auto control = matZ.sum();
+        auto result = matZ.sum();
 
         auto fO3 = false;
         #ifdef OPT_LEVEL_O3
@@ -72,7 +81,10 @@ int main(int argc, char **argv) {
         json jsonResult = {
             {"rows", fRows},
             {"cols", fCols},
-            {"control", control},
+            {"result", result},
+            {"seed", fSeed},
+            {"min", fMin},
+            {"max", fMax},
             {"cpu", Utils::cpuName().c_str()},
             {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
             {"o3", fO3},
