@@ -1,5 +1,4 @@
 #include <iostream>
-#include <random>
 #include <chrono>
 #include <iomanip>
 #include <string>
@@ -9,82 +8,120 @@
 #include "vector.h"
 #include "utils.h"
 
+#include "opencl.h"
 #include "cuda.cuh"
+
 #include "CLI11.hpp"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 
 int main(int argc, char **argv) {
 
     CLI::App app{"vector"};
-    std::string size_str, blockSize_str, gridSize_str;
-    
-    app.add_option("-n,--size", size_str, "vector size");
-    app.add_option("-b,--block-size", blockSize_str, "block size");
-    app.add_option("-g,--grid-size", gridSize_str, "grid size");
+
+    int fSize = 100000000,
+        fBlockSize = 1024,
+        fGridSize = 32768,
+        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
+
+    float fMin = -1.0,
+          fMax = 1.0;
+
+    bool fCUDA = false,
+        fcuBLAS = false,
+        fAll = false;
+
+    app.add_option("-n,--size", fSize, "vector size");
+    app.add_option("-b,--block-size", fBlockSize, "block size");
+    app.add_option("-g,--grid-size", fGridSize, "grid size");
+
+    app.add_option("-s,--seed", fSeed, "random seed");
+    app.add_option("--low", fMin, "lower value");
+    app.add_option("--high", fMax, "higher value");
+
+    app.add_flag("--cuda", fCUDA, "CUDA");
+    app.add_flag("--cublas", fcuBLAS, "cuBLAS");
+
+    app.add_flag("-a,--all", fAll, "All");
 
     CLI11_PARSE(app, argc, argv);
 
-    size_t size = 100000000, gridSize = 1024, blockSize = 1024;
+    if (fAll) {
+        fCUDA = true;
+        fcuBLAS = true;
+    }
+    std::cerr << "Creating array " << fSize << ".." << std::endl;
+    auto dataX = Utils::create_array<float>(fSize, 1.0);
+    Utils::randomize_array<float>(dataX, fSize, fMin, fMax, fSeed);
+    auto vX = Vector(dataX, fSize);
+    std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
 
-    if (!size_str.empty()) {
-        size = std::atoi(size_str.c_str());
-    }
-    if (!blockSize_str.empty()) {
-        blockSize = std::atoi(blockSize_str.c_str());
-    }
-    if (!gridSize_str.empty()) {
-        gridSize = std::atoi(gridSize_str.c_str());
-    }
+    std::cerr << "Creating array " << fSize << ".." << std::endl;
+    auto dataY = Utils::create_array<float>(fSize, 1.0);
+    Utils::randomize_array<float>(dataY, fSize, fMin, fMax, fSeed);
+    auto vY = Vector(dataY, fSize);
+    std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
+
     try {
-        std::cerr << "Creating vector (N: " << size << ")" << std::endl;
+        std::cerr << "Running control.." << std::endl;
+        auto result = VectorCorrected(vX).dot(vY);
 
-        auto data_x = Utils::create_array<float>(size, 1, 0.0001f);
-        auto data_y = Utils::create_array<float>(size, 1, 0.0001f);
+        auto fO3 = false;
+        #ifdef OPT_LEVEL_O3
+            fO3 = true;
+        #endif
 
-        Utils::randomize_array(data_x, size);
-        Utils::randomize_array(data_y, size);
+        json jsonResult = {
+            {"size", fSize},
+            {"result", result},
+            {"seed", fSeed},
+            {"min", fMin},
+            {"max", fMax},
+            {"cpu", Utils::cpuName().c_str()},
+            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
+            {"o3", fO3},
+            {"block_size", fBlockSize},
+            {"grid_size", fGridSize},
+            {"tests", json::array()},
+        };
 
-        auto vx = Vector<float>(data_x, size);
-        auto vy = Vector<float>(data_y, size);
+        if (fCUDA) {
+            auto runtime = "CUDA";
+            std::cerr << "Running " << runtime << ".." << std::endl;
 
-        std::cerr << "Memory utilized: " << vx.size_mb() + vy.size_mb() << "MB" << std::endl;
+            auto cudaVx = VectorReduceCuda(vX, fBlockSize, fGridSize);
+            auto cudaVy = VectorReduceCuda(vY, fBlockSize, fGridSize);
 
-        printf("[");
-        for (size_t i = 64; i <= blockSize; i *= 2) {
-            for (size_t j = 1024; j <= gridSize; j *= 2) {
-                {
-                    auto cuda_rvx = VectorReduceCuda(vx, i, j);
-                    auto cuda_rvy = VectorReduceCuda(vy, i, j);
-                    auto value = 0.0f;
-                    auto duration = Utils::measure([&cuda_rvx, &cuda_rvy, &value]() { value = cuda_rvx.dot(cuda_rvy); });
-                    printf("{\"duration\": %f,"
-                            "\"size\": %zd,"
-                            "\"value\": %f,"
-                            "\"block_size\": %zd,"
-                            "\"grid_size\": %zd,"
-                            "\"runtime\": \"%s\","
-                            "\"device\": \"%s\"},\n",
-                        duration, size, value, i, j, "CUDA Reduction", CUDA::deviceName().c_str());
-                }
-            }
+            auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+            jsonResult["tests"].push_back({
+                {"duration", duration},
+                {"result", result}, 
+                {"runtime", runtime}, 
+            });
         }
-        {
-            auto cuda_vx = VectorCuda(vx);
-            auto cuda_vy = VectorCuda(vy);
-            auto value = 0.0f;
-            auto duration = Utils::measure([&cuda_vx, &cuda_vy, &value]() { value = cuda_vx.dot(cuda_vy); });
-            printf("{\"duration\": %f,"
-                    "\"size\": %zd,"
-                    "\"value\": %f,"
-                    "\"runtime\": \"%s\","
-                    "\"device\": \"%s\"}",
-                duration, size, value, "cuBLAS", CUDA::deviceName().c_str());
+        if (fcuBLAS) {
+            auto runtime = "cuBLAS";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
+            auto cudaVx = VectorCuda(vX);
+            auto cudaVy = VectorCuda(vY);
+
+            auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+            jsonResult["tests"].push_back({
+                {"duration", duration},
+                {"result", result}, 
+                {"runtime", runtime}, 
+            });
         }
-        printf("]");
+        std::cout << jsonResult.dump(4);
 
-        delete[] data_x;
-        delete[] data_y;
+        delete[] dataX;
+        delete[] dataY;
 
+        std::cerr << std::endl;
+        std::cerr << "Finished" << std::endl;
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;

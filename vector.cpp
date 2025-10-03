@@ -23,13 +23,9 @@ int main(int argc, char **argv) {
 
     CLI::App app{"vector"};
 
-    int fSize = 100000000,
-        fBlockSize = 1024,
-        fGridSize = 32768,
-        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
-
-    float fMin = -1.0,
-          fMax = 1.0;
+    int fSize = 100000000, fBlockSize = 1024, fGridSize = 32768;
+    auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
+    float fMin = -1.0, fMax = 1.0;
 
     bool fCPU = false,
         fOpenMP = false,
@@ -63,20 +59,19 @@ int main(int argc, char **argv) {
         fOpenCL = true;
         fClBlast = true;
     }
-
-    std::cerr << "Creating vector.. " << fSize << std::endl;
-
+    std::cerr << "Creating array " << fSize << ".." << std::endl;
     auto dataX = Utils::create_array<float>(fSize, 1.0);
+    Utils::randomize_array<float>(dataX, fSize, fMin, fMax, fSeed);
+    auto vX = Vector(dataX, fSize);
+    std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
+
+    std::cerr << "Creating array " << fSize << ".." << std::endl;
     auto dataY = Utils::create_array<float>(fSize, 1.0);
+    Utils::randomize_array<float>(dataY, fSize, fMin, fMax, fSeed);
+    auto vY = Vector(dataY, fSize);
+    std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
     try {
-        Utils::randomize_array<float>(dataX, fSize, fMin, fMax, fSeed);
-        Utils::randomize_array<float>(dataY, fSize, fMin, fMax, fSeed);
-
-        auto vX = Vector(dataX, fSize);
-        auto vY = Vector(dataY, fSize);
-
-        std::cerr << "Memory utilized: " << vX.size_mb() + vY.size_mb() << "MB" << std::endl;
         std::cerr << "Running control.." << std::endl;
         auto result = VectorCorrected(vX).dot(vY);
 
@@ -91,8 +86,8 @@ int main(int argc, char **argv) {
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
-            {"cpu", Utils::cpuName().c_str()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
+            {"cpu", Utils::cpuName()},
+            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice())},
             {"o3", fO3},
             {"block_size", fBlockSize},
             {"grid_size", fGridSize},

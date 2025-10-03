@@ -3,7 +3,7 @@
 
 #include "utils.h"
 #include "matrix.h"
-#include "openblas.h"
+#include "cuda.cuh"
 #include "opencl.h"
 
 #include "CLI11.hpp"
@@ -16,13 +16,14 @@ int main(int argc, char **argv) {
 
     CLI::App app{"matrix"};
 
-    int fCols = 1000, fRows = 1000;
-    auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
-    float fMin = -1.0, fMax = 1.0;
+    int fCols = 1000,
+        fRows = 1000,
+        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
 
-    bool fCPU = false,
-         fOpenBLAS = false,
-         fClBlast = false,
+    float fMin = -1.0,
+          fMax = 1.0;
+
+    bool fcuBLAS = false,
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
@@ -32,22 +33,17 @@ int main(int argc, char **argv) {
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
 
-    app.add_flag("--cpu", fCPU, "CPU");
-    app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
-    app.add_flag("--clblast", fClBlast, "clBLASt");
+    app.add_flag("--cublas", fcuBLAS, "OpenBLAS");
 
     app.add_flag("-a,--all", fAll, "All");
 
     CLI11_PARSE(app, argc, argv);
 
     if (fAll) {
-        fCPU = true;
-        fOpenBLAS = true;
-        fClBlast = true;
+        fcuBLAS = true;
     }
-
     const size_t N = fCols*fRows, M = fRows*fRows;
-
+    
     std::cerr << "Creating array " << N << ".." << std::endl;
     auto arrX = Utils::create_array<float>(N, 1);
     Utils::randomize_array(arrX, N, fMin, fMax, fSeed);
@@ -81,44 +77,18 @@ int main(int argc, char **argv) {
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
-            {"cpu", Utils::cpuName()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice())},
+            {"cpu", Utils::cpuName().c_str()},
+            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
             {"o3", fO3},
             {"tests", json::array()},
         };
-        if (fCPU) {
-            auto runtime = "C++";
+        if (fcuBLAS) {
+            auto runtime = "cuBLAS";
             std::cerr << "Running " << runtime << ".." << std::endl;
 
-            auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        if (fOpenBLAS) {
-            auto runtime = "OpenBLAS";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto x = MatrixBLAS(matX);
-            auto y = MatrixBLAS(matY);
-            auto z = MatrixBLAS(matZ);
-
-            auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        if (fClBlast) {
-            auto runtime = "clBLASt";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto x = MatrixCLBlast(matX);
-            auto y = MatrixCLBlast(matY);
-            auto z = MatrixCLBlast(matZ);
+            auto x = MatrixCuda(matX);
+            auto y = MatrixCuda(matY);
+            auto z = MatrixCuda(matZ);
 
             auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
             jsonResult["tests"].push_back({
