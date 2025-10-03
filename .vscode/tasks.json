@@ -7,7 +7,9 @@
                 "graph.py"
             ],
             "dependsOrder": "sequence",
-            "dependsOn": [],
+            "dependsOn": [
+                "Build All"
+            ],
             "problemMatcher": []
         },
         {

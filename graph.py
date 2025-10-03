@@ -36,7 +36,7 @@ arg_vars = [
     ["matrix_cuda_debug.exe", "--cublas"],
 ]
 
-N = 10
+N = 1
 total = []
 
 i = 0
