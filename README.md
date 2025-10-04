@@ -29,16 +29,15 @@
 *  -b,     --block-size INT    block size 
 *  -g,     --grid-size INT     grid size 
 *  -s,     --seed INT          random seed 
-*          --low FLOAT         random lower value 
-*          --high FLOAT        random higher value 
-*          --cpu               CPU 
-*          --openmp            OpenMP
-*          --openblas          OpenBLAS
-*          --opencl            OpenCL
-*          --clblast           clBLASt
+*  --low FLOAT         random lower value 
+*  --high FLOAT        random higher value 
+*  --cpu               CPU 
+*  --openmp            OpenMP
+*  --openblas          OpenBLAS
+*  --opencl            OpenCL
+*  --clblast           clBLASt
 *  -a,     --all               All
-*          --float             use single precision
-
+*  --float             use single precision
 ---
 
 ### Матрицы
@@ -53,14 +52,14 @@
 *  -c,     --cols INT          cols 
 *  -r,     --rows INT          rows 
 *  -s,     --seed INT          random seed 
-*          --low FLOAT         random lower value 
-*          --high FLOAT        random higher value 
-*          --cpu               CPU 
-*          --openmp            OpenMP 
-*          --openblas          OpenBLAS 
-*          --clblast           CLBlast 
+*  --low FLOAT         random lower value 
+*  --high FLOAT        random higher value 
+*  --cpu               CPU 
+*  --openmp            OpenMP 
+*  --openblas          OpenBLAS 
+*  --clblast           CLBlast 
 *  -a,     --all               All 
-*          --float             use float type 
+*  --float             use float type 
 ---
 
 ## 📊 Пример вывода
