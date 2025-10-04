@@ -23,23 +23,6 @@
 ```bash
 ./vector -n 1000000 --cpu
 ```
-
-Опции:
-*  -n,     --size INT          vector size 
-*  -b,     --block-size INT    block size 
-*  -g,     --grid-size INT     grid size 
-*  -s,     --seed INT          random seed 
-*  --low FLOAT         random lower value 
-*  --high FLOAT        random higher value 
-*  --cpu               CPU 
-*  --openmp            OpenMP
-*  --openblas          OpenBLAS
-*  --opencl            OpenCL
-*  --clblast           clBLASt
-*  -a,     --all               All
-*  --float             use single precision
----
-
 ### Матрицы
 
 Пример запуска:
@@ -48,55 +31,9 @@
 ./matrix -r 1000 -c 1000 --openblas
 ```
 
-Опции:
-*  -c,     --cols INT          cols 
-*  -r,     --rows INT          rows 
-*  -s,     --seed INT          random seed 
-*  --low FLOAT         random lower value 
-*  --high FLOAT        random higher value 
-*  --cpu               CPU 
-*  --openmp            OpenMP 
-*  --openblas          OpenBLAS 
-*  --clblast           CLBlast 
-*  -a,     --all               All 
-*  --float             use float type 
----
-
 ## 📊 Пример вывода
 
 Результаты выводятся в формате JSON:
-```json
-{
-    "cols": 1000,
-    "max": 1.0,
-    "min": -1.0,
-    "rows": 1000,
-    "seed": 42,
-    "tests": [
-        {
-            "duration": 575.0542602539063,
-            "result": -13002.140842026918,
-            "runtime": "C++"
-        },
-        {
-            "duration": 157.14089965820313,
-            "result": -13002.140842026922,
-            "runtime": "OpenMP"
-        },
-        {
-            "duration": 11.45460033416748,
-            "result": -13002.140842026925,
-            "runtime": "OpenBLAS"
-        },
-        {
-            "duration": 49.75310134887695,
-            "result": -13002.140842026918,
-            "runtime": "CLBlast"
-        }
-    ],
-    "type": "double"
-}
-```
 
 ```json
 {
