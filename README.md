@@ -1,9 +1,9 @@
 
-## MatMul
+## MatVec
 
 Этот проект реализует **бенчмарки операций над векторами и матрицами** с использованием различных технологий вычислений:
 
-* Чистый C++ (CPU)
+* Чистый C++
 * OpenMP
 * OpenBLAS
 * OpenCL
@@ -25,18 +25,19 @@
 ```
 
 Опции:
-
-* `-n, --size` — размер вектора (по умолчанию `100000000`)
-* `-b, --block-size` — размер блока (для OpenCL, по умолчанию `1024`)
-* `-g, --grid-size` — размер сетки (для OpenCL, по умолчанию `32768`)
-* `-s, --seed` — seed для генератора случайных чисел
-* `--low` / `--high` — диапазон значений
-* `--cpu` — тест на C++
-* `--openmp` — тест с OpenMP
-* `--openblas` — тест с OpenBLAS
-* `--opencl` — тест с OpenCL
-* `--clblast` — тест с CLBlast
-* `-a, --all` — запустить все доступные тесты
+*  -n,     --size INT          vector size 
+*  -b,     --block-size INT    block size 
+*  -g,     --grid-size INT     grid size 
+*  -s,     --seed INT          random seed 
+*          --low FLOAT         random lower value 
+*          --high FLOAT        random higher value 
+*          --cpu               CPU 
+*          --openmp            OpenMP
+*          --openblas          OpenBLAS
+*          --opencl            OpenCL
+*          --clblast           clBLASt
+*  -a,     --all               All
+*          --float             use single precision
 
 ---
 
@@ -49,39 +50,121 @@
 ```
 
 Опции:
-
-* `-r, --rows` — число строк (по умолчанию `1000`)
-* `-c, --cols` — число столбцов (по умолчанию `1000`)
-* `-s, --seed` — seed для генератора случайных чисел
-* `--low` / `--high` — диапазон значений
-* `--cpu` — тест на C++
-* `--openblas` — тест с OpenBLAS
-* `--clblast` — тест с CLBlast
-* `-a, --all` — запустить все доступные тесты
-
+*  -c,     --cols INT          cols 
+*  -r,     --rows INT          rows 
+*  -s,     --seed INT          random seed 
+*          --low FLOAT         random lower value 
+*          --high FLOAT        random higher value 
+*          --cpu               CPU 
+*          --openmp            OpenMP 
+*          --openblas          OpenBLAS 
+*          --clblast           CLBlast 
+*  -a,     --all               All 
+*          --float             use float type 
 ---
 
 ## 📊 Пример вывода
 
 Результаты выводятся в формате JSON:
+```json
+{
+    "cols": 1000,
+    "max": 1.0,
+    "min": -1.0,
+    "rows": 1000,
+    "seed": 42,
+    "tests": [
+        {
+            "duration": 575.0542602539063,
+            "result": -13002.140842026918,
+            "runtime": "C++"
+        },
+        {
+            "duration": 157.14089965820313,
+            "result": -13002.140842026922,
+            "runtime": "OpenMP"
+        },
+        {
+            "duration": 11.45460033416748,
+            "result": -13002.140842026925,
+            "runtime": "OpenBLAS"
+        },
+        {
+            "duration": 49.75310134887695,
+            "result": -13002.140842026918,
+            "runtime": "CLBlast"
+        }
+    ],
+    "type": "double"
+}
+```
 
 ```json
 {
-    "size": 1000000,
-    "result": 12345.67,
-    "cpu": "Intel(R) Core(TM) i7-9700K",
-    "gpu": "NVIDIA GeForce RTX 3080",
-    "tests": [
+    "block_size": 1024,
+    "grid_size": 32768,
+    "hardware": {
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "gpu": "Intel(R) Arc(TM) Graphics"
+    },
+    "max": 1.0,
+    "min": -1.0,
+    "result": 33329568.560428713,
+    "runtime": [
         {
-            "runtime": "C++",
-            "duration": 123.45,
-            "result": 12345.67
+            "name": "C++",
+            "optimization": "-O3",
+            "standard": "C++17",
+            "version": "13.3.0"
         },
         {
-            "runtime": "OpenBLAS",
-            "duration": 12.34,
-            "result": 12345.67
+            "name": "OpenMP",
+            "version": "4.5"
+        },
+        {
+            "name": "OpenBLAS",
+            "version": "OpenBLAS 0.3.29"
+        },
+        {
+            "driver": "31.0.101.5382",
+            "name": "OpenCL",
+            "platform": "Intel(R) OpenCL Graphics",
+            "version": "OpenCL 3.0 NEO"
+        },
+        {
+            "name": "CLBlast",
+            "version": "1.6.3"
         }
-    ]
+    ],
+    "seed": 42,
+    "size": 100000000,
+    "tests": [
+        {
+            "duration": 87.08979797363281,
+            "result": 33329568.56062876,
+            "runtime": "C++"
+        },
+        {
+            "duration": 33.437801361083984,
+            "result": 33329568.56047061,
+            "runtime": "OpenMP"
+        },
+        {
+            "duration": 25.69059944152832,
+            "result": 33329568.560438026,
+            "runtime": "OpenBLAS"
+        },
+        {
+            "duration": 39.6343994140625,
+            "result": 33329568.560428854,
+            "runtime": "OpenCL"
+        },
+        {
+            "duration": 35.8026008605957,
+            "result": 33329568.560428865,
+            "runtime": "CLBlast"
+        }
+    ],
+    "type": "double"
 }
 ```
