@@ -92,13 +92,16 @@ int main(int argc, char **argv) {
             {"block_size", fBlockSize},
             {"grid_size", fGridSize},
             {"tests", json::array()},
-            {"opencl",
-                {
-                    {"platform_name", OpenCL::platformName(OpenCL::defaultPlatform())},
-                    {"device_version", OpenCL::deviceVersion(OpenCL::defaultDevice())},
-                    {"driver_version", OpenCL::driverVersion(OpenCL::defaultDevice())},
-                }
-            }
+            {"compiler", {
+                {"version", __VERSION__},
+                {"name", __GNUC__},
+                {"standard", __cplusplus},
+            }},
+            {"opencl", {
+                {"platform", OpenCL::platformName(OpenCL::defaultPlatform())},
+                {"device", OpenCL::deviceVersion(OpenCL::defaultDevice())},
+                {"driver", OpenCL::driverVersion(OpenCL::defaultDevice())},
+            }},
         };
 
         if (fCPU) {
