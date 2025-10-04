@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
     try {
-        std::cerr << "Running control.." << std::endl;
+        std::cerr << "Running.." << std::endl;
         auto result = VectorCorrected(vX).dot(vY);
 
         auto fO3 = false;

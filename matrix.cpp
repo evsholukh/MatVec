@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     app.add_flag("--cpu", fCPU, "CPU");
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
-    app.add_flag("--clblast", fClBlast, "clBLASt");
+    app.add_flag("--clblast", fClBlast, "CLBlast");
 
     app.add_flag("-a,--all", fAll, "All");
 
@@ -66,14 +66,10 @@ int main(int argc, char **argv) {
     std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
 
     try {
-        std::cerr << "Running control.." << std::endl;
+        std::cerr << "Running.." << std::endl;
         matX.dot(matY, matZ);
         auto result = matZ.sum();
 
-        auto fO3 = false;
-        #ifdef OPT_LEVEL_O3
-            fO3 = true;
-        #endif
         json jsonResult = {
             {"rows", fRows},
             {"cols", fCols},
@@ -81,9 +77,6 @@ int main(int argc, char **argv) {
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
-            {"cpu", Utils::cpuName()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice())},
-            {"o3", fO3},
             {"tests", json::array()},
         };
         if (fCPU) {
@@ -113,7 +106,7 @@ int main(int argc, char **argv) {
             });
         }
         if (fClBlast) {
-            auto runtime = "clBLASt";
+            auto runtime = "CLBlast";
             std::cerr << "Running " << runtime << ".." << std::endl;
 
             auto x = MatrixCLBlast(matX);

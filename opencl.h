@@ -5,6 +5,7 @@
 
 #include <CL/opencl.hpp>
 #include <clblast_c.h>
+#include <sstream> 
 
 #include "utils.h"
 #include "matrix.h"
@@ -19,22 +20,22 @@ public:
         return cl::Context(device);
     }
 
-    static std::string deviceName(cl::Device device) {
+    static std::string getDeviceName(cl::Device device) {
         return device.getInfo<CL_DEVICE_NAME>();
     }
 
-    static std::string platformName(cl::Platform platform) {
+    static std::string getPlatformName(cl::Platform platform) {
         return platform.getInfo<CL_PLATFORM_NAME>(); 
     }
 
-    static std::string deviceVersion(cl::Device device) {
-        auto str = device.getInfo<CL_DEVICE_NAME>();
+    static std::string getDeviceVersion(cl::Device device) {
+        auto str = device.getInfo<CL_DEVICE_VERSION>();
         Utils::rtrim(str);
 
         return str;
     }
 
-    static std::string driverVersion(cl::Device device) {
+    static std::string getDriverVersion(cl::Device device) {
         return device.getInfo<CL_DRIVER_VERSION>();
     }
 
@@ -215,6 +216,13 @@ public:
         queue.enqueueReadBuffer(device_c, CL_TRUE, 0, sizeof(float), &result);
 
         return result;
+    }
+
+    static std::string getCLBlastVersion() {
+        std::stringstream ss;
+
+        ss << CLBLAST_VERSION_MAJOR << "." << CLBLAST_VERSION_MINOR << "." << CLBLAST_VERSION_PATCH;
+        return ss.str();
     }
 };
 
