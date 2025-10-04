@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <variant>
 
 #include "utils.h"
 #include "matrix.h"
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
          fOpenMP = false,
          fOpenBLAS = false,
          fClBlast = false,
+         fFloat = false,
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
@@ -40,6 +42,7 @@ int main(int argc, char **argv) {
     app.add_flag("--clblast", fClBlast, "CLBlast");
 
     app.add_flag("-a,--all", fAll, "All");
+    app.add_flag("--float", fFloat, "use float type");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -50,100 +53,114 @@ int main(int argc, char **argv) {
         fClBlast = true;
     }
 
-    const size_t N = fCols*fRows, M = fRows*fRows;
+    using Number = std::variant<float, double>;
+    std::vector<std::string> typeNames= {"float", "double"};
 
-    std::cerr << "Creating array " << N << ".." << std::endl;
-    auto arrX = Utils::create_array<float>(N, 1);
-    Utils::randomize_array(arrX, N, fMin, fMax, fSeed);
-    auto matX = Matrix<float>(arrX, fRows, fCols);
-    std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
-
-    std::cerr << "Creating array " << N << ".." << std::endl;
-    auto arrY = Utils::create_array<float>(N, 1);
-    Utils::randomize_array(arrY, N, fMin, fMax, fSeed);
-    auto matY = Matrix<float>(arrY, fCols, fRows);
-    std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
-
-    std::cerr << "Creating array " << M << ".." << std::endl;
-    auto arrZ = Utils::create_array<float>(M, 1);
-    auto matZ = Matrix<float>(arrZ, fRows, fRows);
-    std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
-
-    try {
-        std::cerr << "Running.." << std::endl;
-
-        json jsonResult = {
-            {"rows", fRows},
-            {"cols", fCols},
-            {"seed", fSeed},
-            {"min", fMin},
-            {"max", fMax},
-            {"tests", json::array()},
-        };
-        if (fCPU) {
-            auto runtime = "C++";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        if (fOpenMP) {
-            auto runtime = "OpenMP";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            MatrixOpenMP ompX(matX);
-
-            auto duration = Utils::measure([&ompX, &matY, &matZ]() { ompX.dot(matY, matZ); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        if (fOpenBLAS) {
-            auto runtime = "OpenBLAS";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto x = MatrixBLAS(matX);
-            auto y = MatrixBLAS(matY);
-            auto z = MatrixBLAS(matZ);
-
-            auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        if (fClBlast) {
-            auto runtime = "CLBlast";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto x = MatrixCLBlast(matX);
-            auto y = MatrixCLBlast(matY);
-            auto z = MatrixCLBlast(matZ);
-
-            auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        std::cout << jsonResult.dump(4) << std::endl;
-
-        delete[] arrX;
-        delete[] arrY;
-        delete[] arrZ;
-
-        std::cerr << "Finished" << std::endl;
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-        return EXIT_FAILURE;
+    Number sample = 0.0;
+    if (fFloat) {
+        sample = 0.0f;
     }
-    return EXIT_SUCCESS;
+    auto typeName = typeNames[sample.index()];
+
+    return std::visit([&](auto sample) {
+        using T = decltype(sample);
+
+        const size_t N = fCols*fRows, M = fRows*fRows;
+
+        std::cerr << "Creating array " << N << ".." << std::endl;
+        auto arrX = Utils::create_array<T>(N, 1);
+        Utils::randomize_array<T>(arrX, N, fMin, fMax, fSeed);
+        auto matX = Matrix(arrX, fRows, fCols);
+        std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
+
+        std::cerr << "Creating array " << N << ".." << std::endl;
+        auto arrY = Utils::create_array<T>(N, 1);
+        Utils::randomize_array<T>(arrY, N, fMin, fMax, fSeed);
+        auto matY = Matrix(arrY, fCols, fRows);
+        std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
+
+        std::cerr << "Creating array " << M << ".." << std::endl;
+        auto arrZ = Utils::create_array<T>(M, 1);
+        auto matZ = Matrix(arrZ, fRows, fRows);
+        std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
+
+        try {
+            std::cerr << "Running.." << std::endl;
+
+            json jsonResult = {
+                {"type", typeName},
+                {"rows", fRows},
+                {"cols", fCols},
+                {"seed", fSeed},
+                {"min", fMin},
+                {"max", fMax},
+                {"tests", json::array()},
+            };
+            if (fCPU) {
+                auto runtime = "C++";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", matZ.sum()},
+                    {"runtime", runtime},
+                });
+            }
+            if (fOpenMP) {
+                auto runtime = "OpenMP";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                MatrixOpenMP ompX(matX);
+
+                auto duration = Utils::measure([&ompX, &matY, &matZ]() { ompX.dot(matY, matZ); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", matZ.sum()},
+                    {"runtime", runtime},
+                });
+            }
+            if (fOpenBLAS) {
+                auto runtime = "OpenBLAS";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = MatrixBLAS(matX);
+                auto y = MatrixBLAS(matY);
+                auto z = MatrixBLAS(matZ);
+
+                auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", matZ.sum()},
+                    {"runtime", runtime},
+                });
+            }
+            if (fClBlast) {
+                auto runtime = "CLBlast";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = MatrixCLBlast(matX);
+                auto y = MatrixCLBlast(matY);
+                auto z = MatrixCLBlast(matZ);
+
+                auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", matZ.sum()},
+                    {"runtime", runtime},
+                });
+            }
+            std::cout << jsonResult.dump(4) << std::endl;
+
+            delete[] arrX;
+            delete[] arrY;
+            delete[] arrZ;
+
+            std::cerr << "Finished" << std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
+    }, sample);
 }
