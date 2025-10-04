@@ -6,6 +6,7 @@
 #include <CL/opencl.hpp>
 #include <clblast_c.h>
 
+#include "utils.h"
 #include "matrix.h"
 
 
@@ -20,6 +21,21 @@ public:
 
     static std::string deviceName(cl::Device device) {
         return device.getInfo<CL_DEVICE_NAME>();
+    }
+
+    static std::string platformName(cl::Platform platform) {
+        return platform.getInfo<CL_PLATFORM_NAME>(); 
+    }
+
+    static std::string deviceVersion(cl::Device device) {
+        auto str = device.getInfo<CL_DEVICE_NAME>();
+        Utils::rtrim(str);
+
+        return str;
+    }
+
+    static std::string driverVersion(cl::Device device) {
+        return device.getInfo<CL_DRIVER_VERSION>();
     }
 
     static cl::Platform defaultPlatform() {

@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
                 {"runtime", runtime},
             });
         }
-        std::cout << jsonResult.dump(4);
+        std::cout << jsonResult.dump(4) << std::endl;
 
         delete[] arrX;
         delete[] arrY;

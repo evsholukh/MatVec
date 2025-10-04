@@ -92,6 +92,13 @@ int main(int argc, char **argv) {
             {"block_size", fBlockSize},
             {"grid_size", fGridSize},
             {"tests", json::array()},
+            {"opencl",
+                {
+                    {"platform_name", OpenCL::platformName(OpenCL::defaultPlatform())},
+                    {"device_version", OpenCL::deviceVersion(OpenCL::defaultDevice())},
+                    {"driver_version", OpenCL::driverVersion(OpenCL::defaultDevice())},
+                }
+            }
         };
 
         if (fCPU) {
@@ -156,7 +163,7 @@ int main(int argc, char **argv) {
                 {"runtime", runtime},
             });
         }
-        std::cout << jsonResult.dump(4);
+        std::cout << jsonResult.dump(4) << std::endl;
 
         delete[] dataX;
         delete[] dataY;
