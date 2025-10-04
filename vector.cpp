@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <omp.h>
+#include <openblas_config.h>
 
 #include "matrix.h"
 #include "vector.h"
@@ -72,13 +74,8 @@ int main(int argc, char **argv) {
     std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
     try {
-        std::cerr << "Running control.." << std::endl;
+        std::cerr << "Running.." << std::endl;
         auto result = VectorCorrected(vX).dot(vY);
-
-        auto fO3 = false;
-        #ifdef OPT_LEVEL_O3
-            fO3 = true;
-        #endif
 
         json jsonResult = {
             {"size", fSize},
@@ -86,12 +83,39 @@ int main(int argc, char **argv) {
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
-            {"cpu", Utils::cpuName()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice())},
-            {"o3", fO3},
+            {"hardware", {
+                {"cpu", Utils::cpuName()},
+                {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
+            }},
             {"block_size", fBlockSize},
             {"grid_size", fGridSize},
             {"tests", json::array()},
+            {"runtime", {
+                {
+                    {"name", "C++"},
+                    {"version", Utils::getCompilerVersion()},
+                    {"standard", Utils::getStandardVersion()},
+                    {"optimization", Utils::getOptimizationFlag()},
+                },
+                {
+                    {"name", "OpenMP"},
+                    {"version", Utils::getOpenMPVersion()},
+                },
+                {
+                    {"name", "OpenBLAS"},
+                    {"version", Utils::getOpenBLASVersion()},
+                },
+                {
+                    {"name", "OpenCL"},
+                    {"version", OpenCL::getDeviceVersion(OpenCL::defaultDevice())},
+                    {"platform", OpenCL::getPlatformName(OpenCL::defaultPlatform())},
+                    {"driver", OpenCL::getDriverVersion(OpenCL::defaultDevice())},
+                },
+                {
+                    {"name", "CLBlast"},
+                    {"version", VectorCLBlast::getCLBlastVersion()},
+                },
+            }},
         };
 
         if (fCPU) {
@@ -143,7 +167,7 @@ int main(int argc, char **argv) {
             });
         }
         if (fClBlast) {
-            auto runtime = "clBLASt";
+            auto runtime = "CLBlast";
             std::cerr << "Running " << runtime << ".." << std::endl;
 
             auto clVx = VectorCLBlast(vX);
@@ -156,7 +180,7 @@ int main(int argc, char **argv) {
                 {"runtime", runtime},
             });
         }
-        std::cout << jsonResult.dump(4);
+        std::cout << jsonResult.dump(4) << std::endl;
 
         delete[] dataX;
         delete[] dataY;

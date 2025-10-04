@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
     std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
 
     try {
-        std::cerr << "Running control.." << std::endl;
+        std::cerr << "Running.." << std::endl;
         matX.dot(matY, matZ);
         auto result = matZ.sum();
 
