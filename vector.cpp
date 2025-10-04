@@ -62,14 +62,14 @@ int main(int argc, char **argv) {
         fClBlast = true;
     }
     std::cerr << "Creating array " << fSize << ".." << std::endl;
-    auto dataX = Utils::create_array<float>(fSize, 1.0);
-    Utils::randomize_array<float>(dataX, fSize, fMin, fMax, fSeed);
+    auto dataX = Utils::create_array<double>(fSize, 1.0);
+    Utils::randomize_array<double>(dataX, fSize, fMin, fMax, fSeed);
     auto vX = Vector(dataX, fSize);
     std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
 
     std::cerr << "Creating array " << fSize << ".." << std::endl;
-    auto dataY = Utils::create_array<float>(fSize, 1.0);
-    Utils::randomize_array<float>(dataY, fSize, fMin, fMax, fSeed);
+    auto dataY = Utils::create_array<double>(fSize, 1.0);
+    Utils::randomize_array<double>(dataY, fSize, fMin, fMax, fSeed);
     auto vY = Vector(dataY, fSize);
     std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
                 },
                 {
                     {"name", "CLBlast"},
-                    {"version", VectorCLBlast::getCLBlastVersion()},
+                    {"version", VectorCLBlast<>::getCLBlastVersion()},
                 },
             }},
         };

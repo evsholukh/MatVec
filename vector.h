@@ -65,13 +65,13 @@ class VectorCorrected : public Vector<T> {
 public:
     VectorCorrected(Vector<T> vec) : Vector<T>(vec) {}
 
-    float dot(const Vector<float> &o) const override {
-        float sum = 0.0f;
-        float c = 0.0f; // коррекция
+    T dot(const Vector<T> &o) const override {
+        T sum = 0.0f;
+        T c = 0.0f; // коррекция
 
         for (size_t i = 0; i < this->n; i++) {
-            float y = this->arr[i] * o.data()[i] - c;
-            float t = sum + y;
+            T y = this->arr[i] * o.data()[i] - c;
+            T t = sum + y;
             c = (t - sum) - y;
             sum = t;
         }

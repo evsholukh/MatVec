@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}\\vector_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "args": ["--cpu"],
+            "args": ["-a"],
             "environment": [
                 {
                     "name": "Path",
