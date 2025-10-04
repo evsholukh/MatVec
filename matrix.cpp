@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "openblas.h"
 #include "opencl.h"
+#include "openmp.h"
 
 #include "CLI11.hpp"
 #include "json.hpp"
@@ -21,6 +22,7 @@ int main(int argc, char **argv) {
     float fMin = -1.0, fMax = 1.0;
 
     bool fCPU = false,
+         fOpenMP = false,
          fOpenBLAS = false,
          fClBlast = false,
          fAll = false;
@@ -33,6 +35,7 @@ int main(int argc, char **argv) {
     app.add_option("--high", fMax, "random higher value");
 
     app.add_flag("--cpu", fCPU, "CPU");
+    app.add_flag("--openmp", fOpenMP, "OpenMP");
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
     app.add_flag("--clblast", fClBlast, "CLBlast");
 
@@ -42,6 +45,7 @@ int main(int argc, char **argv) {
 
     if (fAll) {
         fCPU = true;
+        fOpenMP = true;
         fOpenBLAS = true;
         fClBlast = true;
     }
@@ -67,13 +71,10 @@ int main(int argc, char **argv) {
 
     try {
         std::cerr << "Running.." << std::endl;
-        matX.dot(matY, matZ);
-        auto result = matZ.sum();
 
         json jsonResult = {
             {"rows", fRows},
             {"cols", fCols},
-            {"result", result},
             {"seed", fSeed},
             {"min", fMin},
             {"max", fMax},
@@ -84,6 +85,19 @@ int main(int argc, char **argv) {
             std::cerr << "Running " << runtime << ".." << std::endl;
 
             auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
+            jsonResult["tests"].push_back({
+                {"duration", duration},
+                {"result", matZ.sum()},
+                {"runtime", runtime},
+            });
+        }
+        if (fOpenMP) {
+            auto runtime = "OpenMP";
+            std::cerr << "Running " << runtime << ".." << std::endl;
+
+            MatrixOpenMP ompX(matX);
+
+            auto duration = Utils::measure([&ompX, &matY, &matZ]() { ompX.dot(matY, matZ); });
             jsonResult["tests"].push_back({
                 {"duration", duration},
                 {"result", matZ.sum()},
