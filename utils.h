@@ -51,7 +51,7 @@ public:
         int seed = 42) {
 
         std::mt19937 generator(seed);
-        std::uniform_real_distribution<T> dist(low, high);
+        std::uniform_real_distribution<float> dist(low, high);
 
         for (size_t i = 0; i < size; i++) {
             data[i] *= dist(generator);
