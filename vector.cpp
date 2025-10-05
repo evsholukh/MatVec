@@ -30,12 +30,14 @@ int main(int argc, char **argv) {
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
     float fMin = -1.0, fMax = 1.0;
 
-    bool fCPU = false,
+    bool fCorrect = false,
+        fCPU = false,
         fOpenMP = false,
         fOpenBLAS = false,
         fOpenCL = false,
         fClBlast = false,
         fFloat = false,
+        fDouble = false,
         fAll = false;
 
     app.add_option("-n,--size", fSize, "vector size");
@@ -46,6 +48,7 @@ int main(int argc, char **argv) {
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
 
+    app.add_flag("--correct", fCorrect, "use correction");
     app.add_flag("--cpu", fCPU, "CPU");
     app.add_flag("--openmp", fOpenMP, "OpenMP");
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
@@ -54,10 +57,12 @@ int main(int argc, char **argv) {
 
     app.add_flag("-a,--all", fAll, "All");
     app.add_flag("--float", fFloat, "use single precision");
+    app.add_flag("--double", fDouble, "use double precision");
 
     CLI11_PARSE(app, argc, argv);
 
     if (fAll) {
+        fCorrect = true;
         fCPU = true;
         fOpenMP = true;
         fOpenBLAS = true;
@@ -90,51 +95,59 @@ int main(int argc, char **argv) {
         std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
         try {
-            std::cerr << "Running.." << std::endl;
-            auto result = VectorCorrected(vX).dot(vY);
-
             json jsonResult = {
                 {"type",  typeName},
                 {"size", fSize},
-                {"result", result},
                 {"seed", fSeed},
-                {"min", fMin},
-                {"max", fMax},
-                {"hardware", {
-                    {"cpu", Utils::cpuName()},
-                    {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
-                }},
+                {"range", {fMin,fMax}},
+                {"cpu", Utils::cpuName()},
+                {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
                 {"block_size", fBlockSize},
                 {"grid_size", fGridSize},
                 {"tests", json::array()},
-                {"runtime", {
+                {"optimization", Utils::getOptimizationFlag()},
+                {"env", {
                     {
-                        {"name", "C++"},
+                        {"runtime", "C++"},
                         {"version", Utils::getCompilerVersion()},
-                        {"standard", Utils::getStandardVersion()},
-                        {"optimization", Utils::getOptimizationFlag()},
+                        // {"standard", Utils::getStandardVersion()},
+                        // {"optimization", Utils::getOptimizationFlag()},
                     },
                     {
-                        {"name", "OpenMP"},
+                        {"runtime", "OpenMP"},
                         {"version", Utils::getOpenMPVersion()},
                     },
                     {
-                        {"name", "OpenBLAS"},
+                        {"runtime", "OpenBLAS"},
                         {"version", Utils::getOpenBLASVersion()},
                     },
                     {
-                        {"name", "OpenCL"},
+                        {"runtime", "OpenCL"},
                         {"version", OpenCL::getDeviceVersion(OpenCL::defaultDevice())},
-                        {"platform", OpenCL::getPlatformName(OpenCL::defaultPlatform())},
-                        {"driver", OpenCL::getDriverVersion(OpenCL::defaultDevice())},
+                        // {"platform", OpenCL::getPlatformName(OpenCL::defaultPlatform())},
+                        // {"driver", OpenCL::getDriverVersion(OpenCL::defaultDevice())},
                     },
                     {
-                        {"name", "CLBlast"},
+                        {"runtime", "CLBlast"},
                         {"version", VectorCLBlast<>::getCLBlastVersion()},
                     },
                 }},
             };
+            T result = T(0);
 
+            if (fCorrect) {
+                auto runtime = "C++*";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = VectorCorrected(vX);
+                auto duration = Utils::measure([&x, &vY, &result]() { result = x.dot(vY); });
+
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", result}, 
+                    {"runtime", runtime}, 
+                });
+            }
             if (fCPU) {
                 auto runtime = "C++";
                 std::cerr << "Running " << runtime << ".." << std::endl;

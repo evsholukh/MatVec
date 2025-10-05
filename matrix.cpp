@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
          fOpenBLAS = false,
          fClBlast = false,
          fFloat = false,
+         fDouble = false, 
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
@@ -43,6 +44,7 @@ int main(int argc, char **argv) {
 
     app.add_flag("-a,--all", fAll, "All");
     app.add_flag("--float", fFloat, "use float type");
+    app.add_flag("--double", fDouble, "use double type");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -92,8 +94,7 @@ int main(int argc, char **argv) {
                 {"rows", fRows},
                 {"cols", fCols},
                 {"seed", fSeed},
-                {"min", fMin},
-                {"max", fMax},
+                {"range", {fMin, fMax}},
                 {"tests", json::array()},
             };
             if (fCPU) {
