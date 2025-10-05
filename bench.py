@@ -1,6 +1,8 @@
 import subprocess
 import json
 import sys
+import math
+
 
 # Vector
 argv_vars = [
@@ -15,20 +17,38 @@ argv_vars = [
 ]
 
 # Matrix
-argm_vars= [    
-    ["matrix.exe", "--cpu"],
+argm_vars= [
     ["matrix.exe", "--openblas"],
     ["matrix.exe", "--clblast"],
     ["matrix_cuda.exe", "--cublas"],
 ]
 
-N = 1
+N = 10
 total = []
 dtypes = ["--float", "--double"]
-sizes = [10**i for i in range(2, 9)]
+sizes = [10**i for i in range(3, 9)]
+rows_cols = [10**i for i in range(2, 5)]
 
 i = 0
 j = N * len(argv_vars) * len(dtypes) * len(sizes)
+
+for _ in range(N):
+    for av in argm_vars:
+        for dtype in dtypes:
+            for rc in rows_cols:
+                try:
+                    i += 1
+                    args = [*av, "--seed", str(42), dtype, "--rows", str(rc), "--cols", str(rc)]
+
+                    print(f"[{i}/{j}]", *args)
+                    output = subprocess.check_output(args, timeout=2400.0)
+                    data = json.loads(str(output, encoding="utf-8"))
+                    total.append(data)
+                except KeyboardInterrupt:
+                    print("Ctrl+C")
+                    sys.exit(-1)
+                except Exception as e:
+                    print(str(e))
 
 for _ in range(N):
     for av in argv_vars:
@@ -39,7 +59,7 @@ for _ in range(N):
                     args = [*av, "--seed", str(42), dtype, "--size", str(size)]
 
                     print(f"[{i}/{j}]", *args)
-                    output = subprocess.check_output(args, timeout=1200.0)
+                    output = subprocess.check_output(args, timeout=2400.0)
                     data = json.loads(str(output, encoding="utf-8"))
                     total.append(data)
                 except KeyboardInterrupt:
@@ -47,5 +67,6 @@ for _ in range(N):
                     sys.exit(-1)
                 except Exception as e:
                     print(str(e))
+
 
 json.dump(total, open("metrics.json", "w"), indent=2)
