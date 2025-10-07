@@ -50,6 +50,7 @@ for _ in range(N):
                 except Exception as e:
                     print(str(e))
 
+i = 0
 for _ in range(N):
     for av in argv_vars:
         for dtype in dtypes:
