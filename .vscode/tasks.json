@@ -1,14 +1,10 @@
 {
     "tasks": [
         {
-            "label": "Run Metrics",
+            "label": "Run Bench",
             "command": "python",
             "args": [
-                "graph.py"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Build All"
+                "bench.py"
             ],
             "problemMatcher": []
         },
@@ -55,6 +51,13 @@
                 "C/C++: Build Vector Release",
                 "C/C++: Build Matrix Debug",
                 "C/C++: Build Matrix Release",
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build All CUDA",
+            "dependsOrder": "sequence",
+            "dependsOn": [
                 "C/C++: Build Vector CUDA Debug",
                 "C/C++: Build Vector CUDA Release",
                 "C/C++: Build Matrix CUDA Debug",

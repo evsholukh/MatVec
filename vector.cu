@@ -89,7 +89,6 @@ int main(int argc, char **argv) {
                 {"grid_size", fGridSize},
                 {"tests", json::array()},
                 {"optimization", Utils::getOptimizationFlag()},
-                {"env", {}},
                 {"tests", json::array()},
             };
             

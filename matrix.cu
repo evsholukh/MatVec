@@ -73,16 +73,15 @@ int main(int argc, char **argv) {
         std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
 
         try {
-            std::cerr << "Running.." << std::endl;
-            matX.dot(matY, matZ);
-            auto result = matZ.sum();
-    
             json jsonResult = {
                 {"type", typeName},
                 {"rows", fRows},
                 {"cols", fCols},
                 {"seed", fSeed},
                 {"range", {fMin, fMax}},
+                {"cpu", Utils::cpuName()},
+                {"gpu", CUDA::getDeviceName()},
+                {"optimization", Utils::getOptimizationFlag()},
                 {"tests", json::array()},
             };
             if (fcuBLAS) {

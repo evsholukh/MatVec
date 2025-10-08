@@ -86,8 +86,6 @@ int main(int argc, char **argv) {
         std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
 
         try {
-            std::cerr << "Running.." << std::endl;
-
             json jsonResult = {
                 {"type", typeName},
                 {"rows", fRows},
