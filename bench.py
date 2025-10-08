@@ -23,7 +23,7 @@ argm_vars= [
     ["matrix_cuda.exe", "--cublas"],
 ]
 
-N = 10
+N = 1
 total = []
 dtypes = ["--float", "--double"]
 sizes = [10**i for i in range(3, 9)]

@@ -2,10 +2,11 @@
 
 #include "vector.h"
 #include "matrix.h"
+#include "utils.h"
 
 #include <cblas.h>
 
-template <typename T>
+template <typename T = void>
 class VectorBLAS : public Vector<T> {
 
 public:
@@ -14,6 +15,14 @@ public:
     virtual T dot(const Vector<T> &o) const {
         return T(0);
     };
+
+    static std::string getOpenBLASVersion() {
+        std::string str(OPENBLAS_VERSION);
+        Utils::ltrim(str);
+        Utils::rtrim(str);
+
+        return str;
+    }
 };
 
 template <>

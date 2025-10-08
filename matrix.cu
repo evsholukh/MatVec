@@ -1,10 +1,10 @@
 
 #include <iostream>
+#include <variant>
 
 #include "utils.h"
 #include "matrix.h"
-#include "cuda.cuh"
-#include "opencl.h"
+#include "vector.cuh"
 
 #include "CLI11.hpp"
 #include "json.hpp"
@@ -14,99 +14,104 @@ using json = nlohmann::json;
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"matrix"};
+    CLI::App app{argv[0]};
 
-    int fCols = 1000,
-        fRows = 1000,
-        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
-
-    float fMin = -1.0,
-          fMax = 1.0;
-
+    int fCols = 1000, fRows = 1000;
+    auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
+    float fMin = -1.0, fMax = 1.0;
     bool fcuBLAS = false,
+         fFloat = false,
+         fDouble = false,
          fAll = false;
 
     app.add_option("-c,--cols", fCols, "cols");
     app.add_option("-r,--rows", fRows, "rows");
-
     app.add_option("-s,--seed", fSeed, "random seed");
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
 
     app.add_flag("--cublas", fcuBLAS, "cuBLAS");
-
     app.add_flag("-a,--all", fAll, "All");
+    app.add_flag("--float", fFloat, "use float type");
+    app.add_flag("--double", fDouble, "use double type");
 
     CLI11_PARSE(app, argc, argv);
 
     if (fAll) {
         fcuBLAS = true;
     }
-    const size_t N = fCols*fRows, M = fRows*fRows;
-    
-    std::cerr << "Creating array " << N << ".." << std::endl;
-    auto arrX = Utils::create_array<float>(N, 1);
-    Utils::randomize_array(arrX, N, fMin, fMax, fSeed);
-    auto matX = Matrix<float>(arrX, fRows, fCols);
-    std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
+    using Number = std::variant<float, double>;
+    std::vector<std::string> typeNames= {"float", "double"};
 
-    std::cerr << "Creating array " << N << ".." << std::endl;
-    auto arrY = Utils::create_array<float>(N, 1);
-    Utils::randomize_array(arrY, N, fMin, fMax, fSeed);
-    auto matY = Matrix<float>(arrY, fCols, fRows);
-    std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
-
-    std::cerr << "Creating array " << M << ".." << std::endl;
-    auto arrZ = Utils::create_array<float>(M, 1);
-    auto matZ = Matrix<float>(arrZ, fRows, fRows);
-    std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
-
-    try {
-        std::cerr << "Running.." << std::endl;
-        matX.dot(matY, matZ);
-        auto result = matZ.sum();
-
-        auto fO3 = false;
-        #ifdef OPT_LEVEL_O3
-            fO3 = true;
-        #endif
-        json jsonResult = {
-            {"rows", fRows},
-            {"cols", fCols},
-            {"result", result},
-            {"seed", fSeed},
-            {"min", fMin},
-            {"max", fMax},
-            {"cpu", Utils::cpuName().c_str()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
-            {"o3", fO3},
-            {"tests", json::array()},
-        };
-        if (fcuBLAS) {
-            auto runtime = "cuBLAS";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto x = MatrixCuda(matX);
-            auto y = MatrixCuda(matY);
-            auto z = MatrixCuda(matZ);
-
-            auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", matZ.sum()},
-                {"runtime", runtime},
-            });
-        }
-        std::cout << jsonResult.dump(4);
-
-        delete[] arrX;
-        delete[] arrY;
-        delete[] arrZ;
-
-        std::cerr << "Finished" << std::endl;
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-        return EXIT_FAILURE;
+    Number sample = 0.0;
+    if (fFloat) {
+        sample = 0.0f;
     }
-    return EXIT_SUCCESS;
+    auto typeName = typeNames[sample.index()];
+
+    return std::visit([&](auto sample) {
+        using T = decltype(sample);
+
+        const size_t N = fCols*fRows,
+                     M = fRows*fRows;
+
+        std::cerr << "Creating array " << N << ".." << std::endl;
+        auto arrX = Utils::create_array<T>(N, 1);
+        Utils::randomize_array<T>(arrX, N, fMin, fMax, fSeed);
+        auto matX = Matrix<T>(arrX, fRows, fCols);
+        std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
+    
+        std::cerr << "Creating array " << N << ".." << std::endl;
+        auto arrY = Utils::create_array<T>(N, 1);
+        Utils::randomize_array<T>(arrY, N, fMin, fMax, fSeed);
+        auto matY = Matrix<T>(arrY, fCols, fRows);
+        std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
+    
+        std::cerr << "Creating array " << M << ".." << std::endl;
+        auto arrZ = Utils::create_array<T>(M, 1);
+        auto matZ = Matrix<T>(arrZ, fRows, fRows);
+        std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
+
+        try {
+            std::cerr << "Running.." << std::endl;
+            matX.dot(matY, matZ);
+            auto result = matZ.sum();
+    
+            json jsonResult = {
+                {"type", typeName},
+                {"rows", fRows},
+                {"cols", fCols},
+                {"seed", fSeed},
+                {"range", {fMin, fMax}},
+                {"tests", json::array()},
+            };
+            if (fcuBLAS) {
+                auto runtime = "cuBLAS";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = MatrixCuda(matX);
+                auto y = MatrixCuda(matY);
+                auto z = MatrixCuda(matZ);
+
+                auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", matZ.sum()},
+                    {"runtime", runtime},
+                });
+            }
+            std::cout << jsonResult.dump(4);
+    
+            delete[] arrX;
+            delete[] arrY;
+            delete[] arrZ;
+    
+            std::cerr << "Finished" << std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
+
+    }, sample);
 }

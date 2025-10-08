@@ -25,7 +25,7 @@ void handleError(cudaError_t err) {
 class CUDA {
 
 public:
-    static std::string deviceName(const size_t idx = 0) {
+    static std::string getDeviceName(const size_t idx = 0) {
         cudaDeviceProp prop;
         cudaGetDeviceProperties(&prop, idx);
 
@@ -56,7 +56,7 @@ public:
 };
 
 template <>
-float VectorCuda::dot(const VectorCuda<float> &o) const {
+float VectorCuda<float>::dot(const VectorCuda<float> &o) const {
     cublasHandle_t handle;
     cublasCreate(&handle);
 
@@ -68,7 +68,7 @@ float VectorCuda::dot(const VectorCuda<float> &o) const {
 }
 
 template <>
-double VectorCuda::dot(const VectorCuda<double> &o) const {
+double VectorCuda<double>::dot(const VectorCuda<double> &o) const {
     cublasHandle_t handle;
     cublasCreate(&handle);
 
@@ -101,7 +101,7 @@ public:
 };
 
 template <>
-void dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) const {
+void MatrixCuda<float>::dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) const {
     const float alpha = 1.0f;
     const float beta = 0.0f;
 
@@ -129,9 +129,9 @@ void dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) const {
 }
 
 template <>
-void dot(const MatrixCuda<double> &o, MatrixCuda<double> &r) const {
-    const float alpha = 1.0f;
-    const float beta = 0.0f;
+void MatrixCuda<double>::dot(const MatrixCuda<double> &o, MatrixCuda<double> &r) const {
+    const double alpha = 1.0;
+    const double beta = 0.0;
 
     cublasHandle_t handle;
     cublasCreate(&handle);
@@ -156,7 +156,7 @@ void dot(const MatrixCuda<double> &o, MatrixCuda<double> &r) const {
     cublasDestroy(handle);
 }
 
-
+template<typename T>
 __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
     extern __shared__ T sdata[];
     int tid = threadIdx.x;

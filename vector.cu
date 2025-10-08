@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
                 {"seed", fSeed},
                 {"range", {fMin,fMax}},
                 {"cpu", Utils::cpuName()},
-                {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
+                {"gpu", CUDA::getDeviceName()},
                 {"block_size", fBlockSize},
                 {"grid_size", fGridSize},
                 {"tests", json::array()},
@@ -92,7 +92,8 @@ int main(int argc, char **argv) {
                 {"env", {}},
                 {"tests", json::array()},
             };
-    
+            
+            T result = T(0);
             if (fCUDA) {
                 auto runtime = "CUDA";
                 std::cerr << "Running " << runtime << ".." << std::endl;

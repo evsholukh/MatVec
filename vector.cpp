@@ -24,7 +24,7 @@ using json = nlohmann::json;
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"vector"};
+    CLI::App app{argv[0]};
 
     int fSize = 100000000, fBlockSize = 1024, fGridSize = 32768;
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -109,23 +109,19 @@ int main(int argc, char **argv) {
                 {"env", {
                     {
                         {"runtime", "C++"},
-                        {"version", Utils::getCompilerVersion()},
-                        // {"standard", Utils::getStandardVersion()},
-                        // {"optimization", Utils::getOptimizationFlag()},
+                        {"version", OpenCL::getCompilerVersion()},
                     },
                     {
                         {"runtime", "OpenMP"},
-                        {"version", Utils::getOpenMPVersion()},
+                        {"version", VectorOpenMP<>::getOpenMPVersion()},
                     },
                     {
                         {"runtime", "OpenBLAS"},
-                        {"version", Utils::getOpenBLASVersion()},
+                        {"version", VectorBLAS<>::getOpenBLASVersion()},
                     },
                     {
                         {"runtime", "OpenCL"},
                         {"version", OpenCL::getDeviceVersion(OpenCL::defaultDevice())},
-                        // {"platform", OpenCL::getPlatformName(OpenCL::defaultPlatform())},
-                        // {"driver", OpenCL::getDriverVersion(OpenCL::defaultDevice())},
                     },
                     {
                         {"runtime", "CLBlast"},

@@ -20,7 +20,6 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Clean",
                 "C/C++: Build Vector Release"
             ],
             "problemMatcher": []
@@ -33,7 +32,6 @@
                 "--all"
             ],
             "dependsOn": [
-                "Clean",
                 "C/C++: Build Matrix Release"
             ],
             "problemMatcher": []
@@ -56,7 +54,11 @@
                 "C/C++: Build Vector Debug",
                 "C/C++: Build Vector Release",
                 "C/C++: Build Matrix Debug",
-                "C/C++: Build Matrix Release"
+                "C/C++: Build Matrix Release",
+                "C/C++: Build Vector CUDA Debug",
+                "C/C++: Build Vector CUDA Release",
+                "C/C++: Build Matrix CUDA Debug",
+                "C/C++: Build Matrix CUDA Release",
             ],
             "problemMatcher": []
         },
@@ -197,6 +199,82 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Vector CUDA Release",
+            "command": "nvcc.exe",
+            "args": [
+                "vector.cu",
+                "-o",
+                "vector_cuda.exe",
+                "-I",
+                "${env:CUDA_PATH_V12_4}\\include",
+                "-L",
+                "${env:CUDA_PATH_V12_4}\\lib\\x64",
+                "-lcudart",
+                "-lcublas",
+                "-allow-unsupported-compiler",
+                "-std=c++17",
+                "-O3",
+            ]
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Vector CUDA Debug",
+            "command": "nvcc.exe",
+            "args": [
+                "vector.cu",
+                "-g",
+                "-o",
+                "vector_cuda_debug.exe",
+                "-I",
+                "${env:CUDA_PATH_V12_4}\\include",
+                "-L",
+                "${env:CUDA_PATH_V12_4}\\lib\\x64",
+                "-lcudart",
+                "-lcublas",
+                "-allow-unsupported-compiler",
+                "-std=c++17",
+            ]
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Matrix CUDA Release",
+            "command": "nvcc.exe",
+            "args": [
+                "matrix.cu",
+                "-o",
+                "matrix_cuda.exe",
+                "-I",
+                "${env:CUDA_PATH_V12_4}\\include",
+                "-L",
+                "${env:CUDA_PATH_V12_4}\\lib\\x64",
+                "-lcudart",
+                "-lcublas",
+                "-allow-unsupported-compiler",
+                "-std=c++17",
+                "-O3",
+            ]
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build Matrix CUDA Debug",
+            "command": "nvcc.exe",
+            "args": [
+                "matrix.cu",
+                "-g",
+                "-o",
+                "matrix_cuda_debug.exe",
+                "-I",
+                "${env:CUDA_PATH_V12_4}\\include",
+                "-L",
+                "${env:CUDA_PATH_V12_4}\\lib\\x64",
+                "-lcudart",
+                "-lcublas",
+                "-allow-unsupported-compiler",
+                "-std=c++17",
+            ]
         }
     ],
     "version": "2.0.0"

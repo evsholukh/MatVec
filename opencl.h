@@ -71,6 +71,10 @@ public:
 
         return mem_size / (1024 * 1024);
     }
+
+    static std::string getCompilerVersion() {
+        return __VERSION__;
+    }
 };
 
 template <typename T>

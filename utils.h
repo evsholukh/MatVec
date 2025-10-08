@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <unordered_map>
 
-#include <openblas_config.h> 
-
 #ifdef _MSC_VER
 #include <intrin.h>
 #else
@@ -96,27 +94,6 @@ public:
         return str;
     }
 
-    static std::string getOpenMPVersion() {
-        #ifndef _OPENMP
-            #define _OPENMP 0
-        #endif
-        std::unordered_map<unsigned,std::string> map{
-            {199810,"1.0"},
-            {200203,"2.0"},
-            {200505,"2.5"},
-            {200805,"3.0"},
-            {201107,"3.1"},
-            {201307,"4.0"},
-            {201511,"4.5"},
-            {201811,"5.0"},
-            {202011,"5.1"},
-            {202111,"5.2"},
-            {202411,"6.0"},
-            {0, ""}
-        };
-        return map.at(_OPENMP);
-    }
-
     static std::string getStandardVersion() {
         std::unordered_map<unsigned,std::string> map {
             {201103L, "C++11"},
@@ -125,18 +102,6 @@ public:
             {202002L, "C++20"},
         };
         return map.at(__cplusplus);
-    }
-
-    static std::string getOpenBLASVersion() {
-        std::string str(OPENBLAS_VERSION);
-        ltrim(str);
-        rtrim(str);
-
-        return str;
-    }
-
-    static std::string getCompilerVersion() {
-        return __VERSION__;
     }
 
     static std::string getOptimizationFlag() {

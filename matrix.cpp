@@ -16,7 +16,7 @@ using json = nlohmann::json;
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"matrix"};
+    CLI::App app{argv[0]};
 
     int fCols = 1000, fRows = 1000;
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -32,7 +32,6 @@ int main(int argc, char **argv) {
 
     app.add_option("-c,--cols", fCols, "cols");
     app.add_option("-r,--rows", fRows, "rows");
-
     app.add_option("-s,--seed", fSeed, "random seed");
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
