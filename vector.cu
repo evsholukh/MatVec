@@ -3,13 +3,13 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <variant>
 
 #include "matrix.h"
 #include "vector.h"
 #include "utils.h"
 
-#include "opencl.h"
-#include "cuda.cuh"
+#include "vector.cuh"
 
 #include "CLI11.hpp"
 #include "json.hpp"
@@ -19,18 +19,16 @@ using json = nlohmann::json;
 
 int main(int argc, char **argv) {
 
-    CLI::App app{"vector"};
+    CLI::App app{argv[0]};
 
-    int fSize = 100000000,
-        fBlockSize = 1024,
-        fGridSize = 32768,
-        fSeed = std::chrono::system_clock::now().time_since_epoch().count();
-
-    float fMin = -1.0,
-          fMax = 1.0;
+    int fSize = 100000000, fBlockSize = 1024, fGridSize = 32768;
+    auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
+    float fMin = -1.0, fMax = 1.0;
 
     bool fCUDA = false,
         fcuBLAS = false,
+        fFloat = false,
+        fDouble = false,
         fAll = false;
 
     app.add_option("-n,--size", fSize, "vector size");
@@ -45,6 +43,8 @@ int main(int argc, char **argv) {
     app.add_flag("--cublas", fcuBLAS, "cuBLAS");
 
     app.add_flag("-a,--all", fAll, "All");
+    app.add_flag("--float", fFloat, "use single precision");
+    app.add_flag("--double", fDouble, "use double precision");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -52,78 +52,85 @@ int main(int argc, char **argv) {
         fCUDA = true;
         fcuBLAS = true;
     }
-    std::cerr << "Creating array " << fSize << ".." << std::endl;
-    auto dataX = Utils::create_array<float>(fSize, 1.0);
-    Utils::randomize_array<float>(dataX, fSize, fMin, fMax, fSeed);
-    auto vX = Vector(dataX, fSize);
-    std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
 
-    std::cerr << "Creating array " << fSize << ".." << std::endl;
-    auto dataY = Utils::create_array<float>(fSize, 1.0);
-    Utils::randomize_array<float>(dataY, fSize, fMin, fMax, fSeed);
-    auto vY = Vector(dataY, fSize);
-    std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
+    using Number = std::variant<float, double>;
+    std::vector<std::string> typeNames= {"float", "double"};
 
-    try {
-        std::cerr << "Running.." << std::endl;
-        auto result = VectorCorrected(vX).dot(vY);
-
-        auto fO3 = false;
-        #ifdef OPT_LEVEL_O3
-            fO3 = true;
-        #endif
-
-        json jsonResult = {
-            {"size", fSize},
-            {"result", result},
-            {"seed", fSeed},
-            {"min", fMin},
-            {"max", fMax},
-            {"cpu", Utils::cpuName().c_str()},
-            {"gpu", OpenCL::deviceName(OpenCL::defaultDevice()).c_str()},
-            {"o3", fO3},
-            {"block_size", fBlockSize},
-            {"grid_size", fGridSize},
-            {"tests", json::array()},
-        };
-
-        if (fCUDA) {
-            auto runtime = "CUDA";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto cudaVx = VectorReduceCuda(vX, fBlockSize, fGridSize);
-            auto cudaVy = VectorReduceCuda(vY, fBlockSize, fGridSize);
-
-            auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", result}, 
-                {"runtime", runtime}, 
-            });
-        }
-        if (fcuBLAS) {
-            auto runtime = "cuBLAS";
-            std::cerr << "Running " << runtime << ".." << std::endl;
-
-            auto cudaVx = VectorCuda(vX);
-            auto cudaVy = VectorCuda(vY);
-
-            auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
-            jsonResult["tests"].push_back({
-                {"duration", duration},
-                {"result", result}, 
-                {"runtime", runtime}, 
-            });
-        }
-        std::cout << jsonResult.dump(4);
-
-        delete[] dataX;
-        delete[] dataY;
-
-        std::cerr << "Finished" << std::endl;
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-        return EXIT_FAILURE;
+    Number sample = 0.0;
+    if (fFloat) {
+        sample = 0.0f;
     }
-    return EXIT_SUCCESS;
+    auto typeName = typeNames[sample.index()];
+
+    return std::visit([&](auto sample) {
+        using T = decltype(sample);
+
+        std::cerr << "Creating array " << fSize << ".." << std::endl;
+        auto dataX = Utils::create_array<T>(fSize, 1.0);
+        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
+        auto vX = Vector(dataX, fSize);
+        std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
+    
+        std::cerr << "Creating array " << fSize << ".." << std::endl;
+        auto dataY = Utils::create_array<T>(fSize, 1.0);
+        Utils::randomize_array<T>(dataY, fSize, fMin, fMax, fSeed);
+        auto vY = Vector(dataY, fSize);
+        std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
+
+        try {
+            json jsonResult = {
+                {"type",  typeName},
+                {"size", fSize},
+                {"seed", fSeed},
+                {"range", {fMin,fMax}},
+                {"cpu", Utils::cpuName()},
+                {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
+                {"block_size", fBlockSize},
+                {"grid_size", fGridSize},
+                {"tests", json::array()},
+                {"optimization", Utils::getOptimizationFlag()},
+                {"env", {}},
+                {"tests", json::array()},
+            };
+    
+            if (fCUDA) {
+                auto runtime = "CUDA";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+    
+                auto cudaVx = VectorReduceCuda(vX, fBlockSize, fGridSize);
+                auto cudaVy = VectorReduceCuda(vY, fBlockSize, fGridSize);
+    
+                auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", result}, 
+                    {"runtime", runtime}, 
+                });
+            }
+            if (fcuBLAS) {
+                auto runtime = "cuBLAS";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+    
+                auto cudaVx = VectorCuda(vX);
+                auto cudaVy = VectorCuda(vY);
+    
+                auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+                jsonResult["tests"].push_back({
+                    {"duration", duration},
+                    {"result", result}, 
+                    {"runtime", runtime}, 
+                });
+            }
+            std::cout << jsonResult.dump(4);
+    
+            delete[] dataX;
+            delete[] dataY;
+    
+            std::cerr << "Finished" << std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
+    }, sample);
 }

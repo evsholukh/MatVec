@@ -182,6 +182,7 @@ __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
     }
 }
 
+template <typename T>
 class VectorReduceCuda {
 
 protected:
@@ -206,7 +207,7 @@ public:
         cudaFree(d_x);
     }
 
-    T VectorReduceCuda::dot(const VectorReduceCuda<T> &o) const {
+    T dot(const VectorReduceCuda<T> &o) const {
         const size_t sharedMemSize = blockSize * sizeof(T);
 
         T *d_r;
