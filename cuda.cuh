@@ -33,86 +33,137 @@ public:
     }
 };
 
+template<typename T>
 class VectorCuda {
 
 protected:
-    Vector<float> vec;
-    float *d_x;
+    Vector<T> vec;
+    T *d_x;
 
 public:
-    VectorCuda(Vector<float> vec) : vec(vec) {
-        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(float)));
-        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(float), cudaMemcpyHostToDevice));
+    VectorCuda(Vector<T> vec) : vec(vec) {
+        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
+        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
     ~VectorCuda() {
         cudaFree(d_x);
     }
 
-    float dot(const VectorCuda &o) const {
-        cublasHandle_t handle;
-        cublasCreate(&handle);
-
-        float result = 0;
-        cublasSdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
-        cublasDestroy(handle);
-
-        return result;
+    T dot(const VectorCuda<T> &o) const {
+        return T(0);
     }
 };
 
+template <>
+float VectorCuda::dot(const VectorCuda<float> &o) const {
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    float result = 0;
+    cublasSdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
+    cublasDestroy(handle);
+
+    return result;
+}
+
+template <>
+double VectorCuda::dot(const VectorCuda<double> &o) const {
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    double result = 0;
+    cublasDdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
+    cublasDestroy(handle);
+
+    return result;
+}
+
+
+template<typename T>
 class MatrixCuda {
 
 protected:
-    Matrix<float> mat;
-    float *d_A;
+    Matrix<T> mat;
+    T *d_A;
 
 public:
-    MatrixCuda(Matrix<float> mat) : mat(mat) {
-        CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(float)));
-        CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(float), cudaMemcpyHostToDevice));
+    MatrixCuda(Matrix<T> mat) : mat(mat) {
+        CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(T)));
+        CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
     ~MatrixCuda() {
         cudaFree(d_A);
     }
 
-    void dot(const MatrixCuda &o, MatrixCuda &r) const {
-        const float alpha = 1.0f;
-        const float beta = 0.0f;
-
-        cublasHandle_t handle;
-        cublasCreate(&handle);
-
-        cublasSgemm(
-            handle,        // handle
-            CUBLAS_OP_N,   // transa
-            CUBLAS_OP_N,   // transb
-            mat.rows(),    // m
-            o.mat.cols(),  // n
-            mat.cols(),    // k
-            &alpha,        // alpha
-            d_A,           // A
-            mat.rows(),    // lda
-            o.d_A,         // B
-            mat.cols(),    // ldb
-            &beta,         // beta
-            r.d_A,         // C
-            mat.rows());   // ldc
-
-        CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(float), cudaMemcpyDeviceToHost));
-        cublasDestroy(handle);
-    }
+    void dot(const MatrixCuda<T> &o, MatrixCuda<T> &r) const {}
 };
 
+template <>
+void dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) const {
+    const float alpha = 1.0f;
+    const float beta = 0.0f;
 
-__global__ void reduceDotKernel(const float* x, const float* y, float *r, int n) {
-    extern __shared__ float sdata[];
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    cublasSgemm(
+        handle,        // handle
+        CUBLAS_OP_N,   // transa
+        CUBLAS_OP_N,   // transb
+        mat.rows(),    // m
+        o.mat.cols(),  // n
+        mat.cols(),    // k
+        &alpha,        // alpha
+        d_A,           // A
+        mat.rows(),    // lda
+        o.d_A,         // B
+        mat.cols(),    // ldb
+        &beta,         // beta
+        r.d_A,         // C
+        mat.rows());   // ldc
+
+    CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(float), cudaMemcpyDeviceToHost));
+    cublasDestroy(handle);
+}
+
+template <>
+void dot(const MatrixCuda<double> &o, MatrixCuda<double> &r) const {
+    const float alpha = 1.0f;
+    const float beta = 0.0f;
+
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    cublasDgemm(
+        handle,        // handle
+        CUBLAS_OP_N,   // transa
+        CUBLAS_OP_N,   // transb
+        mat.rows(),    // m
+        o.mat.cols(),  // n
+        mat.cols(),    // k
+        &alpha,        // alpha
+        d_A,           // A
+        mat.rows(),    // lda
+        o.d_A,         // B
+        mat.cols(),    // ldb
+        &beta,         // beta
+        r.d_A,         // C
+        mat.rows());   // ldc
+
+    CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(double), cudaMemcpyDeviceToHost));
+    cublasDestroy(handle);
+}
+
+
+__global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
+    extern __shared__ T sdata[];
     int tid = threadIdx.x;
     int idx = blockIdx.x * blockDim.x + tid;
     int stride = blockDim.x * gridDim.x;
 
-    float sum = 0.0f;
+    T sum = 0.0f;
     for (int i = idx; i < n; i += stride) {
         sum += x[i] * y[i];
     }
@@ -134,39 +185,39 @@ __global__ void reduceDotKernel(const float* x, const float* y, float *r, int n)
 class VectorReduceCuda {
 
 protected:
-    Vector<float> vec;
-    float *d_x;
+    Vector<T> vec;
+    T *d_x;
     size_t blockSize, gridSize;
 
 public:
     VectorReduceCuda(
-        Vector<float> vec,
+        Vector<T> vec,
         size_t blockSize = 1024,
         size_t gridSize = 512
     ) : vec(vec),
         blockSize(blockSize),
         gridSize(gridSize) {
 
-        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(float)));
-        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(float), cudaMemcpyHostToDevice));
+        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
+        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
     ~VectorReduceCuda() {
         cudaFree(d_x);
     }
 
-    float dot(const VectorReduceCuda &o) const {
-        const size_t sharedMemSize = blockSize * sizeof(float);
+    T VectorReduceCuda::dot(const VectorReduceCuda<T> &o) const {
+        const size_t sharedMemSize = blockSize * sizeof(T);
 
-        float *d_r;
-        CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(float)));
+        T *d_r;
+        CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(T)));
 
-        reduceDotKernel<<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, vec.size());
+        reduceDotKernel<T><<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, vec.size());
 
-        float *res_data = new float[gridSize];
-        Vector<float> vec(res_data, gridSize);
+        T *res_data = new T[gridSize];
+        Vector<T> vec(res_data, gridSize);
 
-        cudaMemcpy(res_data, d_r, gridSize * sizeof(float), cudaMemcpyDeviceToHost);
+        cudaMemcpy(res_data, d_r, gridSize * sizeof(T), cudaMemcpyDeviceToHost);
 
         auto res = vec.sum();
         delete[] res_data;
