@@ -26,8 +26,8 @@ argm_vars= [
 N = 1
 total = []
 dtypes = ["--float", "--double"]
-sizes = [10**i for i in range(3, 9)]
-rows_cols = [10**i for i in range(2, 5)]
+sizes = [(10**8)*i for i in range(1, 10)]
+rows_cols = [(10**3)*(i + 1) for i in range(1, 10)]
 
 i = 0
 j = N * len(argv_vars) * len(dtypes) * len(sizes)
