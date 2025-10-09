@@ -96,11 +96,11 @@ int main(int argc, char **argv) {
             if (fCUDA) {
                 auto runtime = "CUDA";
                 std::cerr << "Running " << runtime << ".." << std::endl;
-    
-                auto cudaVx = VectorReduceCuda(vX, fBlockSize, fGridSize);
-                auto cudaVy = VectorReduceCuda(vY, fBlockSize, fGridSize);
-    
-                auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+
+                auto cudaVx = VectorCUDA(vX, fBlockSize, fGridSize);
+                auto cudaVy = VectorCUDA(vY, fBlockSize, fGridSize);
+
+                auto duration = Utils::measure([&cudaVx, &cudaVy, &result]() { result = cudaVx.dot(cudaVy); });
                 jsonResult["tests"].push_back({
                     {"duration", duration},
                     {"result", result}, 
@@ -110,11 +110,11 @@ int main(int argc, char **argv) {
             if (fcuBLAS) {
                 auto runtime = "cuBLAS";
                 std::cerr << "Running " << runtime << ".." << std::endl;
-    
-                auto cudaVx = VectorCuda(vX);
-                auto cudaVy = VectorCuda(vY);
-    
-                auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+
+                auto cudaVx = VectorCuBLAS(vX);
+                auto cudaVy = VectorCuBLAS(vY);
+
+                auto duration = Utils::measure([&cudaVx, &cudaVy, &result]() { result = cudaVx.dot(cudaVy); });
                 jsonResult["tests"].push_back({
                     {"duration", duration},
                     {"result", result}, 

@@ -34,29 +34,29 @@ public:
 };
 
 template<typename T>
-class VectorCuda {
+class VectorCuBLAS {
 
 protected:
     Vector<T> vec;
     T *d_x;
 
 public:
-    VectorCuda(Vector<T> vec) : vec(vec) {
+    VectorCuBLAS(Vector<T> vec) : vec(vec) {
         CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
         CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
-    ~VectorCuda() {
+    ~VectorCuBLAS() {
         cudaFree(d_x);
     }
 
-    T dot(const VectorCuda<T> &o) const {
+    T dot(const VectorCuBLAS<T> &o) const {
         return T(0);
     }
 };
 
 template <>
-float VectorCuda<float>::dot(const VectorCuda<float> &o) const {
+float VectorCuBLAS<float>::dot(const VectorCuBLAS<float> &o) const {
     cublasHandle_t handle;
     cublasCreate(&handle);
 
@@ -68,7 +68,7 @@ float VectorCuda<float>::dot(const VectorCuda<float> &o) const {
 }
 
 template <>
-double VectorCuda<double>::dot(const VectorCuda<double> &o) const {
+double VectorCuBLAS<double>::dot(const VectorCuBLAS<double> &o) const {
     cublasHandle_t handle;
     cublasCreate(&handle);
 
@@ -81,27 +81,27 @@ double VectorCuda<double>::dot(const VectorCuda<double> &o) const {
 
 
 template<typename T>
-class MatrixCuda {
+class MatrixCuBLAS {
 
 protected:
     Matrix<T> mat;
     T *d_A;
 
 public:
-    MatrixCuda(Matrix<T> mat) : mat(mat) {
+    MatrixCuBLAS(Matrix<T> mat) : mat(mat) {
         CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(T)));
         CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
-    ~MatrixCuda() {
+    ~MatrixCuBLAS() {
         cudaFree(d_A);
     }
 
-    void dot(const MatrixCuda<T> &o, MatrixCuda<T> &r) const {}
+    void dot(const MatrixCuBLAS<T> &o, MatrixCuBLAS<T> &r) const {}
 };
 
 template <>
-void MatrixCuda<float>::dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) const {
+void MatrixCuBLAS<float>::dot(const MatrixCuBLAS<float> &o, MatrixCuBLAS<float> &r) const {
     const float alpha = 1.0f;
     const float beta = 0.0f;
 
@@ -129,7 +129,7 @@ void MatrixCuda<float>::dot(const MatrixCuda<float> &o, MatrixCuda<float> &r) co
 }
 
 template <>
-void MatrixCuda<double>::dot(const MatrixCuda<double> &o, MatrixCuda<double> &r) const {
+void MatrixCuBLAS<double>::dot(const MatrixCuBLAS<double> &o, MatrixCuBLAS<double> &r) const {
     const double alpha = 1.0;
     const double beta = 0.0;
 
@@ -158,12 +158,14 @@ void MatrixCuda<double>::dot(const MatrixCuda<double> &o, MatrixCuda<double> &r)
 
 template<typename T>
 __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
-    extern __shared__ T sdata[];
+    extern __shared__ __align__(sizeof(T)) unsigned char sdata_raw[];
+    T* sdata = reinterpret_cast<T*>(sdata_raw);
+
     int tid = threadIdx.x;
     int idx = blockIdx.x * blockDim.x + tid;
     int stride = blockDim.x * gridDim.x;
 
-    T sum = 0.0f;
+    T sum = T(0.0);
     for (int i = idx; i < n; i += stride) {
         sum += x[i] * y[i];
     }
@@ -183,7 +185,7 @@ __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
 }
 
 template <typename T>
-class VectorReduceCuda {
+class VectorCUDA {
 
 protected:
     Vector<T> vec;
@@ -191,7 +193,7 @@ protected:
     size_t blockSize, gridSize;
 
 public:
-    VectorReduceCuda(
+    VectorCUDA(
         Vector<T> vec,
         size_t blockSize = 1024,
         size_t gridSize = 512
@@ -203,11 +205,11 @@ public:
         CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
 
-    ~VectorReduceCuda() {
+    ~VectorCUDA() {
         cudaFree(d_x);
     }
 
-    T dot(const VectorReduceCuda<T> &o) const {
+    T dot(const VectorCUDA<T> &o) const {
         const size_t sharedMemSize = blockSize * sizeof(T);
 
         T *d_r;

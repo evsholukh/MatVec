@@ -88,9 +88,9 @@ int main(int argc, char **argv) {
                 auto runtime = "cuBLAS";
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
-                auto x = MatrixCuda(matX);
-                auto y = MatrixCuda(matY);
-                auto z = MatrixCuda(matZ);
+                auto x = MatrixCuBLAS(matX);
+                auto y = MatrixCuBLAS(matY);
+                auto z = MatrixCuBLAS(matZ);
 
                 auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
                 jsonResult["tests"].push_back({
