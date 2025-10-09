@@ -6,8 +6,8 @@ import math
 
 # Vector
 argv_vars = [
-    ["vector.exe", "--correct"],
-    ["vector.exe", "--cpu"],
+    # ["vector.exe", "--correct"],
+    # ["vector.exe", "--cpu"],
     ["vector.exe", "--openmp"],
     ["vector.exe", "--openblas"],
     ["vector.exe", "--opencl"],

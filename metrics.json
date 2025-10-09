@@ -9,7 +9,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 25.20639991760254,
+        "duration": 25.228599548339844,
         "result": -48542.86328125,
         "runtime": "OpenBLAS"
       }
@@ -26,7 +26,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 89.61039733886719,
+        "duration": 100.01619720458984,
         "result": -11137.349609375,
         "runtime": "OpenBLAS"
       }
@@ -43,7 +43,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 241.8988037109375,
+        "duration": 224.36639404296875,
         "result": -21239.7578125,
         "runtime": "OpenBLAS"
       }
@@ -60,7 +60,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 469.1263122558594,
+        "duration": 451.70361328125,
         "result": 22216.50390625,
         "runtime": "OpenBLAS"
       }
@@ -77,7 +77,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 800.1300048828125,
+        "duration": 812.28173828125,
         "result": -22870.158203125,
         "runtime": "OpenBLAS"
       }
@@ -94,7 +94,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1112.171875,
+        "duration": 1128.6888427734375,
         "result": -11283.5947265625,
         "runtime": "OpenBLAS"
       }
@@ -111,7 +111,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1653.1668701171875,
+        "duration": 1732.005126953125,
         "result": -235417.390625,
         "runtime": "OpenBLAS"
       }
@@ -128,7 +128,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 2548.461181640625,
+        "duration": 2316.592529296875,
         "result": 147767.90625,
         "runtime": "OpenBLAS"
       }
@@ -145,7 +145,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 3135.0751953125,
+        "duration": 3220.55859375,
         "result": 29361.5625,
         "runtime": "OpenBLAS"
       }
@@ -162,7 +162,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 70.96070098876953,
+        "duration": 88.43489837646484,
         "result": -48545.12683178768,
         "runtime": "OpenBLAS"
       }
@@ -179,7 +179,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 326.9112243652344,
+        "duration": 327.31329345703125,
         "result": -11136.07660054245,
         "runtime": "OpenBLAS"
       }
@@ -196,7 +196,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 801.0877075195312,
+        "duration": 818.330810546875,
         "result": -21217.617446441986,
         "runtime": "OpenBLAS"
       }
@@ -213,7 +213,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1472.9866943359375,
+        "duration": 1527.196044921875,
         "result": 22215.489890443434,
         "runtime": "OpenBLAS"
       }
@@ -230,7 +230,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 2407.79736328125,
+        "duration": 2574.681884765625,
         "result": -22870.169373390756,
         "runtime": "OpenBLAS"
       }
@@ -247,7 +247,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 5625.06494140625,
+        "duration": 4208.00439453125,
         "result": -11293.68792866003,
         "runtime": "OpenBLAS"
       }
@@ -264,7 +264,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 5774.60888671875,
+        "duration": 6219.533203125,
         "result": -235401.16876021808,
         "runtime": "OpenBLAS"
       }
@@ -281,7 +281,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 8112.4345703125,
+        "duration": 8447.734375,
         "result": 147783.63842605538,
         "runtime": "OpenBLAS"
       }
@@ -298,7 +298,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 11382.9365234375,
+        "duration": 11820.1044921875,
         "result": 29370.662186417314,
         "runtime": "OpenBLAS"
       }
@@ -315,7 +315,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 54.77210235595703,
+        "duration": 58.04389953613281,
         "result": -48543.28125,
         "runtime": "CLBlast"
       }
@@ -332,7 +332,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 106.79450225830078,
+        "duration": 96.75859832763672,
         "result": -11137.1005859375,
         "runtime": "CLBlast"
       }
@@ -349,7 +349,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 166.42999267578125,
+        "duration": 152.52159118652344,
         "result": -21243.10546875,
         "runtime": "CLBlast"
       }
@@ -366,7 +366,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 241.7906951904297,
+        "duration": 233.7840118408203,
         "result": 22218.044921875,
         "runtime": "CLBlast"
       }
@@ -383,7 +383,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 316.3057861328125,
+        "duration": 319.2507019042969,
         "result": -22871.30078125,
         "runtime": "CLBlast"
       }
@@ -400,7 +400,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 475.6856994628906,
+        "duration": 492.90179443359375,
         "result": -11282.73046875,
         "runtime": "CLBlast"
       }
@@ -417,7 +417,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 612.8446655273438,
+        "duration": 619.7316284179688,
         "result": -235407.953125,
         "runtime": "CLBlast"
       }
@@ -434,7 +434,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 859.33349609375,
+        "duration": 870.989501953125,
         "result": 147769.640625,
         "runtime": "CLBlast"
       }
@@ -451,7 +451,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1168.558349609375,
+        "duration": 1195.9493408203125,
         "result": 29361.80859375,
         "runtime": "CLBlast"
       }
@@ -468,7 +468,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 137.8052978515625,
+        "duration": 139.9766082763672,
         "result": -48545.12683178786,
         "runtime": "CLBlast"
       }
@@ -485,7 +485,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 349.639892578125,
+        "duration": 344.68011474609375,
         "result": -11136.07660054248,
         "runtime": "CLBlast"
       }
@@ -502,7 +502,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 716.4448852539062,
+        "duration": 734.2003173828125,
         "result": -21217.61744644202,
         "runtime": "CLBlast"
       }
@@ -519,7 +519,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1359.083984375,
+        "duration": 1401.208984375,
         "result": 22215.48989044185,
         "runtime": "CLBlast"
       }
@@ -536,7 +536,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 2268.148193359375,
+        "duration": 2348.918701171875,
         "result": -22870.16937339125,
         "runtime": "CLBlast"
       }
@@ -553,7 +553,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 3524.52099609375,
+        "duration": 3632.966064453125,
         "result": -11293.68792865897,
         "runtime": "CLBlast"
       }
@@ -570,7 +570,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 5171.5068359375,
+        "duration": 5276.86572265625,
         "result": -235401.16876021688,
         "runtime": "CLBlast"
       }
@@ -587,7 +587,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 7385.77197265625,
+        "duration": 7580.576171875,
         "result": 147783.6384260592,
         "runtime": "CLBlast"
       }
@@ -604,7 +604,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 10275.7890625,
+        "duration": 10363.056640625,
         "result": 29370.662186419886,
         "runtime": "CLBlast"
       }
@@ -624,7 +624,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 31.768600463867188,
+        "duration": 31.01849937438965,
         "result": -48542.8359375,
         "runtime": "cuBLAS"
       }
@@ -644,7 +644,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 40.907798767089844,
+        "duration": 43.17789840698242,
         "result": -11137.0830078125,
         "runtime": "cuBLAS"
       }
@@ -664,7 +664,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 63.336097717285156,
+        "duration": 63.64019775390625,
         "result": -21241.96875,
         "runtime": "cuBLAS"
       }
@@ -684,7 +684,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 95.5304946899414,
+        "duration": 105.02369689941406,
         "result": 22215.923828125,
         "runtime": "cuBLAS"
       }
@@ -704,7 +704,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 142.4051971435547,
+        "duration": 134.65538024902344,
         "result": -22872.1484375,
         "runtime": "cuBLAS"
       }
@@ -724,7 +724,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 173.11959838867188,
+        "duration": 176.89100646972656,
         "result": -11284.2841796875,
         "runtime": "cuBLAS"
       }
@@ -744,7 +744,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 246.30670166015625,
+        "duration": 246.30609130859375,
         "result": -235409.046875,
         "runtime": "cuBLAS"
       }
@@ -764,7 +764,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 329.522216796875,
+        "duration": 335.1054992675781,
         "result": 147772.484375,
         "runtime": "cuBLAS"
       }
@@ -784,7 +784,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 437.1455993652344,
+        "duration": 444.72930908203125,
         "result": 29366.4375,
         "runtime": "cuBLAS"
       }
@@ -804,7 +804,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 114.15339660644531,
+        "duration": 112.11910247802734,
         "result": -48544.998207360164,
         "runtime": "cuBLAS"
       }
@@ -824,7 +824,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 292.7890930175781,
+        "duration": 296.3763732910156,
         "result": -11136.035857655095,
         "runtime": "cuBLAS"
       }
@@ -844,7 +844,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 656.3005981445312,
+        "duration": 672.7473754882812,
         "result": -21218.12672023735,
         "runtime": "cuBLAS"
       }
@@ -864,7 +864,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 1248.7723388671875,
+        "duration": 1285.287841796875,
         "result": 22214.56153196144,
         "runtime": "cuBLAS"
       }
@@ -884,7 +884,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 2066.73388671875,
+        "duration": 2116.216064453125,
         "result": -22871.867938977506,
         "runtime": "cuBLAS"
       }
@@ -904,7 +904,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 3273.6982421875,
+        "duration": 3354.49365234375,
         "result": -11298.270865592529,
         "runtime": "cuBLAS"
       }
@@ -924,7 +924,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 4860.53125,
+        "duration": 4963.6865234375,
         "result": -235400.80294771615,
         "runtime": "cuBLAS"
       }
@@ -944,7 +944,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 6967.11962890625,
+        "duration": 7108.03125,
         "result": 147785.38530766475,
         "runtime": "cuBLAS"
       }
@@ -964,7 +964,7 @@
     "seed": 42,
     "tests": [
       {
-        "duration": 9691.810546875,
+        "duration": 9868.4765625,
         "result": 29376.432641155363,
         "runtime": "cuBLAS"
       }
@@ -1007,1556 +1007,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 284.2286071777344,
-        "result": 33329568.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 200000000,
-    "tests": [
-      {
-        "duration": 568.370849609375,
-        "result": 66663020.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 300000000,
-    "tests": [
-      {
-        "duration": 852.2969970703125,
-        "result": 99995016.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 400000000,
-    "tests": [
-      {
-        "duration": 1143.061279296875,
-        "result": 133325152.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 500000000,
-    "tests": [
-      {
-        "duration": 1443.914794921875,
-        "result": 166654784.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 600000000,
-    "tests": [
-      {
-        "duration": 1672.0482177734375,
-        "result": 199986176.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 700000000,
-    "tests": [
-      {
-        "duration": 1975.4046630859375,
-        "result": 233314752.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 800000000,
-    "tests": [
-      {
-        "duration": 2239.7978515625,
-        "result": 266647296.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 900000000,
-    "tests": [
-      {
-        "duration": 2531.166748046875,
-        "result": 299979968.0,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 100000000,
-    "tests": [
-      {
-        "duration": 284.7174072265625,
-        "result": 33329568.560428713,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 200000000,
-    "tests": [
-      {
-        "duration": 581.4202880859375,
-        "result": 66663020.70509779,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 300000000,
-    "tests": [
-      {
-        "duration": 861.339599609375,
-        "result": 99995014.2099362,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 400000000,
-    "tests": [
-      {
-        "duration": 1150.866455078125,
-        "result": 133325151.88513252,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 500000000,
-    "tests": [
-      {
-        "duration": 1389.1829833984375,
-        "result": 166654780.45832992,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 600000000,
-    "tests": [
-      {
-        "duration": 1660.674560546875,
-        "result": 199986171.5488298,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 700000000,
-    "tests": [
-      {
-        "duration": 2005.962890625,
-        "result": 233314750.73825437,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 800000000,
-    "tests": [
-      {
-        "duration": 2222.60791015625,
-        "result": 266647292.55718973,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 900000000,
-    "tests": [
-      {
-        "duration": 2581.587646484375,
-        "result": 299979972.81269836,
-        "runtime": "C++*"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 100000000,
-    "tests": [
-      {
-        "duration": 179.10540771484375,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 200000000,
-    "tests": [
-      {
-        "duration": 151.3463134765625,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 300000000,
-    "tests": [
-      {
-        "duration": 224.5626983642578,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 400000000,
-    "tests": [
-      {
-        "duration": 307.518310546875,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 500000000,
-    "tests": [
-      {
-        "duration": 367.25830078125,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 600000000,
-    "tests": [
-      {
-        "duration": 456.5850830078125,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 700000000,
-    "tests": [
-      {
-        "duration": 514.8497924804688,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 800000000,
-    "tests": [
-      {
-        "duration": 588.7968139648438,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 900000000,
-    "tests": [
-      {
-        "duration": 659.4913940429688,
-        "result": 16777216.0,
-        "runtime": "C++"
-      }
-    ],
-    "type": "float"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 100000000,
-    "tests": [
-      {
-        "duration": 113.07389831542969,
-        "result": 33329568.56062876,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 200000000,
-    "tests": [
-      {
-        "duration": 209.01779174804688,
-        "result": 66663020.705580525,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 300000000,
-    "tests": [
-      {
-        "duration": 335.2098693847656,
-        "result": 99995014.21094587,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 400000000,
-    "tests": [
-      {
-        "duration": 411.4075012207031,
-        "result": 133325151.88674073,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 500000000,
-    "tests": [
-      {
-        "duration": 540.9107055664062,
-        "result": 166654780.4605471,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 600000000,
-    "tests": [
-      {
-        "duration": 622.1543579101562,
-        "result": 199986171.55161938,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 700000000,
-    "tests": [
-      {
-        "duration": 746.1107788085938,
-        "result": 233314750.74160326,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 800000000,
-    "tests": [
-      {
-        "duration": 855.0653076171875,
-        "result": 266647292.56101304,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 900000000,
-    "tests": [
-      {
-        "duration": 931.7008056640625,
-        "result": 299979972.81749445,
-        "runtime": "C++"
-      }
-    ],
-    "type": "double"
-  },
-  {
-    "block_size": 1024,
-    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
-    "env": [
-      {
-        "runtime": "C++",
-        "version": "13.3.0"
-      },
-      {
-        "runtime": "OpenMP",
-        "version": "4.5"
-      },
-      {
-        "runtime": "OpenBLAS",
-        "version": "OpenBLAS 0.3.29"
-      },
-      {
-        "runtime": "OpenCL",
-        "version": "OpenCL 3.0 CUDA"
-      },
-      {
-        "runtime": "CLBlast",
-        "version": "1.6.3"
-      }
-    ],
-    "gpu": "NVIDIA GeForce RTX 2060",
-    "grid_size": 32768,
-    "optimization": "-O3",
-    "range": [
-      -1.0,
-      1.0
-    ],
-    "seed": 42,
-    "size": 100000000,
-    "tests": [
-      {
-        "duration": 54.3905029296875,
-        "result": 33231452.0,
+        "duration": 55.03010177612305,
+        "result": 33231450.0,
         "runtime": "OpenMP"
       }
     ],
@@ -2598,8 +1050,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 109.04199981689453,
-        "result": 66137744.0,
+        "duration": 110.74609375,
+        "result": 66137740.0,
         "runtime": "OpenMP"
       }
     ],
@@ -2641,7 +1093,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 154.8713836669922,
+        "duration": 162.14659118652344,
         "result": 98838112.0,
         "runtime": "OpenMP"
       }
@@ -2684,7 +1136,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 203.48968505859375,
+        "duration": 210.0727996826172,
         "result": 130589704.0,
         "runtime": "OpenMP"
       }
@@ -2727,7 +1179,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 251.75181579589844,
+        "duration": 261.5010986328125,
         "result": 162284272.0,
         "runtime": "OpenMP"
       }
@@ -2770,8 +1222,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 301.6246032714844,
-        "result": 193981520.0,
+        "duration": 317.0572204589844,
+        "result": 193981504.0,
         "runtime": "OpenMP"
       }
     ],
@@ -2813,8 +1265,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 355.27520751953125,
-        "result": 223826864.0,
+        "duration": 367.7008972167969,
+        "result": 223826880.0,
         "runtime": "OpenMP"
       }
     ],
@@ -2856,7 +1308,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 404.1792907714844,
+        "duration": 416.4762878417969,
         "result": 253111408.0,
         "runtime": "OpenMP"
       }
@@ -2899,8 +1351,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 468.83209228515625,
-        "result": 282394432.0,
+        "duration": 465.4457092285156,
+        "result": 282394400.0,
         "runtime": "OpenMP"
       }
     ],
@@ -2942,8 +1394,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 106.3971939086914,
-        "result": 33329568.5604681,
+        "duration": 109.0916976928711,
+        "result": 33329568.560468104,
         "runtime": "OpenMP"
       }
     ],
@@ -2985,8 +1437,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 203.1278076171875,
-        "result": 66663020.705207095,
+        "duration": 210.82391357421875,
+        "result": 66663020.70520709,
         "runtime": "OpenMP"
       }
     ],
@@ -3028,8 +1480,8 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 304.8200988769531,
-        "result": 99995014.2101173,
+        "duration": 322.7418212890625,
+        "result": 99995014.21011728,
         "runtime": "OpenMP"
       }
     ],
@@ -3071,7 +1523,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 406.98211669921875,
+        "duration": 415.8135986328125,
         "result": 133325151.88545555,
         "runtime": "OpenMP"
       }
@@ -3114,7 +1566,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 535.3703002929688,
+        "duration": 524.4913330078125,
         "result": 166654780.45879978,
         "runtime": "OpenMP"
       }
@@ -3157,8 +1609,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 595.584716796875,
-        "result": 199986171.54943925,
+        "duration": 644.6087036132812,
+        "result": 199986171.54943922,
         "runtime": "OpenMP"
       }
     ],
@@ -3200,8 +1652,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 766.2235107421875,
-        "result": 233314750.73900577,
+        "duration": 723.9443359375,
+        "result": 233314750.7390058,
         "runtime": "OpenMP"
       }
     ],
@@ -3243,7 +1695,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 860.2215576171875,
+        "duration": 829.4906616210938,
         "result": 266647292.55807617,
         "runtime": "OpenMP"
       }
@@ -3286,8 +1738,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 911.3230590820312,
-        "result": 299979972.8137355,
+        "duration": 929.3685302734375,
+        "result": 299979972.81373537,
         "runtime": "OpenMP"
       }
     ],
@@ -3329,7 +1781,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 142.2535858154297,
+        "duration": 50.51980209350586,
         "result": 33276884.0,
         "runtime": "OpenBLAS"
       }
@@ -3372,7 +1824,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 111.04019927978516,
+        "duration": 97.84110260009766,
         "result": 66375088.0,
         "runtime": "OpenBLAS"
       }
@@ -3415,7 +1867,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 145.9593963623047,
+        "duration": 145.0637969970703,
         "result": 99084392.0,
         "runtime": "OpenBLAS"
       }
@@ -3458,7 +1910,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 193.78541564941406,
+        "duration": 192.65159606933594,
         "result": 131782816.0,
         "runtime": "OpenBLAS"
       }
@@ -3501,7 +1953,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 269.0082702636719,
+        "duration": 238.60009765625,
         "result": 163552400.0,
         "runtime": "OpenBLAS"
       }
@@ -3544,7 +1996,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 286.1151123046875,
+        "duration": 287.8695068359375,
         "result": 195246528.0,
         "runtime": "OpenBLAS"
       }
@@ -3587,7 +2039,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 332.6805114746094,
+        "duration": 350.7538757324219,
         "result": 226942048.0,
         "runtime": "OpenBLAS"
       }
@@ -3630,7 +2082,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 376.7074890136719,
+        "duration": 404.1630859375,
         "result": 258642048.0,
         "runtime": "OpenBLAS"
       }
@@ -3673,7 +2125,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 425.2554016113281,
+        "duration": 430.6940002441406,
         "result": 288675936.0,
         "runtime": "OpenBLAS"
       }
@@ -3716,7 +2168,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 103.82250213623047,
+        "duration": 105.53520202636719,
         "result": 33329568.560437378,
         "runtime": "OpenBLAS"
       }
@@ -3759,7 +2211,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 201.00070190429688,
+        "duration": 209.7490997314453,
         "result": 66663020.70512301,
         "runtime": "OpenBLAS"
       }
@@ -3802,7 +2254,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 301.0797119140625,
+        "duration": 306.113525390625,
         "result": 99995014.20997755,
         "runtime": "OpenBLAS"
       }
@@ -3845,7 +2297,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 396.19122314453125,
+        "duration": 404.3277282714844,
         "result": 133325151.8852081,
         "runtime": "OpenBLAS"
       }
@@ -3888,7 +2340,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 493.7484130859375,
+        "duration": 512.93798828125,
         "result": 166654780.4584398,
         "runtime": "OpenBLAS"
       }
@@ -3931,7 +2383,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 596.5059814453125,
+        "duration": 608.05810546875,
         "result": 199986171.54897475,
         "runtime": "OpenBLAS"
       }
@@ -3974,7 +2426,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 691.5704956054688,
+        "duration": 715.3260498046875,
         "result": 233314750.73843375,
         "runtime": "OpenBLAS"
       }
@@ -4017,7 +2469,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 797.7149047851562,
+        "duration": 822.0440673828125,
         "result": 266647292.557404,
         "runtime": "OpenBLAS"
       }
@@ -4060,7 +2512,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 892.1463012695312,
+        "duration": 911.8941040039062,
         "result": 299979972.8129475,
         "runtime": "OpenBLAS"
       }
@@ -4103,7 +2555,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 5.297299861907959,
+        "duration": 5.330199718475342,
         "result": 33329604.0,
         "runtime": "OpenCL"
       }
@@ -4146,7 +2598,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 6.591899871826172,
+        "duration": 6.439499855041504,
         "result": 66663184.0,
         "runtime": "OpenCL"
       }
@@ -4189,7 +2641,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 8.927499771118164,
+        "duration": 9.31980037689209,
         "result": 99994944.0,
         "runtime": "OpenCL"
       }
@@ -4232,7 +2684,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 11.62969970703125,
+        "duration": 12.001699447631836,
         "result": 133325352.0,
         "runtime": "OpenCL"
       }
@@ -4275,7 +2727,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 14.283900260925293,
+        "duration": 14.538800239562988,
         "result": 166655152.0,
         "runtime": "OpenCL"
       }
@@ -4318,7 +2770,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 16.327999114990234,
+        "duration": 17.186800003051758,
         "result": 199986448.0,
         "runtime": "OpenCL"
       }
@@ -4361,7 +2813,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 19.319700241088867,
+        "duration": 26.349300384521484,
         "result": 233315008.0,
         "runtime": "OpenCL"
       }
@@ -4404,7 +2856,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 59.99650192260742,
+        "duration": 71.23249816894531,
         "result": 266646928.0,
         "runtime": "OpenCL"
       }
@@ -4447,7 +2899,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 120.50590515136719,
+        "duration": 130.54180908203125,
         "result": 299979104.0,
         "runtime": "OpenCL"
       }
@@ -4490,7 +2942,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 7.842499732971191,
+        "duration": 7.787199974060059,
         "result": 33329568.560428854,
         "runtime": "OpenCL"
       }
@@ -4533,7 +2985,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 11.64169979095459,
+        "duration": 11.684700012207031,
         "result": 66663020.70509767,
         "runtime": "OpenCL"
       }
@@ -4576,7 +3028,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 16.483400344848633,
+        "duration": 17.135501861572266,
         "result": 99995014.20993564,
         "runtime": "OpenCL"
       }
@@ -4619,7 +3071,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 60.125701904296875,
+        "duration": 71.36920166015625,
         "result": 133325151.88513309,
         "runtime": "OpenCL"
       }
@@ -4662,7 +3114,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 181.47409057617188,
+        "duration": 190.8483123779297,
         "result": 166654780.45832947,
         "runtime": "OpenCL"
       }
@@ -4705,7 +3157,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 303.7052917480469,
+        "duration": 314.3736267089844,
         "result": 199986171.5488319,
         "runtime": "OpenCL"
       }
@@ -4748,7 +3200,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 423.6598815917969,
+        "duration": 427.3459167480469,
         "result": 233314750.73825556,
         "runtime": "OpenCL"
       }
@@ -4791,7 +3243,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 569.1539306640625,
+        "duration": 561.3834838867188,
         "result": 266647292.5571918,
         "runtime": "OpenCL"
       }
@@ -4834,7 +3286,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 664.5509033203125,
+        "duration": 684.4061279296875,
         "result": 299979972.8126968,
         "runtime": "OpenCL"
       }
@@ -4877,7 +3329,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 11.970800399780273,
+        "duration": 19.55609893798828,
         "result": 33329554.0,
         "runtime": "CLBlast"
       }
@@ -4920,7 +3372,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 15.976499557495117,
+        "duration": 16.090299606323242,
         "result": 66662940.0,
         "runtime": "CLBlast"
       }
@@ -4963,7 +3415,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 20.374300003051758,
+        "duration": 20.415599822998047,
         "result": 99994752.0,
         "runtime": "CLBlast"
       }
@@ -5006,7 +3458,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 24.394800186157227,
+        "duration": 26.108200073242188,
         "result": 133324704.0,
         "runtime": "CLBlast"
       }
@@ -5049,7 +3501,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 27.99100112915039,
+        "duration": 28.956600189208984,
         "result": 166653840.0,
         "runtime": "CLBlast"
       }
@@ -5092,7 +3544,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 32.38030242919922,
+        "duration": 33.83660125732422,
         "result": 199984704.0,
         "runtime": "CLBlast"
       }
@@ -5135,7 +3587,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 36.9484977722168,
+        "duration": 37.96269989013672,
         "result": 233312768.0,
         "runtime": "CLBlast"
       }
@@ -5178,7 +3630,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 90.73639678955078,
+        "duration": 92.73540496826172,
         "result": 266644800.0,
         "runtime": "CLBlast"
       }
@@ -5221,7 +3673,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 148.16510009765625,
+        "duration": 151.44578552246094,
         "result": 299976064.0,
         "runtime": "CLBlast"
       }
@@ -5264,7 +3716,7 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 13.935999870300293,
+        "duration": 13.390799522399902,
         "result": 33329568.56042826,
         "runtime": "CLBlast"
       }
@@ -5307,7 +3759,7 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 18.7367000579834,
+        "duration": 20.45560073852539,
         "result": 66663020.7050981,
         "runtime": "CLBlast"
       }
@@ -5350,7 +3802,7 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 23.864999771118164,
+        "duration": 25.579898834228516,
         "result": 99995014.20993705,
         "runtime": "CLBlast"
       }
@@ -5393,7 +3845,7 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 82.4043960571289,
+        "duration": 89.53479766845703,
         "result": 133325151.8851339,
         "runtime": "CLBlast"
       }
@@ -5436,7 +3888,7 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 198.85740661621094,
+        "duration": 206.4259033203125,
         "result": 166654780.45833427,
         "runtime": "CLBlast"
       }
@@ -5479,7 +3931,7 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 314.3589172363281,
+        "duration": 322.7193908691406,
         "result": 199986171.54883718,
         "runtime": "CLBlast"
       }
@@ -5522,7 +3974,7 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 431.3505859375,
+        "duration": 435.3744201660156,
         "result": 233314750.7382648,
         "runtime": "CLBlast"
       }
@@ -5565,7 +4017,7 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 553.4896240234375,
+        "duration": 558.6867065429688,
         "result": 266647292.55720317,
         "runtime": "CLBlast"
       }
@@ -5608,7 +4060,7 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 672.6074829101562,
+        "duration": 685.5864868164062,
         "result": 299979972.81271464,
         "runtime": "CLBlast"
       }
@@ -5629,8 +4081,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 73.19009399414062,
-        "result": 16777216.0,
+        "duration": 97.19579315185547,
+        "result": 33329604.0,
         "runtime": "CUDA"
       }
     ],
@@ -5650,8 +4102,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 148.67129516601562,
-        "result": 16777216.0,
+        "duration": 6.905700206756592,
+        "result": 66663192.0,
         "runtime": "CUDA"
       }
     ],
@@ -5671,8 +4123,8 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 220.70510864257812,
-        "result": 16777216.0,
+        "duration": 9.693499565124512,
+        "result": 99994944.0,
         "runtime": "CUDA"
       }
     ],
@@ -5692,8 +4144,8 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 296.0715026855469,
-        "result": 16777216.0,
+        "duration": 11.9714994430542,
+        "result": 133325352.0,
         "runtime": "CUDA"
       }
     ],
@@ -5713,8 +4165,8 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 371.464111328125,
-        "result": 16777216.0,
+        "duration": 14.56719970703125,
+        "result": 166655152.0,
         "runtime": "CUDA"
       }
     ],
@@ -5734,8 +4186,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 441.461181640625,
-        "result": 16777216.0,
+        "duration": 17.012300491333008,
+        "result": 199986448.0,
         "runtime": "CUDA"
       }
     ],
@@ -5755,8 +4207,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 536.12646484375,
-        "result": 16777216.0,
+        "duration": 19.18939971923828,
+        "result": 233315008.0,
         "runtime": "CUDA"
       }
     ],
@@ -5776,8 +4228,8 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 584.4878540039062,
-        "result": 16777216.0,
+        "duration": 58.0337028503418,
+        "result": 266646928.0,
         "runtime": "CUDA"
       }
     ],
@@ -5797,8 +4249,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 703.8092041015625,
-        "result": 16777216.0,
+        "duration": 119.05809783935547,
+        "result": 299979072.0,
         "runtime": "CUDA"
       }
     ],
@@ -5818,8 +4270,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 130.34739685058594,
-        "result": 33329568.561481528,
+        "duration": 8.099499702453613,
+        "result": 33329568.561219268,
         "runtime": "CUDA"
       }
     ],
@@ -5839,8 +4291,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 221.94680786132812,
-        "result": 66663020.70515948,
+        "duration": 11.465299606323242,
+        "result": 66663020.704535745,
         "runtime": "CUDA"
       }
     ],
@@ -5860,8 +4312,8 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 305.4549865722656,
-        "result": 99995014.21023306,
+        "duration": 17.020700454711914,
+        "result": 99995014.20893985,
         "runtime": "CUDA"
       }
     ],
@@ -5881,8 +4333,8 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 403.9548034667969,
-        "result": 133325151.88686952,
+        "duration": 58.02109909057617,
+        "result": 133325151.88486116,
         "runtime": "CUDA"
       }
     ],
@@ -5902,8 +4354,8 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 507.0701904296875,
-        "result": 166654780.46053788,
+        "duration": 181.718505859375,
+        "result": 166654780.45784324,
         "runtime": "CUDA"
       }
     ],
@@ -5923,8 +4375,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 607.01904296875,
-        "result": 199986171.55007082,
+        "duration": 310.32659912109375,
+        "result": 199986171.54653338,
         "runtime": "CUDA"
       }
     ],
@@ -5944,8 +4396,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 719.0648803710938,
-        "result": 233314750.74049866,
+        "duration": 427.6138000488281,
+        "result": 233314750.73620594,
         "runtime": "CUDA"
       }
     ],
@@ -5965,8 +4417,8 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 809.146728515625,
-        "result": 266647292.5599815,
+        "duration": 551.5601196289062,
+        "result": 266647292.5549875,
         "runtime": "CUDA"
       }
     ],
@@ -5986,8 +4438,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 920.7423706054688,
-        "result": 299979972.8194444,
+        "duration": 687.3644409179688,
+        "result": 299979972.81310076,
         "runtime": "CUDA"
       }
     ],
@@ -6007,8 +4459,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 73.4070053100586,
-        "result": 16777216.0,
+        "duration": 26.1919002532959,
+        "result": 33329568.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6028,8 +4480,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 147.55270385742188,
-        "result": 16777216.0,
+        "duration": 28.714298248291016,
+        "result": 66663012.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6049,8 +4501,8 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 219.60899353027344,
-        "result": 16777216.0,
+        "duration": 31.43699836730957,
+        "result": 99995008.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6070,8 +4522,8 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 295.14599609375,
-        "result": 16777216.0,
+        "duration": 33.339599609375,
+        "result": 133325120.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6091,8 +4543,8 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 367.85650634765625,
-        "result": 16777216.0,
+        "duration": 35.975399017333984,
+        "result": 166654736.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6112,8 +4564,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 445.21478271484375,
-        "result": 16777216.0,
+        "duration": 39.12480163574219,
+        "result": 199986080.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6133,8 +4585,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 509.9580383300781,
-        "result": 16777216.0,
+        "duration": 42.82720184326172,
+        "result": 233314656.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6154,8 +4606,8 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 580.5086059570312,
-        "result": 16777216.0,
+        "duration": 96.6864013671875,
+        "result": 266647136.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6175,8 +4627,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 652.4929809570312,
-        "result": 16777216.0,
+        "duration": 154.243896484375,
+        "result": 299979776.0,
         "runtime": "cuBLAS"
       }
     ],
@@ -6196,8 +4648,8 @@
     "size": 100000000,
     "tests": [
       {
-        "duration": 141.97299194335938,
-        "result": 33329568.561481528,
+        "duration": 28.580799102783203,
+        "result": 33329568.561218724,
         "runtime": "cuBLAS"
       }
     ],
@@ -6217,8 +4669,8 @@
     "size": 200000000,
     "tests": [
       {
-        "duration": 203.13670349121094,
-        "result": 66663020.70515948,
+        "duration": 32.93830108642578,
+        "result": 66663020.70453576,
         "runtime": "cuBLAS"
       }
     ],
@@ -6238,8 +4690,8 @@
     "size": 300000000,
     "tests": [
       {
-        "duration": 302.5154724121094,
-        "result": 99995014.21023306,
+        "duration": 38.928401947021484,
+        "result": 99995014.2089403,
         "runtime": "cuBLAS"
       }
     ],
@@ -6259,8 +4711,8 @@
     "size": 400000000,
     "tests": [
       {
-        "duration": 492.9774169921875,
-        "result": 133325151.88686952,
+        "duration": 95.27519989013672,
+        "result": 133325151.88486174,
         "runtime": "cuBLAS"
       }
     ],
@@ -6280,8 +4732,8 @@
     "size": 500000000,
     "tests": [
       {
-        "duration": 523.6666259765625,
-        "result": 166654780.46053788,
+        "duration": 213.4384002685547,
+        "result": 166654780.45784792,
         "runtime": "cuBLAS"
       }
     ],
@@ -6301,8 +4753,8 @@
     "size": 600000000,
     "tests": [
       {
-        "duration": 604.1093139648438,
-        "result": 199986171.55007082,
+        "duration": 333.7886047363281,
+        "result": 199986171.54654005,
         "runtime": "cuBLAS"
       }
     ],
@@ -6322,8 +4774,8 @@
     "size": 700000000,
     "tests": [
       {
-        "duration": 728.8363037109375,
-        "result": 233314750.74049866,
+        "duration": 450.93841552734375,
+        "result": 233314750.7362173,
         "runtime": "cuBLAS"
       }
     ],
@@ -6343,8 +4795,8 @@
     "size": 800000000,
     "tests": [
       {
-        "duration": 815.6267700195312,
-        "result": 266647292.5599815,
+        "duration": 573.6729125976562,
+        "result": 266647292.55500063,
         "runtime": "cuBLAS"
       }
     ],
@@ -6364,8 +4816,8 @@
     "size": 900000000,
     "tests": [
       {
-        "duration": 996.1619262695312,
-        "result": 299979972.8194444,
+        "duration": 696.5875854492188,
+        "result": 299979972.81311905,
         "runtime": "cuBLAS"
       }
     ],
