@@ -23,7 +23,7 @@ argm_vars= [
     ["matrix_cuda.exe", "--cublas"],
 ]
 
-N = 1
+N = 10
 total = []
 dtypes = ["--float", "--double"]
 sizes = [(10**8)*i for i in range(1, 10)]
@@ -38,7 +38,7 @@ for _ in range(N):
             for rc in rows_cols:
                 try:
                     i += 1
-                    args = [*av, "--seed", str(42), dtype, "--rows", str(rc), "--cols", str(rc)]
+                    args = [*av, dtype, "--rows", str(rc), "--cols", str(rc)]
 
                     print(f"[{i}/{j}]", *args)
                     output = subprocess.check_output(args, timeout=2400.0)
@@ -57,7 +57,7 @@ for _ in range(N):
             for size in sizes:
                 try:
                     i += 1
-                    args = [*av, "--seed", str(42), dtype, "--size", str(size)]
+                    args = [*av, dtype, "--size", str(size)]
 
                     print(f"[{i}/{j}]", *args)
                     output = subprocess.check_output(args, timeout=2400.0)
