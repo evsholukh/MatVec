@@ -77,8 +77,8 @@ public:
     }
 };
 
-template <typename T>
-class VectorOpenCL {
+template <typename T = void>
+class VectorOpenCL : public Vector<T> {
 
 public:
     static cl::Device defaultDevice;
@@ -90,8 +90,6 @@ protected:
     cl::Context context;
     cl::CommandQueue queue;
     cl::Program program;
-
-    Vector<T> vec;
     cl::Buffer deviceVec;
 
     size_t blockSize, blocksCount, globalSize;
@@ -106,7 +104,7 @@ public:
         cl::Device device = VectorOpenCL::defaultDevice,
         cl::Context context = VectorOpenCL::defaultContext,
         cl::CommandQueue queue = VectorOpenCL::defaultQueue
-    ) : vec(vec),
+    ) : Vector<T>(vec),
         blockSize(blockSize),
         blocksCount(blocksCount),
         device(device),
@@ -121,10 +119,15 @@ public:
         program.build();
     }
 
-    virtual T dot(const VectorOpenCL<T> &o) const {
-        return T(0);
+    T dot (const Vector<T> &o) const {
+        // [!]
+        if (auto* ocl = static_cast<const VectorOpenCL<T>*>(&o)) {
+            return this->dot(*ocl);
+        }
+        return Vector<T>::dot(o);
     }
 
+    virtual T dot(const VectorOpenCL<T> &o) const;
 };
 
 template <typename T>
@@ -201,7 +204,7 @@ float VectorOpenCL<float>::dot(const VectorOpenCL<float> &o) const {
     addKernel.setArg(1, o.deviceVec);
     addKernel.setArg(2, deviceResult);
     addKernel.setArg(3, blockSize * sizeof(float), nullptr);
-    addKernel.setArg(4, static_cast<cl_uint>(vec.size())); 
+    addKernel.setArg(4, static_cast<cl_uint>(this->size())); 
 
     auto globalRange = cl::NDRange(globalSize);
     auto groupRange = cl::NDRange(blockSize);
@@ -228,7 +231,7 @@ double VectorOpenCL<double>::dot(const VectorOpenCL<double> &o) const {
     addKernel.setArg(1, o.deviceVec);
     addKernel.setArg(2, deviceResult);
     addKernel.setArg(3, blockSize * sizeof(double), nullptr);
-    addKernel.setArg(4, static_cast<cl_uint>(vec.size())); 
+    addKernel.setArg(4, static_cast<cl_uint>(this->size())); 
 
     auto globalRange = cl::NDRange(globalSize);
     auto groupRange = cl::NDRange(blockSize);
@@ -262,9 +265,15 @@ class VectorCLBlast : public VectorOpenCL<T> {
 public:
     VectorCLBlast(Vector<T> vec) : VectorOpenCL<T>(vec) {}
 
-    virtual T dot(const VectorCLBlast<T> &o) const {
-        return T(0);
+    T dot (const Vector<T> &o) const {
+        // [!]
+        if (auto* ocl = static_cast<const VectorCLBlast<T>*>(&o)) {
+            return this->dot(*ocl);
+        }
+        return Vector<T>::dot(o);
     }
+
+    virtual T dot(const VectorCLBlast<T> &o) const;
 
     static std::string getCLBlastVersion() {
         std::stringstream ss;
@@ -281,7 +290,7 @@ float VectorCLBlast<float>::dot(const VectorCLBlast<float> &o) const {
     auto queue_plain = queue();
 
     auto status = CLBlastSdot(
-        vec.size(),         // size
+        this->size(),         // size
         device_c(),         // result
         0,                  // offset
         deviceVec(),        // x_buffer
@@ -312,7 +321,7 @@ double VectorCLBlast<double>::dot(const VectorCLBlast<double> &o) const {
     auto queue_plain = queue();
 
     auto status = CLBlastDdot(
-        vec.size(),         // size
+        this->size(),         // size
         device_c(),         // result
         0,                  // offset
         deviceVec(),        // x_buffer
@@ -338,11 +347,9 @@ double VectorCLBlast<double>::dot(const VectorCLBlast<double> &o) const {
 
 
 template <typename T>
-class MatrixCLBlast {
+class MatrixCLBlast : public Matrix<T> {
 
 protected:
-    Matrix<T> mat;
-
     cl::Device device;
     cl::Context context;
     cl::CommandQueue queue;
@@ -354,14 +361,24 @@ public:
         cl::Device device = VectorOpenCL<T>::defaultDevice,
         cl::Context context = VectorOpenCL<T>::defaultContext,
         cl::CommandQueue queue = VectorOpenCL<T>::defaultQueue
-    ) : mat(mat),
+    ) : Matrix<T>(mat),
         device(device),
         context(context),
         queue(queue) {
             deviceBuf = cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, mat.size()*sizeof(T), mat.data());
         }
 
-    virtual void dot(const MatrixCLBlast<T> &o, MatrixCLBlast<T> &r) const {}
+    void dot(const Matrix<T> &o, Matrix<T> &r) const override {
+        // [!]
+        if (auto* ocl = static_cast<const MatrixCLBlast<T>*>(&o)) {
+            if (auto* rcl = static_cast<MatrixCLBlast<T>*>(&r)) {
+                this->dot(*ocl, *rcl);
+            }
+        }
+        Matrix<T>::dot(o, r);
+    }
+
+    virtual void dot(const MatrixCLBlast<T> &o, MatrixCLBlast<T> &r) const;
 };
 
 template <>
@@ -373,20 +390,20 @@ void MatrixCLBlast<float>::dot(const MatrixCLBlast<float> &o, MatrixCLBlast<floa
         CLBlastLayoutRowMajor, // layout
         CLBlastTransposeNo,    // a_transpose
         CLBlastTransposeNo,    // b_transpose
-        mat.rows(),            // m
-        o.mat.cols(),          // n
-        mat.cols(),            // k
+        this->rows(),          // m
+        o.cols(),              // n
+        this->cols(),          // k
         1.0f,                  // alpha
         deviceBuf(),           // a_buffer
         0,                     // a_offset
-        mat.cols(),            // a_ld
+        this->cols(),          // a_ld
         o.deviceBuf(),         // b_buffer
         0,                     // b_offset
-        o.mat.cols(),          // b_ld
+        o.cols(),              // b_ld
         0.0f,                  // beta
         r.deviceBuf(),         // c_buffer
         0,                     // c_offset
-        o.mat.cols(),          // c_ld
+        o.cols(),              // c_ld
         &queue_plain,          // queue
         &event                 // event
     );
@@ -395,7 +412,7 @@ void MatrixCLBlast<float>::dot(const MatrixCLBlast<float> &o, MatrixCLBlast<floa
         clWaitForEvents(1, &event);
         clReleaseEvent(event);
     }
-    queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.mat.size()*sizeof(float), r.mat.data());
+    queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.size()*sizeof(float), r.data());
 }
 
 template <>
@@ -407,20 +424,20 @@ void MatrixCLBlast<double>::dot(const MatrixCLBlast<double> &o, MatrixCLBlast<do
         CLBlastLayoutRowMajor, // layout
         CLBlastTransposeNo,    // a_transpose
         CLBlastTransposeNo,    // b_transpose
-        mat.rows(),            // m
-        o.mat.cols(),          // n
-        mat.cols(),            // k
+        this->rows(),          // m
+        o.cols(),              // n
+        this->cols(),          // k
         1.0f,                  // alpha
         deviceBuf(),           // a_buffer
         0,                     // a_offset
-        mat.cols(),            // a_ld
+        this->cols(),          // a_ld
         o.deviceBuf(),         // b_buffer
         0,                     // b_offset
-        o.mat.cols(),          // b_ld
+        o.cols(),              // b_ld
         0.0f,                  // beta
         r.deviceBuf(),         // c_buffer
         0,                     // c_offset
-        o.mat.cols(),          // c_ld
+        o.cols(),              // c_ld
         &queue_plain,          // queue
         &event                 // event
     );
@@ -429,7 +446,7 @@ void MatrixCLBlast<double>::dot(const MatrixCLBlast<double> &o, MatrixCLBlast<do
         clWaitForEvents(1, &event);
         clReleaseEvent(event);
     }
-    queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.mat.size()*sizeof(double), r.mat.data());
+    queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.size()*sizeof(double), r.data());
 }
 
 // CL_SUCCESS                                  0

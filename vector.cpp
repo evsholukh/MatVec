@@ -16,6 +16,8 @@
 #include "openblas.h"
 #include "openmp.h"
 
+#include "bench.h"
+
 #include "CLI11.hpp"
 #include "json.hpp"
 
@@ -136,22 +138,29 @@ int main(int argc, char **argv) {
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
                 auto x = VectorCorrected(vX);
-                auto duration = Utils::measure([&x, &vY, &result]() { result = x.dot(vY); });
+                auto bench = DotFlops(x, vY);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", result}, 
-                    {"runtime", runtime}, 
+                    {"gflops", flops},
+                    {"result", result},
+                    {"runtime", runtime},
                 });
             }
             if (fCPU) {
                 auto runtime = "C++";
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
-                auto duration = Utils::measure([&vX, &vY, &result]() { result = vX.dot(vY); });
+                auto bench = DotFlops(vX, vY);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", result}, 
+                    {"gflops", flops},
+                    {"result", result},
                     {"runtime", runtime}, 
                 });
             }
@@ -160,9 +169,13 @@ int main(int argc, char **argv) {
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
                 auto ompVx = VectorOpenMP(vX);
-                auto duration = Utils::measure([&ompVx, &vY, &result]() { result = ompVx.dot(vY); });
+                auto bench = DotFlops(ompVx, vY);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
+                    {"gflops", flops},
                     {"result", result},
                     {"runtime", runtime},
                 });
@@ -172,9 +185,13 @@ int main(int argc, char **argv) {
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
                 auto bVx = VectorBLAS(vX);
-                auto duration = Utils::measure([&bVx, &vY, &result]() { result = bVx.dot(vY); });
+                auto bench = DotFlops(bVx, vY);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
+                    {"gflops", flops},
                     {"result", result},
                     {"runtime", runtime},
                 });
@@ -185,9 +202,14 @@ int main(int argc, char **argv) {
 
                 auto clVx = VectorOpenCL(vX, fBlockSize, fGridSize);
                 auto clVy = VectorOpenCL(vY, fBlockSize, fGridSize);
-                auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
+
+                auto bench = DotFlops(clVx, clVy);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
+                    {"gflops", flops},
                     {"result", result},
                     {"runtime", runtime},
                 });
@@ -198,10 +220,14 @@ int main(int argc, char **argv) {
 
                 auto clVx = VectorCLBlast(vX);
                 auto clVy = VectorCLBlast(vY);
-                auto duration = Utils::measure([&clVx, &clVy, &result]() { result = clVx.dot(clVy); });
+
+                auto bench = DotFlops(clVx, clVy);
+                auto metric = bench.perform();
+                auto flops = metric.gflops();
+                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
+                    {"gflops", flops},
                     {"result", result},
                     {"runtime", runtime},
                 });

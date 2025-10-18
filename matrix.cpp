@@ -8,6 +8,8 @@
 #include "opencl.h"
 #include "openmp.h"
 
+#include "bench.h"
+
 #include "CLI11.hpp"
 #include "json.hpp"
 
@@ -98,10 +100,13 @@ int main(int argc, char **argv) {
                 auto runtime = "C++";
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
+                auto bench = GEMMFlops(matX, matY, matZ);
+                auto metric = bench.perform();
+
                 auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", matZ.sum()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -110,11 +115,12 @@ int main(int argc, char **argv) {
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
                 MatrixOpenMP ompX(matX);
+                auto bench = GEMMFlops(ompX, matY, matZ);
+                auto metric = bench.perform();
 
-                auto duration = Utils::measure([&ompX, &matY, &matZ]() { ompX.dot(matY, matZ); });
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", matZ.sum()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -126,10 +132,12 @@ int main(int argc, char **argv) {
                 auto y = MatrixBLAS(matY);
                 auto z = MatrixBLAS(matZ);
 
-                auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
+                auto bench = GEMMFlops(x, y, z);
+                auto metric = bench.perform();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", matZ.sum()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -141,10 +149,12 @@ int main(int argc, char **argv) {
                 auto y = MatrixCLBlast(matY);
                 auto z = MatrixCLBlast(matZ);
 
-                auto duration = Utils::measure([&x, &y, &z]() { x.dot(y, z); });
+                auto bench = GEMMFlops(x, y, z);
+                auto metric = bench.perform();
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", matZ.sum()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
