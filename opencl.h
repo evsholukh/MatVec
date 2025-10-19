@@ -503,10 +503,9 @@ void MatrixOpenCL<T>::gemm(const MatrixOpenCL<T> &o, MatrixOpenCL<T> &r) const {
 
     const int B = 32;
     auto globalSizes = cl::NDRange(
-        ((M + (B-1)) / B) * B, // X -> строки
-        ((N + (B-1)) / B) * B  // Y -> столбцы
+        ((M + (B - 1)) / B) * B,
+        ((N + (B - 1)) / B) * B
     );
-
     auto localSizes = cl::NDRange(B, B);
 
     cl::Event event;
@@ -537,9 +536,10 @@ const std::string MatrixOpenCL<float>::source = R"(
         const int global_row_index = get_global_id(0);
         const int global_col_index = get_global_id(1);
 
-    #if DEBUG
-        printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
-    #endif
+        if (global_row_index >= M || global_col_index >= N) {
+            return;
+        }
+        // printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
 
         float c = 0.f;
         for (int k = 0; k < K; k++) {
@@ -562,9 +562,10 @@ const std::string MatrixOpenCL<double>::source = R"(
         const int global_row_index = get_global_id(0);
         const int global_col_index = get_global_id(1);
 
-    #if DEBUG
-        printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
-    #endif
+        if (global_row_index >= M || global_col_index >= N) {
+            return;
+        }
+        // printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
 
         double c = 0.0;
         for (int k = 0; k < K; k++) {

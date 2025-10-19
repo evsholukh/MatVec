@@ -21,24 +21,11 @@
             "problemMatcher": []
         },
         {
-            "label": "Run Matrix",
+            "label": "Run GEMM",
             "command": "matrix.exe",
             "dependsOrder": "sequence",
             "args": [
-                "--all"
-            ],
-            "dependsOn": [
-                "C/C++: Build Matrix Release"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Run Matrix Float",
-            "command": "matrix.exe",
-            "dependsOrder": "sequence",
-            "args": [
-                "--all",
-                "--float",
+                "--rows", "1000", "--cols", "1000", "--seed", "42", "--openblas", "--clblast", "--opencl", "--float",
             ],
             "dependsOn": [
                 "C/C++: Build Matrix Release"
@@ -140,7 +127,7 @@
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17"
+                "-std=c++17",
             ],
             "group": {
                 "kind": "build",
@@ -209,7 +196,8 @@
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17"
+                "-std=c++17",
+                "-DDEBUG",
             ],
             "group": {
                 "kind": "build",
