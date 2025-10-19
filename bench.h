@@ -13,15 +13,15 @@ public:
 };
 
 class Metric {
-    const long int ops;
+    const unsigned long int ops;
     const double ms;
 
 public:
-    Metric(const int ops, const double ms): ops(ops), ms(ms) {}
+    Metric(const unsigned long int ops, const double ms): ops(ops), ms(ms) {}
 
     double flops() const { return ops / ms; }
 
-    double gflops() const { return flops() / 1000000000.0; }
+    double gflops() const { return ops / (ms * 1000000000.0); }
 };
 
 template<typename T>

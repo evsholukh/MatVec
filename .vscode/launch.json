@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Debug Vector",
+            "name": "(gdb) Debug Dot",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\vector_debug.exe",
@@ -33,11 +33,11 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: Build Vector Debug",
+            "preLaunchTask": "C/C++: Build Dot Debug",
             "envFile": "${workspaceFolder}/.env"
         },
         {
-            "name": "(gdb) Debug Matrix",
+            "name": "(gdb) Debug GEMM",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\matrix_debug.exe",
@@ -65,7 +65,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: Build Matrix Debug",
+            "preLaunchTask": "C/C++: Build GEMM Debug",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

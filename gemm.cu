@@ -4,6 +4,7 @@
 
 #include "utils.h"
 #include "matrix.h"
+
 #include "vector.cuh"
 
 #include "CLI11.hpp"
