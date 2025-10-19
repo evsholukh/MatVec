@@ -33,6 +33,19 @@
             "problemMatcher": []
         },
         {
+            "label": "Run Matrix Float",
+            "command": "matrix.exe",
+            "dependsOrder": "sequence",
+            "args": [
+                "--all",
+                "--float",
+            ],
+            "dependsOn": [
+                "C/C++: Build Matrix Release"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Clean",
             "command": "git",
             "args": [

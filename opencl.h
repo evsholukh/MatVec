@@ -368,21 +368,22 @@ public:
             deviceBuf = cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, mat.size()*sizeof(T), mat.data());
         }
 
-    void dot(const Matrix<T> &o, Matrix<T> &r) const override {
+    void gemm(const Matrix<T> &o, Matrix<T> &r) const override {
         // [!]
         if (auto* ocl = static_cast<const MatrixCLBlast<T>*>(&o)) {
             if (auto* rcl = static_cast<MatrixCLBlast<T>*>(&r)) {
-                this->dot(*ocl, *rcl);
+                this->gemm(*ocl, *rcl);
+                return;
             }
         }
-        Matrix<T>::dot(o, r);
+        Matrix<T>::gemm(o, r);
     }
 
-    virtual void dot(const MatrixCLBlast<T> &o, MatrixCLBlast<T> &r) const;
+    virtual void gemm(const MatrixCLBlast<T> &o, MatrixCLBlast<T> &r) const;
 };
 
 template <>
-void MatrixCLBlast<float>::dot(const MatrixCLBlast<float> &o, MatrixCLBlast<float> &r) const {
+void MatrixCLBlast<float>::gemm(const MatrixCLBlast<float> &o, MatrixCLBlast<float> &r) const {
     auto event = cl_event{nullptr};
     auto queue_plain = queue();
 
@@ -416,7 +417,7 @@ void MatrixCLBlast<float>::dot(const MatrixCLBlast<float> &o, MatrixCLBlast<floa
 }
 
 template <>
-void MatrixCLBlast<double>::dot(const MatrixCLBlast<double> &o, MatrixCLBlast<double> &r) const {
+void MatrixCLBlast<double>::gemm(const MatrixCLBlast<double> &o, MatrixCLBlast<double> &r) const {
     auto event = cl_event{nullptr};
     auto queue_plain = queue();
 
@@ -448,6 +449,130 @@ void MatrixCLBlast<double>::dot(const MatrixCLBlast<double> &o, MatrixCLBlast<do
     }
     queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.size()*sizeof(double), r.data());
 }
+
+template <typename T>
+class MatrixOpenCL : public MatrixCLBlast<T> {
+
+private:
+    cl::Program program;
+
+public:
+    MatrixOpenCL(
+        Matrix<T> mat,
+        cl::Device device = VectorOpenCL<>::defaultDevice,
+        cl::Context context = VectorOpenCL<>::defaultContext,
+        cl::CommandQueue queue = VectorOpenCL<>::defaultQueue
+    ) : MatrixCLBlast<T>(mat, device, context, queue) {
+
+        program = cl::Program(context, source);
+        program.build();
+    }
+
+    void gemm(const Matrix<T> &o, Matrix<T> &r) const override {
+        // [!]
+        if (auto* ocl = static_cast<const MatrixOpenCL<T>*>(&o)) {
+            if (auto* rcl = static_cast<MatrixOpenCL<T>*>(&r)) {
+                this->gemm(*ocl, *rcl);
+                return;
+            }
+        }
+        Matrix<T>::gemm(o, r);
+    }
+
+    virtual void gemm(const MatrixOpenCL<T> &o, MatrixOpenCL<T> &r) const;
+
+protected:
+    static const std::string source;
+};
+
+template <typename T>
+void MatrixOpenCL<T>::gemm(const MatrixOpenCL<T> &o, MatrixOpenCL<T> &r) const {
+    
+    const int M = this->rows();
+    const int N = o.cols();
+    const int K = this->cols();
+
+    auto kernel = cl::Kernel(program, "GEMM");
+
+    kernel.setArg(0, M);
+    kernel.setArg(1, N);
+    kernel.setArg(2, K);
+    kernel.setArg(3, this->deviceBuf);
+    kernel.setArg(4, o.deviceBuf);
+    kernel.setArg(5, r.deviceBuf);
+
+    const int B = 32;
+    auto globalSizes = cl::NDRange(
+        ((M + (B-1)) / B) * B, // X -> строки
+        ((N + (B-1)) / B) * B  // Y -> столбцы
+    );
+
+    auto localSizes = cl::NDRange(B, B);
+
+    cl::Event event;
+    auto status = this->queue.enqueueNDRangeKernel(kernel, cl::NullRange, globalSizes, localSizes, nullptr, &event);
+
+    if (status != CL_SUCCESS) {
+        throw std::runtime_error("Failed to enqueue SGEMM kernel");
+    }
+    event.wait();
+
+    status = this->queue.enqueueReadBuffer(r.deviceBuf, CL_TRUE, 0, r.size() * sizeof(T), r.data(), nullptr, &event);
+    if (status != CL_SUCCESS) {
+        throw std::runtime_error("Failed to enqueue SGEMM kernel");
+    }
+    event.wait();
+}
+
+template<>
+const std::string MatrixOpenCL<float>::source = R"(
+    __kernel void GEMM(
+        const int M,
+        const int N,
+        const int K,
+        const __global float *A,
+        const __global float *B,
+        __global float *C)
+    {
+        const int global_row_index = get_global_id(0);
+        const int global_col_index = get_global_id(1);
+
+    #if DEBUG
+        printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
+    #endif
+
+        float c = 0.f;
+        for (int k = 0; k < K; k++) {
+            c += A[global_row_index * K + k] * B[k * N + global_col_index];
+        }
+        C[global_row_index * N + global_col_index] = c;
+    }
+)";
+
+template<>
+const std::string MatrixOpenCL<double>::source = R"(
+    __kernel void GEMM(
+        const int M,
+        const int N,
+        const int K,
+        const __global double *A,
+        const __global double *B,
+        __global double *C) 
+    {
+        const int global_row_index = get_global_id(0);
+        const int global_col_index = get_global_id(1);
+
+    #if DEBUG
+        printf("global_row_index=%d, global_col_index=%d\n", global_row_index, global_col_index);
+    #endif
+
+        double c = 0.0;
+        for (int k = 0; k < K; k++) {
+            c += A[global_row_index * K + k] * B[k * N + global_col_index];
+        }
+        C[global_row_index * N + global_col_index] = c;
+    }
+)";
 
 // CL_SUCCESS                                  0
 // CL_DEVICE_NOT_FOUND                         -1

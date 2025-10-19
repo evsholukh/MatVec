@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
          fOpenMP = false,
          fOpenBLAS = false,
          fClBlast = false,
+         fOpenCL = false,
          fFloat = false,
          fDouble = false, 
          fAll = false;
@@ -41,6 +42,7 @@ int main(int argc, char **argv) {
     app.add_flag("--cpu", fCPU, "CPU");
     app.add_flag("--openmp", fOpenMP, "OpenMP");
     app.add_flag("--openblas", fOpenBLAS, "OpenBLAS");
+    app.add_flag("--opencl", fOpenCL, "OpenCL");
     app.add_flag("--clblast", fClBlast, "CLBlast");
 
     app.add_flag("-a,--all", fAll, "All");
@@ -53,6 +55,7 @@ int main(int argc, char **argv) {
         fCPU = true;
         fOpenMP = true;
         fOpenBLAS = true;
+        fOpenCL = true;
         fClBlast = true;
     }
 
@@ -103,7 +106,6 @@ int main(int argc, char **argv) {
                 auto bench = GEMMFlops(matX, matY, matZ);
                 auto metric = bench.perform();
 
-                auto duration = Utils::measure([&matX, &matY, &matZ]() { matX.dot(matY, matZ); });
                 jsonResult["tests"].push_back({
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
@@ -131,6 +133,24 @@ int main(int argc, char **argv) {
                 auto x = MatrixBLAS(matX);
                 auto y = MatrixBLAS(matY);
                 auto z = MatrixBLAS(matZ);
+
+                auto bench = GEMMFlops(x, y, z);
+                auto metric = bench.perform();
+
+                jsonResult["tests"].push_back({
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
+                    {"runtime", runtime},
+                });
+            }
+            if (fOpenCL) {
+                auto runtime = "OpenCL";
+
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = MatrixOpenCL(matX);
+                auto y = MatrixOpenCL(matY);
+                auto z = MatrixOpenCL(matZ);
 
                 auto bench = GEMMFlops(x, y, z);
                 auto metric = bench.perform();

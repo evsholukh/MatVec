@@ -35,6 +35,38 @@
             ],
             "preLaunchTask": "C/C++: Build Vector Debug",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "(gdb) Debug Matrix",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\matrix_debug.exe",
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "args": ["-a", "--float"],
+            "environment": [
+                {
+                    "name": "Path",
+                    "value": "C:\\3d\\OpenBLAS-0.3.29_x64\\bin;C:\\3d\\CLBlast-1.6.3-windows-x64\\bin;C:\\3d\\OpenCL-SDK-v2024.10.24-Win-x64\\bin;${env:Path}"
+                },
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: Build Matrix Debug",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

@@ -79,7 +79,7 @@ public:
 
     MetricResult<T> perform() override {
         auto start_time = std::chrono::high_resolution_clock::now();
-        x.dot(y, z);
+        x.gemm(y, z);
         auto end_time = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<float> elapsed = end_time - start_time;

@@ -16,7 +16,7 @@ public:
 
     Vector<T> row(size_t n) const { return Vector<T>(this->data()+_cols*n, _cols); }
 
-    virtual void dot(const Matrix<T> &o, Matrix<T> &r) const {
+    virtual void gemm(const Matrix<T> &o, Matrix<T> &r) const {
 
         for (int i = 0; i < _rows; ++i) {
             for (int j = 0; j < o._cols; ++j) {
