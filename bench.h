@@ -4,6 +4,7 @@
 #include <random>
 
 #include "vector.h"
+#include "utils.h"
 
 
 template<typename T>

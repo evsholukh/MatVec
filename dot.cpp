@@ -84,17 +84,14 @@ int main(int argc, char **argv) {
     return std::visit([&](auto sample) {
         using T = decltype(sample);
 
-        std::cerr << "Creating array " << fSize << ".." << std::endl;
         auto dataX = Utils::create_array<T>(fSize, 1.0);
-        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
-        auto vX = Vector(dataX, fSize);
-        std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
-
-        std::cerr << "Creating array " << fSize << ".." << std::endl;
         auto dataY = Utils::create_array<T>(fSize, 1.0);
+
+        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
         Utils::randomize_array<T>(dataY, fSize, fMin, fMax, fSeed);
+
+        auto vX = Vector(dataX, fSize);
         auto vY = Vector(dataY, fSize);
-        std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
         try {
             json jsonResult = {
@@ -131,7 +128,6 @@ int main(int argc, char **argv) {
                     },
                 }},
             };
-            T result = T(0);
 
             if (fCorrect) {
                 auto runtime = "C++*";
@@ -140,12 +136,10 @@ int main(int argc, char **argv) {
                 auto x = VectorCorrected(vX);
                 auto bench = DotFlops(x, vY);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -155,12 +149,10 @@ int main(int argc, char **argv) {
 
                 auto bench = DotFlops(vX, vY);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime}, 
                 });
             }
@@ -171,12 +163,10 @@ int main(int argc, char **argv) {
                 auto ompVx = VectorOpenMP(vX);
                 auto bench = DotFlops(ompVx, vY);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -187,12 +177,10 @@ int main(int argc, char **argv) {
                 auto bVx = VectorBLAS(vX);
                 auto bench = DotFlops(bVx, vY);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -205,12 +193,10 @@ int main(int argc, char **argv) {
 
                 auto bench = DotFlops(clVx, clVy);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -223,12 +209,10 @@ int main(int argc, char **argv) {
 
                 auto bench = DotFlops(clVx, clVy);
                 auto metric = bench.perform();
-                auto flops = metric.gflops();
-                auto result = metric.result();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", flops},
-                    {"result", result},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }

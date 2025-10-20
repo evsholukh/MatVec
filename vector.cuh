@@ -34,14 +34,13 @@ public:
 };
 
 template<typename T>
-class VectorCuBLAS {
+class VectorCuBLAS : public Vector<T> {
 
 protected:
-    Vector<T> vec;
     T *d_x;
 
 public:
-    VectorCuBLAS(Vector<T> vec) : vec(vec) {
+    VectorCuBLAS(Vector<T> vec) : Vector<T>(vec) {
         CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
         CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
@@ -50,8 +49,12 @@ public:
         cudaFree(d_x);
     }
 
-    T dot(const VectorCuBLAS<T> &o) const {
-        return T(0);
+    T dot(const Vector<T> &o) const override {
+        // [!]
+        if (auto* ocl = static_cast<const VectorCuBLAS<T>*>(&o)) {
+            return this->dot(*ocl);
+        }
+        return Vector<T>::dot(o);
     }
 };
 
@@ -61,7 +64,7 @@ float VectorCuBLAS<float>::dot(const VectorCuBLAS<float> &o) const {
     cublasCreate(&handle);
 
     float result = 0;
-    cublasSdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
+    cublasSdot(handle, this->size(), d_x, 1, o.d_x, 1, &result);
     cublasDestroy(handle);
 
     return result;
@@ -73,7 +76,7 @@ double VectorCuBLAS<double>::dot(const VectorCuBLAS<double> &o) const {
     cublasCreate(&handle);
 
     double result = 0;
-    cublasDdot(handle, vec.size(), d_x, 1, o.d_x, 1, &result);
+    cublasDdot(handle, this->size(), d_x, 1, o.d_x, 1, &result);
     cublasDestroy(handle);
 
     return result;
@@ -81,14 +84,12 @@ double VectorCuBLAS<double>::dot(const VectorCuBLAS<double> &o) const {
 
 
 template<typename T>
-class MatrixCuBLAS {
-
+class MatrixCuBLAS : public Matrix<T> {
 protected:
-    Matrix<T> mat;
     T *d_A;
 
 public:
-    MatrixCuBLAS(Matrix<T> mat) : mat(mat) {
+    MatrixCuBLAS(Matrix<T> mat) : Matrix<T>(mat) {
         CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(T)));
         CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice));
     }
@@ -97,11 +98,20 @@ public:
         cudaFree(d_A);
     }
 
-    void dot(const MatrixCuBLAS<T> &o, MatrixCuBLAS<T> &r) const {}
+    void gemm(const Matrix<T> &o, Matrix<T> &r) const override {
+        // [!]
+        if (auto* ocl = static_cast<const MatrixCuBLAS<T>*>(&o)) {
+            if (auto* rcl = static_cast<MatrixCuBLAS<T>*>(&r)) {
+                this->gemm(*ocl, *rcl);
+                return;
+            }
+        }
+        Matrix<T>::gemm(o, r);
+    }
 };
 
 template <>
-void MatrixCuBLAS<float>::dot(const MatrixCuBLAS<float> &o, MatrixCuBLAS<float> &r) const {
+void MatrixCuBLAS<float>::gemm(const MatrixCuBLAS<float> &o, MatrixCuBLAS<float> &r) const {
     const float alpha = 1.0f;
     const float beta = 0.0f;
 
@@ -112,24 +122,24 @@ void MatrixCuBLAS<float>::dot(const MatrixCuBLAS<float> &o, MatrixCuBLAS<float> 
         handle,        // handle
         CUBLAS_OP_N,   // transa
         CUBLAS_OP_N,   // transb
-        mat.rows(),    // m
-        o.mat.cols(),  // n
-        mat.cols(),    // k
+        this->rows(),    // m
+        o.cols(),  // n
+        this->cols(),    // k
         &alpha,        // alpha
         d_A,           // A
-        mat.rows(),    // lda
+        this->rows(),    // lda
         o.d_A,         // B
-        mat.cols(),    // ldb
+        this->cols(),    // ldb
         &beta,         // beta
         r.d_A,         // C
-        mat.rows());   // ldc
+        this->rows());   // ldc
 
-    CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(float), cudaMemcpyDeviceToHost));
+    CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
     cublasDestroy(handle);
 }
 
 template <>
-void MatrixCuBLAS<double>::dot(const MatrixCuBLAS<double> &o, MatrixCuBLAS<double> &r) const {
+void MatrixCuBLAS<double>::gemm(const MatrixCuBLAS<double> &o, MatrixCuBLAS<double> &r) const {
     const double alpha = 1.0;
     const double beta = 0.0;
 
@@ -140,19 +150,19 @@ void MatrixCuBLAS<double>::dot(const MatrixCuBLAS<double> &o, MatrixCuBLAS<doubl
         handle,        // handle
         CUBLAS_OP_N,   // transa
         CUBLAS_OP_N,   // transb
-        mat.rows(),    // m
-        o.mat.cols(),  // n
-        mat.cols(),    // k
+        this->rows(),    // m
+        o.cols(),  // n
+        this->cols(),    // k
         &alpha,        // alpha
         d_A,           // A
-        mat.rows(),    // lda
+        this->rows(),    // lda
         o.d_A,         // B
-        mat.cols(),    // ldb
+        this->cols(),    // ldb
         &beta,         // beta
         r.d_A,         // C
-        mat.rows());   // ldc
+        this->rows());   // ldc
 
-    CHECK_CUDA(cudaMemcpy(r.mat.data(), r.d_A, r.mat.size()*sizeof(double), cudaMemcpyDeviceToHost));
+    CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(double), cudaMemcpyDeviceToHost));
     cublasDestroy(handle);
 }
 
@@ -185,19 +195,17 @@ __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
 }
 
 template <typename T>
-class VectorCUDA {
-
+class VectorCUDA : public Vector<T> {
 protected:
-    Vector<T> vec;
     T *d_x;
-    size_t blockSize, gridSize;
+    const size_t blockSize, gridSize;
 
 public:
     VectorCUDA(
         Vector<T> vec,
-        size_t blockSize = 1024,
-        size_t gridSize = 512
-    ) : vec(vec),
+        const size_t blockSize = 1024,
+        const size_t gridSize = 512
+    ) : Vector<T>(vec),
         blockSize(blockSize),
         gridSize(gridSize) {
 
@@ -209,13 +217,21 @@ public:
         cudaFree(d_x);
     }
 
+    T dot(const Vector<T> &o) const override {
+        // [!]
+        if (auto* ocl = static_cast<const VectorCUDA<T>*>(&o)) {
+            return this->dot(*ocl);
+        }
+        return Vector<T>::dot(o);
+    }
+
     T dot(const VectorCUDA<T> &o) const {
         const size_t sharedMemSize = blockSize * sizeof(T);
 
         T *d_r;
         CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(T)));
 
-        reduceDotKernel<T><<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, vec.size());
+        reduceDotKernel<T><<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, this->size());
 
         T *res_data = new T[gridSize];
         Vector<T> vec(res_data, gridSize);

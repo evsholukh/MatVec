@@ -8,7 +8,7 @@
             "name": "(gdb) Debug Dot",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\vector_debug.exe",
+            "program": "${workspaceFolder}\\dot_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "args": ["-a"],
@@ -40,10 +40,10 @@
             "name": "(gdb) Debug GEMM",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\matrix_debug.exe",
+            "program": "${workspaceFolder}\\gemm_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "args": ["-a", "--float"],
+            "args": ["-a"],
             "environment": [
                 {
                     "name": "Path",

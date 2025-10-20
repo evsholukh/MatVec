@@ -8,6 +8,7 @@
 #include "matrix.h"
 #include "vector.h"
 #include "utils.h"
+#include "bench.h"
 
 #include "vector.cuh"
 
@@ -91,8 +92,7 @@ int main(int argc, char **argv) {
                 {"optimization", Utils::getOptimizationFlag()},
                 {"tests", json::array()},
             };
-            
-            T result = T(0);
+
             if (fCUDA) {
                 auto runtime = "CUDA";
                 std::cerr << "Running " << runtime << ".." << std::endl;
@@ -100,11 +100,12 @@ int main(int argc, char **argv) {
                 auto cudaVx = VectorCUDA(vX, fBlockSize, fGridSize);
                 auto cudaVy = VectorCUDA(vY, fBlockSize, fGridSize);
 
-                auto duration = Utils::measure([&cudaVx, &cudaVy, &result]() { result = cudaVx.dot(cudaVy); });
+                auto bench = Bench(cudaVx, cudaVy);
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", result}, 
-                    {"runtime", runtime}, 
+                    {"gflops", bench.gflops()},
+                    {"result", bench.result()},
+                    {"runtime", runtime},
                 });
             }
             if (fcuBLAS) {
@@ -114,11 +115,12 @@ int main(int argc, char **argv) {
                 auto cudaVx = VectorCuBLAS(vX);
                 auto cudaVy = VectorCuBLAS(vY);
 
-                auto duration = Utils::measure([&cudaVx, &cudaVy, &result]() { result = cudaVx.dot(cudaVy); });
+                auto bench = Bench(cudaVx, cudaVy);
+
                 jsonResult["tests"].push_back({
-                    {"duration", duration},
-                    {"result", result}, 
-                    {"runtime", runtime}, 
+                    {"gflops", bench.gflops()},
+                    {"result", bench.result()},
+                    {"runtime", runtime},
                 });
             }
             std::cout << jsonResult.dump(4);

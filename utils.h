@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <random>
+#include <iostream>
 
 #include <array>
 #include <cstring>
@@ -29,10 +30,15 @@ public:
 
     template <typename T>
     static T *create_array(const size_t size, const T val = T(0), const size_t align = 1) {
+
+        std::cerr << "Creating array " << size << ".." << std::endl;
+
         const int count = (size + align - 1) / align;
         const int global_size = align * count;
 
         auto data = new T[global_size];
+
+        std::cerr << "Memory utilized: " << (sizeof(T) * size) / (1024 * 1024) << "MB" << std::endl;
 
         fill_array(data, global_size, T(0));
         fill_array(data, size, val);

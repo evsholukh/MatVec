@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 
     CLI::App app{argv[0]};
 
-    int fCols = 1000, fRows = 1000;
+    int fM = 1000, fN = 1000, fK = 1000;
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
     float fMin = -1.0, fMax = 1.0;
 
@@ -33,9 +33,12 @@ int main(int argc, char **argv) {
          fDouble = false, 
          fAll = false;
 
-    app.add_option("-c,--cols", fCols, "cols");
-    app.add_option("-r,--rows", fRows, "rows");
+    app.add_option("-m", fM, "x-rows");
+    app.add_option("-n", fN, "y-cols");
+    app.add_option("-k", fK, "x-cols, y-rows");
+
     app.add_option("-s,--seed", fSeed, "random seed");
+
     app.add_option("--low", fMin, "random lower value");
     app.add_option("--high", fMax, "random higher value");
 
@@ -46,8 +49,9 @@ int main(int argc, char **argv) {
     app.add_flag("--clblast", fClBlast, "CLBlast");
 
     app.add_flag("-a,--all", fAll, "All");
-    app.add_flag("--float", fFloat, "use float type");
-    app.add_flag("--double", fDouble, "use double type");
+
+    app.add_flag("--float", fFloat, "single precision");
+    app.add_flag("--double", fDouble, "double precision");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -71,30 +75,21 @@ int main(int argc, char **argv) {
     return std::visit([&](auto sample) {
         using T = decltype(sample);
 
-        const size_t N = fCols*fRows, M = fRows*fRows;
+        auto arrX = Utils::create_array<T>(fM*fK, 1.0);
+        auto arrY = Utils::create_array<T>(fK*fN, 1.0);
+        auto arrZ = Utils::create_array<T>(fK*fK);
 
-        std::cerr << "Creating array " << N << ".." << std::endl;
-        auto arrX = Utils::create_array<T>(N, 1);
-        Utils::randomize_array<T>(arrX, N, fMin, fMax, fSeed);
-        auto matX = Matrix(arrX, fRows, fCols);
-        std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
+        Utils::randomize_array<T>(arrX, fM*fK, fMin, fMax, fSeed);
+        Utils::randomize_array<T>(arrY, fK*fN, fMin, fMax, fSeed);
 
-        std::cerr << "Creating array " << N << ".." << std::endl;
-        auto arrY = Utils::create_array<T>(N, 1);
-        Utils::randomize_array<T>(arrY, N, fMin, fMax, fSeed);
-        auto matY = Matrix(arrY, fCols, fRows);
-        std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
-
-        std::cerr << "Creating array " << M << ".." << std::endl;
-        auto arrZ = Utils::create_array<T>(M, 1);
-        auto matZ = Matrix(arrZ, fRows, fRows);
-        std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
+        auto matY = Matrix(arrY, fK, fN);
+        auto matX = Matrix(arrX, fM, fK);
+        auto matZ = Matrix(arrZ, fK, fK);
 
         try {
             json jsonResult = {
                 {"type", typeName},
-                {"rows", fRows},
-                {"cols", fCols},
+                {"mnk", {fM, fN, fK}},
                 {"seed", fSeed},
                 {"range", {fMin, fMax}},
                 {"tests", json::array()},
