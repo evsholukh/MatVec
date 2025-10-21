@@ -6,22 +6,6 @@
 #include "matrix.h"
 
 
-#define CHECK_CUDA(val) handleError(val);
-
-void handleError(cudaError_t err) {
-    if (err != cudaSuccess) {
-        std::cerr << "CUDA Error in "
-                  << __FILE__
-                  << ":"
-                  << __LINE__
-                  << ": "
-                  << cudaGetErrorString(err)
-                  << std::endl;
-
-        exit(EXIT_FAILURE);
-    }
-}
-
 class CUDA {
 
 public:
@@ -41,8 +25,8 @@ protected:
 
 public:
     VectorCuBLAS(Vector<T> vec) : Vector<T>(vec) {
-        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
-        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
+        cudaMalloc(&d_x, vec.size()*sizeof(T));
+        cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice);
     }
 
     ~VectorCuBLAS() {
@@ -85,13 +69,14 @@ double VectorCuBLAS<double>::dot(const VectorCuBLAS<double> &o) const {
 
 template<typename T>
 class MatrixCuBLAS : public Matrix<T> {
+
 protected:
     T *d_A;
 
 public:
     MatrixCuBLAS(Matrix<T> mat) : Matrix<T>(mat) {
-        CHECK_CUDA(cudaMalloc(&d_A, mat.size()*sizeof(T)));
-        CHECK_CUDA(cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice));
+        cudaMalloc(&d_A, mat.size()*sizeof(T));
+        cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice);
     }
 
     ~MatrixCuBLAS() {
@@ -122,19 +107,19 @@ void MatrixCuBLAS<float>::gemm(const MatrixCuBLAS<float> &o, MatrixCuBLAS<float>
         handle,        // handle
         CUBLAS_OP_N,   // transa
         CUBLAS_OP_N,   // transb
-        this->rows(),    // m
-        o.cols(),  // n
-        this->cols(),    // k
+        this->rows(),  // m
+        o.cols(),      // n
+        this->cols(),  // k
         &alpha,        // alpha
         d_A,           // A
-        this->rows(),    // lda
+        this->rows(),  // lda
         o.d_A,         // B
-        this->cols(),    // ldb
+        this->cols(),  // ldb
         &beta,         // beta
         r.d_A,         // C
-        this->rows());   // ldc
+        this->rows()); // ldc
 
-    CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(float), cudaMemcpyDeviceToHost));
+    cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(float), cudaMemcpyDeviceToHost);
     cublasDestroy(handle);
 }
 
@@ -150,19 +135,19 @@ void MatrixCuBLAS<double>::gemm(const MatrixCuBLAS<double> &o, MatrixCuBLAS<doub
         handle,        // handle
         CUBLAS_OP_N,   // transa
         CUBLAS_OP_N,   // transb
-        this->rows(),    // m
-        o.cols(),  // n
-        this->cols(),    // k
+        this->rows(),  // m
+        o.cols(),      // n
+        this->cols(),  // k
         &alpha,        // alpha
         d_A,           // A
-        this->rows(),    // lda
+        this->rows(),  // lda
         o.d_A,         // B
-        this->cols(),    // ldb
+        this->cols(),  // ldb
         &beta,         // beta
         r.d_A,         // C
-        this->rows());   // ldc
+        this->rows()); // ldc
 
-    CHECK_CUDA(cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(double), cudaMemcpyDeviceToHost));
+    cudaMemcpy(r.data(), r.d_A, r.size()*sizeof(double), cudaMemcpyDeviceToHost);
     cublasDestroy(handle);
 }
 
@@ -196,21 +181,18 @@ __global__ void reduceDotKernel(const T* x, const T* y, T *r, int n) {
 
 template <typename T>
 class VectorCUDA : public Vector<T> {
+
 protected:
     T *d_x;
-    const size_t blockSize, gridSize;
+    size_t blockSize, gridSize;
 
 public:
-    VectorCUDA(
-        Vector<T> vec,
-        const size_t blockSize = 1024,
-        const size_t gridSize = 512
-    ) : Vector<T>(vec),
+    VectorCUDA(Vector<T> &vec, size_t blockSize = 1024, size_t gridSize = 512) : Vector<T>(vec),
         blockSize(blockSize),
         gridSize(gridSize) {
 
-        CHECK_CUDA(cudaMalloc(&d_x, vec.size()*sizeof(T)));
-        CHECK_CUDA(cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice));
+        cudaMalloc(&d_x, vec.size()*sizeof(T));
+        cudaMemcpy(d_x, vec.data(), vec.size()*sizeof(T), cudaMemcpyHostToDevice);
     }
 
     ~VectorCUDA() {
@@ -229,9 +211,9 @@ public:
         const size_t sharedMemSize = blockSize * sizeof(T);
 
         T *d_r;
-        CHECK_CUDA(cudaMalloc(&d_r, gridSize * sizeof(T)));
+        cudaMalloc(&d_r, gridSize * sizeof(T));
 
-        reduceDotKernel<T><<<gridSize, blockSize, sharedMemSize>>>(d_x, o.d_x, d_r, this->size());
+        reduceDotKernel<T><<<gridSize, blockSize, sharedMemSize>>>(this->d_x, o.d_x, d_r, this->size());
 
         T *res_data = new T[gridSize];
         Vector<T> vec(res_data, gridSize);
@@ -239,9 +221,9 @@ public:
         cudaMemcpy(res_data, d_r, gridSize * sizeof(T), cudaMemcpyDeviceToHost);
 
         auto res = vec.sum();
-        delete[] res_data;
+        delete[] res_data; // [!]
 
-        cudaFree(d_r);
+        cudaFree(d_r); // [!]
 
         return res;
     }
