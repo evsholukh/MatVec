@@ -22,12 +22,47 @@
             "problemMatcher": []
         },
         {
+            "label": "Launch Dot CUDA",
+            "command": "dot_cuda.exe",
+            "args": [
+                "--all",
+                "--float"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "C/C++: Build Dot CUDA Release"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Launch GEMM",
             "command": "gemm.exe",
             "dependsOrder": "sequence",
-            "args": ["-k", "20000", "--opencl", "--clblast", "--float"],
+            "args": [
+                "-k",
+                "20000",
+                "--opencl",
+                "--clblast",
+                "--float"
+            ],
             "dependsOn": [
                 "C/C++: Build GEMM Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch GEMM CUDA",
+            "command": "gemm_cuda.exe",
+            "dependsOrder": "sequence",
+            "args": [
+                "-m", "10000",
+                "-n", "10000",
+                "-k", "30000",
+                "-a",
+                "--float"
+            ],
+            "dependsOn": [
+                "C/C++: Build GEMM CUDA Release"
             ],
             "problemMatcher": []
         },
@@ -195,7 +230,7 @@
                 "-lopencl",
                 "-lopenblas",
                 "-lclblast",
-                "-std=c++17",
+                "-std=c++17"
             ],
             "group": {
                 "kind": "build",

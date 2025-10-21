@@ -66,17 +66,14 @@ int main(int argc, char **argv) {
     return std::visit([&](auto sample) {
         using T = decltype(sample);
 
-        std::cerr << "Creating array " << fSize << ".." << std::endl;
         auto dataX = Utils::create_array<T>(fSize, 1.0);
-        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
-        auto vX = Vector(dataX, fSize);
-        std::cerr << "Memory utilized: " << vX.size_mb() << "MB" << std::endl;
-    
-        std::cerr << "Creating array " << fSize << ".." << std::endl;
         auto dataY = Utils::create_array<T>(fSize, 1.0);
+
+        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
         Utils::randomize_array<T>(dataY, fSize, fMin, fMax, fSeed);
+
+        auto vX = Vector(dataX, fSize);
         auto vY = Vector(dataY, fSize);
-        std::cerr << "Memory utilized: " << vY.size_mb() << "MB" << std::endl;
 
         try {
             json jsonResult = {
@@ -97,14 +94,15 @@ int main(int argc, char **argv) {
                 auto runtime = "CUDA";
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
-                auto cudaVx = VectorCUDA(vX, fBlockSize, fGridSize);
-                auto cudaVy = VectorCUDA(vY, fBlockSize, fGridSize);
+                auto cudaVx = VectorCUDA<T>(vX, fBlockSize, fGridSize);
+                auto cudaVy = VectorCUDA<T>(vY, fBlockSize, fGridSize);
 
-                auto bench = Bench(cudaVx, cudaVy);
+                auto bench = DotFlops(cudaVx, cudaVy);
+                auto metric = bench.perform();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", bench.gflops()},
-                    {"result", bench.result()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
@@ -112,14 +110,15 @@ int main(int argc, char **argv) {
                 auto runtime = "cuBLAS";
                 std::cerr << "Running " << runtime << ".." << std::endl;
 
-                auto cudaVx = VectorCuBLAS(vX);
-                auto cudaVy = VectorCuBLAS(vY);
+                auto cudaVx = VectorCuBLAS<T>(vX);
+                auto cudaVy = VectorCuBLAS<T>(vY);
 
-                auto bench = Bench(cudaVx, cudaVy);
+                auto bench = DotFlops(cudaVx, cudaVy);
+                auto metric = bench.perform();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", bench.gflops()},
-                    {"result", bench.result()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }

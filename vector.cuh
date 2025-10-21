@@ -40,6 +40,8 @@ public:
         }
         return Vector<T>::dot(o);
     }
+
+    T VectorCuBLAS<T>::dot(const VectorCuBLAS<T> &o) const;
 };
 
 template <>
@@ -93,6 +95,8 @@ public:
         }
         Matrix<T>::gemm(o, r);
     }
+
+    void MatrixCuBLAS<T>::gemm(const MatrixCuBLAS<T> &o, MatrixCuBLAS<T> &r) const;
 };
 
 template <>

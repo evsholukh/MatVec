@@ -56,18 +56,15 @@ int main(int argc, char **argv) {
         using T = decltype(sample);
 
         auto arrX = Utils::create_array<T>(fM*fK, 1);
-        Utils::randomize_array<T>(arrX, fM*fK, fMin, fMax, fSeed);
-        auto matX = Matrix<T>(arrX, fM, fK);
-        std::cerr << "Memory utilized: " << matX.size_mb() << "MB" << std::endl;
-    
         auto arrY = Utils::create_array<T>(fK*fN, 1);
-        Utils::randomize_array<T>(arrY, fK*fN, fMin, fMax, fSeed);
-        auto matY = Matrix<T>(arrY, fK, fN);
-        std::cerr << "Memory utilized: " << matY.size_mb() << "MB" << std::endl;
-
         auto arrZ = Utils::create_array<T>(fK*fK, 1);
+        
+        Utils::randomize_array<T>(arrX, fM*fK, fMin, fMax, fSeed);
+        Utils::randomize_array<T>(arrY, fK*fN, fMin, fMax, fSeed);
+
+        auto matX = Matrix<T>(arrX, fM, fK);
+        auto matY = Matrix<T>(arrY, fK, fN);
         auto matZ = Matrix<T>(arrZ, fK, fK);
-        std::cerr << "Memory utilized: " << matZ.size_mb() << "MB" << std::endl;
 
         try {
             json jsonResult = {
@@ -90,10 +87,11 @@ int main(int argc, char **argv) {
                 auto z = MatrixCuBLAS(matZ);
 
                 auto bench = GEMMFlops(x, y, z);
+                auto metric = bench.perform();
 
                 jsonResult["tests"].push_back({
-                    {"gflops", bench.gflops()},
-                    {"result", bench.result()},
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
                     {"runtime", runtime},
                 });
             }
