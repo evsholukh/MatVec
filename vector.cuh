@@ -233,28 +233,77 @@ public:
     }
 };
 
-
 template <typename T>
-__global__ void gemm(size_t m,
-                     size_t n,
-                     size_t k,
-                     T alpha,
-                     T const* A,
-                     size_t lda,
-                     T const* B,
-                     size_t ldb,
-                     T beta,
-                     T* C,
-                     size_t ldc)
+__global__ void gemmKernel(size_t m,
+                           size_t n,
+                           size_t k,
+                           T alpha,
+                           const T* A, size_t lda,
+                           const T* B, size_t ldb,
+                           T beta,
+                           T* C, size_t ldc)
 {
-    size_t const C_row_idx{blockIdx.x * blockDim.x + threadIdx.x};
-    size_t const C_col_idx{blockIdx.y * blockDim.y + threadIdx.y};
+    size_t row = blockIdx.x * blockDim.x + threadIdx.x;
+    size_t col = blockIdx.y * blockDim.y + threadIdx.y;
 
-    if (C_row_idx < m && C_col_idx < n) {
-        T sum{static_cast<T>(0)};
-        for (size_t k_idx{0U}; k_idx < k; ++k_idx) {
-            sum += A[C_row_idx * lda + k_idx] * B[k_idx * ldb + C_col_idx];
-        }
-        C[C_row_idx * ldc + C_col_idx] = alpha * sum + beta * C[C_row_idx * ldc + C_col_idx];
+    if (row < m && col < n) {
+        T sum = 0;
+        for (size_t i = 0; i < k; ++i)
+            sum += A[row * lda + i] * B[i * ldb + col];
+        C[row * ldc + col] = alpha * sum + beta * C[row * ldc + col];
     }
 }
+
+template<typename T>
+class MatrixCUDA : public Matrix<T> {
+
+protected:
+    T *d_A;
+
+public:
+    MatrixCUDA(Matrix<T> mat) : Matrix<T>(mat) {
+        cudaMalloc(&d_A, mat.size()*sizeof(T));
+        cudaMemcpy(d_A, mat.data(), mat.size()*sizeof(T), cudaMemcpyHostToDevice);
+    }
+
+    ~MatrixCUDA() {
+        cudaFree(d_A);
+    }
+
+    void gemm(const Matrix<T> &o, Matrix<T> &r) const override {
+        // [!]
+        if (auto* ocl = static_cast<const MatrixCUDA<T>*>(&o)) {
+            if (auto* rcl = static_cast<MatrixCUDA<T>*>(&r)) {
+                this->gemm(*ocl, *rcl);
+                return;
+            }
+        }
+        Matrix<T>::gemm(o, r);
+    }
+
+    void gemm(const MatrixCUDA<T> &o, MatrixCUDA<T> &r) const {
+
+        const size_t M = this->rows();
+        const size_t N = o.cols();
+        const size_t K = this->cols();
+
+        const size_t lda = M;
+        const size_t ldb = K;
+        const size_t ldc = M;
+
+        const T alpha = static_cast<T>(1.0);
+        const T beta = static_cast<T>(0.0);
+
+        const int B = 32;
+
+        dim3 blockSize(B, B);
+        dim3 gridSize((M + B - 1) / B, (N + B - 1) / B);
+
+        gemmKernel<T><<<gridSize, blockSize>>>(M, N, K,
+                                               alpha, d_A, lda,
+                                               o.d_A, ldb,
+                                               beta, r.d_A, ldc);
+        cudaDeviceSynchronize();
+        cudaMemcpy(r.data(), r.d_A, r.size() * sizeof(T), cudaMemcpyDeviceToHost);
+    }
+};

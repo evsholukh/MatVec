@@ -18,10 +18,16 @@ int main(int argc, char **argv) {
 
     CLI::App app{argv[0]};
 
-    int fM = 1000, fN = 1000, fK = 1000;
+    auto fM = 1000, fN = 1000, fK = 1000;
+
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
-    float fMin = -1.0, fMax = 1.0;
-    bool fcuBLAS = false, fFloat = false, fDouble = false, fAll = false;
+    auto fMin = -1.0, fMax = 1.0;
+
+    bool fcuBLAS = false,
+        fCUDA = false,
+        fFloat = false,
+        fDouble = false,
+        fAll = false;
 
     app.add_option("-m", fM, "x-rows");
     app.add_option("-n", fN, "y-cols");
@@ -33,6 +39,7 @@ int main(int argc, char **argv) {
     app.add_option("--high", fMax, "random higher value");
 
     app.add_flag("--cublas", fcuBLAS, "cuBLAS");
+    app.add_flag("--cuda", fCUDA, "CUDA");
     app.add_flag("-a,--all", fAll, "All");
 
     app.add_flag("--float", fFloat, "single precision");
@@ -42,6 +49,7 @@ int main(int argc, char **argv) {
 
     if (fAll) {
         fcuBLAS = true;
+        fCUDA = true;
     }
     using Number = std::variant<float, double>;
     std::vector<std::string> typeNames= {"float", "double"};
@@ -58,7 +66,7 @@ int main(int argc, char **argv) {
         auto arrX = Utils::create_array<T>(fM*fK, 1);
         auto arrY = Utils::create_array<T>(fK*fN, 1);
         auto arrZ = Utils::create_array<T>(fK*fK, 1);
-        
+
         Utils::randomize_array<T>(arrX, fM*fK, fMin, fMax, fSeed);
         Utils::randomize_array<T>(arrY, fK*fN, fMin, fMax, fSeed);
 
@@ -95,7 +103,24 @@ int main(int argc, char **argv) {
                     {"runtime", runtime},
                 });
             }
-            std::cout << jsonResult.dump(4);
+            if (fCUDA) {
+                auto runtime = "CUDA";
+                std::cerr << "Running " << runtime << ".." << std::endl;
+
+                auto x = MatrixCUDA(matX);
+                auto y = MatrixCUDA(matY);
+                auto z = MatrixCUDA(matZ);
+
+                auto bench = GEMMFlops(x, y, z);
+                auto metric = bench.perform();
+
+                jsonResult["tests"].push_back({
+                    {"gflops", metric.gflops()},
+                    {"result", metric.result()},
+                    {"runtime", runtime},
+                });
+            }
+            std::cout << jsonResult.dump(4) << std::endl;
 
             delete[] arrX;
             delete[] arrY;
