@@ -1,0 +1,2082 @@
+[
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334759996778200,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.0007036782322889437,
+        "result": 347.02850341796875,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334760254771700,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.0014269287227424137,
+        "result": 667.0505981445312,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334760543774900,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.0027915615929209074,
+        "result": 1341.3194580078125,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334760837224300,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.00572351890621392,
+        "result": 2778.49658203125,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334761104521600,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.011481883494286438,
+        "result": 5399.4990234375,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334761376502000,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.0003058556297275123,
+        "result": 356.7327586472993,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334761654189600,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.0006171165166960385,
+        "result": 691.3021574683613,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334761934204000,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.001240628291211991,
+        "result": 1338.8255080412116,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334762211838400,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.002289599537083961,
+        "result": 2754.346724293476,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334762484477500,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.00495891146833275,
+        "result": 5453.261251211476,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334762752672200,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.0002340980371129532,
+        "result": 351.41156005859375,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334763053114600,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.0005537600178231984,
+        "result": 671.7318115234375,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334763353238900,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.001093825085549682,
+        "result": 1323.887939453125,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334763641708600,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.001910865893677628,
+        "result": 2722.197998046875,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334763907777200,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.0036417083649080287,
+        "result": 5430.98095703125,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334764168909700,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.00025241687981085984,
+        "result": 335.9061997982913,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334764447731800,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.0005307635346028401,
+        "result": 661.3348529191101,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334764730500900,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.0009561106786059752,
+        "result": 1372.4235183334745,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334765008501700,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.0018002702693461809,
+        "result": 2713.1974889996836,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "env": [
+      {
+        "runtime": "C++",
+        "version": "13.3.0"
+      },
+      {
+        "runtime": "OpenMP",
+        "version": "4.5"
+      },
+      {
+        "runtime": "OpenBLAS",
+        "version": "OpenBLAS 0.3.29"
+      },
+      {
+        "runtime": "OpenCL",
+        "version": "OpenCL 3.0 CUDA"
+      },
+      {
+        "runtime": "CLBlast",
+        "version": "1.6.3"
+      }
+    ],
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "-O3",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334765268926800,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.004140645695051086,
+        "result": 5426.55365767815,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347654890446,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.0005645339367310641,
+        "result": 341.8543701171875,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347657279582,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.001038918150199149,
+        "result": 699.7935791015625,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347659502332,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.002213066026506283,
+        "result": 1327.67333984375,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347661631280,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.005043716437079637,
+        "result": 2775.794921875,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347663824723,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.010460668791807312,
+        "result": 5476.0078125,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347666107198,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 0.0002786285019327603,
+        "result": 333.83309852450776,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347668281937,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.0005956450409439075,
+        "result": 674.0144538530218,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347670444885,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.0010081478433689006,
+        "result": 1359.33273926965,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347672587142,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.0022898235108860946,
+        "result": 2761.895004469081,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347674874543,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.004751526220146284,
+        "result": 5541.505659920859,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347677181770,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 9.06209347961213e-05,
+        "result": 322.3966979980469,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347679722909,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.00018470157297151933,
+        "result": 662.5385131835938,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347682144175,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.0003458423773984185,
+        "result": 1373.818603515625,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347684684738,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.0007032115388234571,
+        "result": 2751.519775390625,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347687338473,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.0014793562261522634,
+        "result": 5427.0947265625,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347689833976,
+    "size": 1024,
+    "tests": [
+      {
+        "gflops": 9.205751229289202e-05,
+        "result": 347.65414040811794,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347692319793,
+    "size": 2048,
+    "tests": [
+      {
+        "gflops": 0.00017936845957967717,
+        "result": 678.5350824742382,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347694822377,
+    "size": 4096,
+    "tests": [
+      {
+        "gflops": 0.00034788998680212313,
+        "result": 1400.9166439719556,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347697455272,
+    "size": 8192,
+    "tests": [
+      {
+        "gflops": 0.0007005622982164469,
+        "result": 2721.870973414345,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "block_size": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "grid_size": 32768,
+    "optimization": "default",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613347699952052,
+    "size": 16384,
+    "tests": [
+      {
+        "gflops": 0.0014818583856522384,
+        "result": 5496.023793734192,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      1024,
+      1024,
+      1024
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334770416813700,
+    "tests": [
+      {
+        "gflops": 34.13521023471248,
+        "result": 693.0606689453125,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      2048,
+      2048,
+      2048
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334770834245000,
+    "tests": [
+      {
+        "gflops": 45.99119751547839,
+        "result": 11509.3017578125,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      4096,
+      4096,
+      4096
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334771643519100,
+    "tests": [
+      {
+        "gflops": 52.30463205640461,
+        "result": 48251.94921875,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      8192,
+      8192,
+      8192
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334774912280000,
+    "tests": [
+      {
+        "gflops": 52.614666234958825,
+        "result": -318832.25,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      16384,
+      16384,
+      16384
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334797138627300,
+    "tests": [
+      {
+        "gflops": 46.597707519896595,
+        "result": 867778.75,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      1024,
+      1024,
+      1024
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334990082826900,
+    "tests": [
+      {
+        "gflops": 40.1890101266764,
+        "result": -1312.0929727083833,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      2048,
+      2048,
+      2048
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334990589230700,
+    "tests": [
+      {
+        "gflops": 44.46314080961619,
+        "result": 31813.376569379358,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      4096,
+      4096,
+      4096
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334991422727800,
+    "tests": [
+      {
+        "gflops": 44.17189056635847,
+        "result": -66570.18274505938,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      8192,
+      8192,
+      8192
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761334995334409100,
+    "tests": [
+      {
+        "gflops": 40.88975006138657,
+        "result": -129691.23609068217,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      16384,
+      16384,
+      16384
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335024269466500,
+    "tests": [
+      {
+        "gflops": 33.81174802177094,
+        "result": -896156.3530556749,
+        "runtime": "OpenCL"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      1024,
+      1024,
+      1024
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335291341698600,
+    "tests": [
+      {
+        "gflops": 36.828168529214295,
+        "result": -18038.548828125,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      2048,
+      2048,
+      2048
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335291773671700,
+    "tests": [
+      {
+        "gflops": 344.84848391513935,
+        "result": -99838.296875,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      4096,
+      4096,
+      4096
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335292410419500,
+    "tests": [
+      {
+        "gflops": 884.2685579952251,
+        "result": 69359.671875,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      8192,
+      8192,
+      8192
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335293176099200,
+    "tests": [
+      {
+        "gflops": 1550.6337725533722,
+        "result": -75632.0859375,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      16384,
+      16384,
+      16384
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335295367287400,
+    "tests": [
+      {
+        "gflops": 1668.6009638988105,
+        "result": -33602.90234375,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "mnk": [
+      1024,
+      1024,
+      1024
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335305080258000,
+    "tests": [
+      {
+        "gflops": 32.34663772965704,
+        "result": 6347.514061214362,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      2048,
+      2048,
+      2048
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335305537691400,
+    "tests": [
+      {
+        "gflops": 100.52562039838121,
+        "result": -783.1260939708523,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      4096,
+      4096,
+      4096
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335306245062600,
+    "tests": [
+      {
+        "gflops": 159.30037704211247,
+        "result": 79919.50706100884,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      8192,
+      8192,
+      8192
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335307946413400,
+    "tests": [
+      {
+        "gflops": 162.88659567598435,
+        "result": -357630.1619615255,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "mnk": [
+      16384,
+      16384,
+      16384
+    ],
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 1761335316766026800,
+    "tests": [
+      {
+        "gflops": 164.36428208040712,
+        "result": 578439.4150949647,
+        "runtime": "CLBlast"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 1024,
+    "M": 1024,
+    "N": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613353773814474,
+    "tests": [
+      {
+        "gflops": 37.949989127948854,
+        "result": 2865.16357421875,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 2048,
+    "M": 2048,
+    "N": 2048,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613353776881507,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -2325.47509765625,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 4096,
+    "M": 4096,
+    "N": 4096,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613353783913069,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 20918.845703125,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 8192,
+    "M": 8192,
+    "N": 8192,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613353817345775,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 201566.421875,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 16384,
+    "M": 16384,
+    "N": 16384,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613354060519904,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -1976714.5,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 1024,
+    "M": 1024,
+    "N": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613355942667181,
+    "tests": [
+      {
+        "gflops": 46.06841095783774,
+        "result": 2180.53286499953,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 2048,
+    "M": 2048,
+    "N": 2048,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613355945535187,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -24260.255400086742,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 4096,
+    "M": 4096,
+    "N": 4096,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613355952253796,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -84016.51614061318,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 8192,
+    "M": 8192,
+    "N": 8192,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613355988790719,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 35818.04247840469,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 16384,
+    "M": 16384,
+    "N": 16384,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613356266896487,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -33751.20424562311,
+        "runtime": "CUDA"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 1024,
+    "M": 1024,
+    "N": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358623496450,
+    "tests": [
+      {
+        "gflops": 76.23976947748575,
+        "result": 7673.68115234375,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 2048,
+    "M": 2048,
+    "N": 2048,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358626355853,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -9545.2724609375,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 4096,
+    "M": 4096,
+    "N": 4096,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358630716968,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 14190.443359375,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 8192,
+    "M": 8192,
+    "N": 8192,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358636640231,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -221982.75,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 16384,
+    "M": 16384,
+    "N": 16384,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358650304447,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -295943.75,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "float"
+  },
+  {
+    "K": 1024,
+    "M": 1024,
+    "N": 1024,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358710226952,
+    "tests": [
+      {
+        "gflops": 48.36554865732823,
+        "result": 21006.12535722255,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 2048,
+    "M": 2048,
+    "N": 2048,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358713169031,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -47112.405924693165,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 4096,
+    "M": 4096,
+    "N": 4096,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358717669286,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 79751.53642411117,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 8192,
+    "M": 8192,
+    "N": 8192,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358731545146,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": 60725.05357306601,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  },
+  {
+    "K": 16384,
+    "M": 16384,
+    "N": 16384,
+    "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "range": [
+      -1.0,
+      1.0
+    ],
+    "seed": 17613358806393344,
+    "tests": [
+      {
+        "gflops": 0.0,
+        "result": -337618.06064783985,
+        "runtime": "cuBLAS"
+      }
+    ],
+    "type": "double"
+  }
+]

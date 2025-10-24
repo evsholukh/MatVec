@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "label": "Launch Python",
+            "label": "Launch bench.py",
             "command": "python",
             "args": [
                 "bench.py"

@@ -1,73 +1,76 @@
 import subprocess
 import json
-import sys
-import math
 
-
-# Vector
-argv_vars = [
-    # ["vector.exe", "--correct"],
-    # ["vector.exe", "--cpu"],
-    ["vector.exe", "--openmp"],
-    ["vector.exe", "--openblas"],
-    ["vector.exe", "--opencl"],
-    ["vector.exe", "--clblast"],
-    ["vector_cuda.exe", "--cuda"],
-    ["vector_cuda.exe", "--cublas"],
+dots_cpu = [
+    ["dot.exe", "--openmp"],
+    ["dot.exe", "--openblas"],
 ]
 
-# Matrix
-argm_vars= [
-    ["matrix.exe", "--openblas"],
-    ["matrix.exe", "--clblast"],
-    ["matrix_cuda.exe", "--cublas"],
+dots_gpu = [
+    ["dot.exe", "--opencl"],
+    ["dot.exe", "--clblast"],
+    ["dot_cuda.exe", "--cuda"],
+    ["dot_cuda.exe", "--cublas"],
 ]
 
-N = 10
-total = []
+gemms_cpu = [
+    ["gemm.exe", "--openmp"],
+    ["gemm.exe", "--openblas"],
+]
+
+gemms_gpu = [
+    ["gemm.exe", "--opencl"],
+    ["gemm.exe", "--clblast"],
+    ["gemm_cuda.exe", "--cuda"],
+    ["gemm_cuda.exe", "--cublas"],
+]
+
+R = 1
 dtypes = ["--float", "--double"]
-sizes = [(10**8)*i for i in range(1, 10)]
-rows_cols = [(10**3)*(i + 1) for i in range(1, 10)]
+mnk = [2**i for i in range(10, 15)]
+
+total = []
 
 i = 0
-j = N * len(argv_vars) * len(dtypes) * len(sizes)
+N = (len(dots_gpu) + len(gemms_gpu)) * len(dtypes) * len(mnk)
 
-for _ in range(N):
-    for av in argm_vars:
+for _ in range(R):
+    for dot in dots_gpu:
         for dtype in dtypes:
-            for rc in rows_cols:
+            for n in mnk:
                 try:
                     i += 1
-                    args = [*av, dtype, "--rows", str(rc), "--cols", str(rc)]
+                    args = [*dot, dtype, "-n", str(n)]
 
-                    print(f"[{i}/{j}]", *args)
+                    print(f"[{i}/{N}]", *args)
                     output = subprocess.check_output(args, timeout=2400.0)
                     data = json.loads(str(output, encoding="utf-8"))
                     total.append(data)
                 except KeyboardInterrupt:
                     print("Ctrl+C")
-                    sys.exit(-1)
+                    break
                 except Exception as e:
                     print(str(e))
+                    continue
 
-i = 0
-for _ in range(N):
-    for av in argv_vars:
+for _ in range(R):
+    for gemm in gemms_gpu:
         for dtype in dtypes:
-            for size in sizes:
+            for n in mnk:
                 try:
                     i += 1
-                    args = [*av, dtype, "--size", str(size)]
+                    args = [*gemm, dtype, "-m", str(n), "-n", str(n), "-k", str(n)]
 
-                    print(f"[{i}/{j}]", *args)
+                    print(f"[{i}/{N}]", *args)
                     output = subprocess.check_output(args, timeout=2400.0)
                     data = json.loads(str(output, encoding="utf-8"))
                     total.append(data)
                 except KeyboardInterrupt:
                     print("Ctrl+C")
-                    sys.exit(-1)
+                    break
                 except Exception as e:
                     print(str(e))
+                    continue
 
-
-json.dump(total, open("metrics.json", "w"), indent=2)
+with open("bench.json", "w") as f:
+    json.dump(total, f, indent=2)
