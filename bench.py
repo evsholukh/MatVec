@@ -1,76 +1,82 @@
 import subprocess
 import json
+import logging
 
-dots_cpu = [
-    ["dot.exe", "--openmp"],
-    ["dot.exe", "--openblas"],
-]
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
-dots_gpu = [
-    ["dot.exe", "--opencl"],
-    ["dot.exe", "--clblast"],
-    ["dot_cuda.exe", "--cuda"],
-    ["dot_cuda.exe", "--cublas"],
-]
-
-gemms_cpu = [
-    ["gemm.exe", "--openmp"],
-    ["gemm.exe", "--openblas"],
-]
-
-gemms_gpu = [
-    ["gemm.exe", "--opencl"],
-    ["gemm.exe", "--clblast"],
-    ["gemm_cuda.exe", "--cuda"],
-    ["gemm_cuda.exe", "--cublas"],
-]
-
-R = 1
+cpu_flags = ["--openmp", "--openblas"]
+gpu_flags = ["--opencl", "--clblast", "--cuda", "--cublas"]
+exec_dot = ["dot.exe", "dot_cuda.exe"]
+exec_gemm = ["gemm.exe", "gemm_cuda.exe"]
 dtypes = ["--float", "--double"]
-mnk = [2**i for i in range(10, 15)]
+seed_flags = ["--seed", "42"]
 
-total = []
+cpu_dot_n = [str(10**8*i) for i in range(9)]
 
-i = 0
-N = (len(dots_gpu) + len(gemms_gpu)) * len(dtypes) * len(mnk)
+cpu_gemm_n = [str(2**i) for i in range(7, 12)]
+gpu_gemm_n = [str(2**i) for i in range(7, 14)]
 
-for _ in range(R):
-    for dot in dots_gpu:
-        for dtype in dtypes:
-            for n in mnk:
-                try:
-                    i += 1
-                    args = [*dot, dtype, "-n", str(n)]
 
-                    print(f"[{i}/{N}]", *args)
-                    output = subprocess.check_output(args, timeout=2400.0)
-                    data = json.loads(str(output, encoding="utf-8"))
-                    total.append(data)
-                except KeyboardInterrupt:
-                    print("Ctrl+C")
-                    break
-                except Exception as e:
-                    print(str(e))
-                    continue
+dot_cpu_cmds = []
+for size in cpu_dot_n:
+    for flag in cpu_flags:
+        for exe in exec_dot:
+            for dtype in dtypes:
+                cmd = [exe, "-n", size, flag, dtype, *seed_flags]
+                dot_cpu_cmds.append(cmd)
 
-for _ in range(R):
-    for gemm in gemms_gpu:
-        for dtype in dtypes:
-            for n in mnk:
-                try:
-                    i += 1
-                    args = [*gemm, dtype, "-m", str(n), "-n", str(n), "-k", str(n)]
+gemm_cpu_cmds = []
+for size in cpu_gemm_n:
+    for flag in cpu_flags:
+        for exe in exec_gemm:
+            for dtype in dtypes:
+                cmd = [exe, "-n", size, "-m", size, "-k", size, flag, dtype, *seed_flags]
+                gemm_cpu_cmds.append(cmd)
 
-                    print(f"[{i}/{N}]", *args)
-                    output = subprocess.check_output(args, timeout=2400.0)
-                    data = json.loads(str(output, encoding="utf-8"))
-                    total.append(data)
-                except KeyboardInterrupt:
-                    print("Ctrl+C")
-                    break
-                except Exception as e:
-                    print(str(e))
-                    continue
+dot_gpu_cmds = []
+for size in cpu_dot_n:
+    for flag in gpu_flags:
+        for exe in exec_dot:
+            for dtype in dtypes:
+                cmd = [exe, "-n", size, flag, dtype, *seed_flags]
+                dot_gpu_cmds.append(cmd)
 
-with open("bench.json", "w") as f:
-    json.dump(total, f, indent=2)
+gemm_gpu_cmds = []
+for size in gpu_gemm_n:
+    for flag in gpu_flags:
+        for exe in exec_gemm:
+            for dtype in dtypes:
+                cmd = [exe, "-n", size, "-m", size, "-k", size, flag, dtype, *seed_flags]
+                gemm_gpu_cmds.append(cmd)
+
+
+def run_json(args):
+    output = subprocess.check_output(args, timeout=2400.0)
+    data = json.loads(str(output, encoding="utf-8"))
+
+    return data
+
+def run_json_bulk(*args_arr):
+    total = []
+    for k, v in enumerate(args_arr):
+        try:
+            logging.info(f'[{k+1}/{len(args_arr)}] {" ".join(v)}', )
+            res = run_json(v)
+            total.append(res)
+        except KeyboardInterrupt:
+            logging.warning("Ctrl+C")
+            break
+        except Exception as e:
+            logging.error(str(e), exc_info=False)
+    return total
+
+total = dot_cpu_cmds + dot_gpu_cmds + gemm_cpu_cmds + gemm_gpu_cmds
+
+res = run_json_bulk(*total)
+
+with open("bench.json", "w", encoding="utf-8") as f:
+    json.dump(res, f, indent=4)
