@@ -1,0 +1,3407 @@
+[
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 13.7721129055242,
+                "result": 33219536.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 7.36547854080229,
+                "result": 33329568.56047061,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 5.678075637415664,
+                "result": 33276884.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 8.032547709629517,
+                "result": 33329568.560438026,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 13.562770480689663,
+                "result": 66075672.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 8.270443373205419,
+                "result": 66663020.705210306,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 5.741039025651748,
+                "result": 66375088.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 8.742538731395618,
+                "result": 66663020.70512365,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 14.650869637814967,
+                "result": 98575776.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 7.5473030404980666,
+                "result": 99995014.21013452,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 5.576166674741458,
+                "result": 99084392.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 8.118881817697941,
+                "result": 99995014.20998275,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 14.682724221713254,
+                "result": 130271168.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 8.336972170783353,
+                "result": 133325151.885474,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 5.631800356482291,
+                "result": 131782816.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 6.961140705176365,
+                "result": 133325151.8852135,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 14.33930168339353,
+                "result": 161964608.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 7.630832899770268,
+                "result": 166654780.4588097,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 5.785932224462719,
+                "result": 163552400.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 8.866521830647509,
+                "result": 166654780.45844552,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 14.752163457897934,
+                "result": 192968464.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 6.455211600923997,
+                "result": 199986171.5494538,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 5.100828561886257,
+                "result": 195246528.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 5.950730640411278,
+                "result": 199986171.5489802,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 700000000,
+        "tests": [
+            {
+                "gflops": 15.210926513177778,
+                "result": 222257056.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 700000000,
+        "tests": [
+            {
+                "gflops": 8.54387926847819,
+                "result": 233314750.73902634,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 700000000,
+        "tests": [
+            {
+                "gflops": 3.108107958540231,
+                "result": 226942048.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 700000000,
+        "tests": [
+            {
+                "gflops": 6.923279760746661,
+                "result": 233314750.73843893,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 15.533950216025348,
+                "result": 251544224.0,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 0.1354620826069413,
+                "result": 266647292.5580928,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 2.6114181710874402,
+                "result": 258642048.0,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 0.365359877993851,
+                "result": 266647292.5574092,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 8.81678695057381,
+                "result": 33329604.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 5.60580551630758,
+                "result": 33329568.560428854,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 8.177082796964331,
+                "result": 33329554.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 100000000,
+        "tests": [
+            {
+                "gflops": 6.050155671938316,
+                "result": 33329568.560428865,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 11.290950275860341,
+                "result": 66663184.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 6.112814705273528,
+                "result": 66663020.70509767,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 10.319252188641359,
+                "result": 66662940.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 200000000,
+        "tests": [
+            {
+                "gflops": 6.061395710094715,
+                "result": 66663020.70509848,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 10.74085028179768,
+                "result": 99994944.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 5.755881553555562,
+                "result": 99995014.20993564,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 9.29761229618639,
+                "result": 99994752.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 300000000,
+        "tests": [
+            {
+                "gflops": 3.001377673481548,
+                "result": 99995014.2099399,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 6.8746478066798,
+                "result": 133325352.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 1.741274526750531,
+                "result": 133325151.88513309,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 10.273295396474463,
+                "result": 133324704.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 400000000,
+        "tests": [
+            {
+                "gflops": 0.016823718081703756,
+                "result": 133325151.88513924,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 7.401782869737902,
+                "result": 166655152.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 500000000,
+        "tests": [
+            {
+                "gflops": 9.920772756113923,
+                "result": 166653840.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 4.098166141532081,
+                "result": 199986448.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 600000000,
+        "tests": [
+            {
+                "gflops": 9.86486802372243,
+                "result": 199984704.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 700000000,
+        "tests": [
+            {
+                "gflops": 5.2713068125357685,
+                "result": 233312768.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 0.03960014865859319,
+                "result": 266646928.0,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "block_size": 1024,
+        "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+        "env": [
+            {
+                "runtime": "C++",
+                "version": "13.3.0"
+            },
+            {
+                "runtime": "OpenMP",
+                "version": "4.5"
+            },
+            {
+                "runtime": "OpenBLAS",
+                "version": "OpenBLAS 0.3.29"
+            },
+            {
+                "runtime": "OpenCL",
+                "version": "OpenCL 3.0 NEO"
+            },
+            {
+                "runtime": "CLBlast",
+                "version": "1.6.3"
+            }
+        ],
+        "gpu": "Intel(R) Arc(TM) Graphics",
+        "grid_size": 32768,
+        "optimization": "-O3",
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "n": 800000000,
+        "tests": [
+            {
+                "gflops": 2.1608583224618667,
+                "result": 266644800.0,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 3.2958540850208693,
+                "result": 327.6619567871094,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.4508028615941924,
+                "result": 327.66236996204066,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 3.2780805927932017,
+                "result": 327.6619567871094,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.259010008881094,
+                "result": 327.66236996204066,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.541829197411549,
+                "result": 1970.625244140625,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.6046117277635124,
+                "result": 1970.6434024001749,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.5664616457861196,
+                "result": 1970.625244140625,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.6984729877028486,
+                "result": 1970.6434024001749,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.539871391997789,
+                "result": 3811.82421875,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1.9939894413523922,
+                "result": 3811.822919306893,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 2.327201430948147,
+                "result": 3811.82421875,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1.8802688043838274,
+                "result": 3811.822919306893,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.7565063613110184,
+                "result": -17401.22265625,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.7191788922303883,
+                "result": -17401.096064953083,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.7371380766270277,
+                "result": -17401.22265625,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.6862409452210202,
+                "result": -17401.096064953083,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.4320900296407583,
+                "result": -36757.296875,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.17580309721122364,
+                "result": -36757.36080524353,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.37103259934494204,
+                "result": -36757.296875,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.16611978106869132,
+                "result": -36757.36080524353,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.22996448445337098,
+                "result": 10983.4990234375,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.14591430917333414,
+                "result": 10978.020386374965,
+                "runtime": "OpenMP"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.16720890486513856,
+                "result": 10983.4990234375,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.14009645077671462,
+                "result": 10978.020386374965,
+                "runtime": "OpenBLAS"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.7564664613808346,
+                "result": 327.66204833984375,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1.3200428106398918,
+                "result": 327.66236996204066,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.1219788622870149,
+                "result": 327.66204833984375,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            128,
+            128,
+            128
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 0.12004957089580018,
+                "result": 327.66236996204066,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 9.282257490243925,
+                "result": 1970.6239013671875,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 9.696411715089289,
+                "result": 1970.6434024001749,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1.8804005005259852,
+                "result": 1970.6239013671875,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            256,
+            256,
+            256
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1.8096740488378154,
+                "result": 1970.6434024001749,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 43.21309895846893,
+                "result": 3811.83203125,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 34.43908662778261,
+                "result": 3811.822919306893,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 12.234032329404243,
+                "result": 3811.83203125,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            512,
+            512,
+            512
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 12.355948601571987,
+                "result": 3811.822919306893,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 72.89514559295115,
+                "result": -17401.13671875,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 60.77858528221197,
+                "result": -17401.096064953083,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 94.26312244320215,
+                "result": -17401.13671875,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            1024,
+            1024,
+            1024
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 51.20725001040857,
+                "result": -17401.096064953083,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 91.75344613012423,
+                "result": -36757.2890625,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 63.854833990876884,
+                "result": -36757.36080524353,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 440.6676414914527,
+                "result": -36757.2890625,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            2048,
+            2048,
+            2048
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 90.5392600096158,
+                "result": -36757.36080524353,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 96.59216761020211,
+                "result": 10983.4443359375,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 62.57814684247313,
+                "result": 10978.020386374965,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1025.809249089068,
+                "result": 10983.4443359375,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            4096,
+            4096,
+            4096
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 111.64343101267167,
+                "result": 10978.020386374965,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            8192,
+            8192,
+            8192
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 80.51864413621965,
+                "result": -180260.828125,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            8192,
+            8192,
+            8192
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 41.7108104635507,
+                "result": -180225.32679839706,
+                "runtime": "OpenCL"
+            }
+        ],
+        "type": "double"
+    },
+    {
+        "mnk": [
+            8192,
+            8192,
+            8192
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 1222.573827908735,
+                "result": -180260.828125,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "float"
+    },
+    {
+        "mnk": [
+            8192,
+            8192,
+            8192
+        ],
+        "range": [
+            -1.0,
+            1.0
+        ],
+        "seed": 42,
+        "tests": [
+            {
+                "gflops": 114.30921693518077,
+                "result": -180225.32679839706,
+                "runtime": "CLBlast"
+            }
+        ],
+        "type": "double"
+    }
+]
