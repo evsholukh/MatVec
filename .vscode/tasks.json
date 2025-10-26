@@ -39,8 +39,11 @@
             "command": "gemm.exe",
             "dependsOrder": "sequence",
             "args": [
-                "-k",
-                "20000",
+                "-m", "1000",
+                "-n", "2000",
+                "-k", "3000",
+                "--openmp",
+                "--openblas",
                 "--opencl",
                 "--clblast",
                 "--float"
@@ -55,9 +58,9 @@
             "command": "gemm_cuda.exe",
             "dependsOrder": "sequence",
             "args": [
-                "-m", "10000",
-                "-n", "10000",
-                "-k", "30000",
+                "-m", "1000",
+                "-n", "2000",
+                "-k", "3000",
                 "-a",
                 "--float"
             ],

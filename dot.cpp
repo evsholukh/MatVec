@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
     CLI::App app{argv[0]};
 
-    int fSize = 100000000, fBlockSize = 1024, fGridSize = 32768;
+    int fN = 100000000, fBlockSize = 1024, fGridSize = 32768;
     auto fSeed = std::chrono::system_clock::now().time_since_epoch().count();
     float fMin = -1.0, fMax = 1.0;
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
         fDouble = false,
         fAll = false;
 
-    app.add_option("-n,--size", fSize, "vector size");
+    app.add_option("-n,--size", fN, "vector size");
     app.add_option("-b,--block-size", fBlockSize, "block size");
     app.add_option("-g,--grid-size", fGridSize, "grid size");
 
@@ -84,51 +84,24 @@ int main(int argc, char **argv) {
     return std::visit([&](auto sample) {
         using T = decltype(sample);
 
-        auto dataX = Utils::create_array<T>(fSize, 1.0);
-        auto dataY = Utils::create_array<T>(fSize, 1.0);
+        auto dataX = Utils::create_array<T>(fN, 1.0);
+        auto dataY = Utils::create_array<T>(fN, 1.0);
 
-        Utils::randomize_array<T>(dataX, fSize, fMin, fMax, fSeed);
-        Utils::randomize_array<T>(dataY, fSize, fMin, fMax, fSeed);
+        Utils::randomize_array<T>(dataX, fN, fMin, fMax, fSeed);
+        Utils::randomize_array<T>(dataY, fN, fMin, fMax, fSeed);
 
-        auto vX = Vector(dataX, fSize);
-        auto vY = Vector(dataY, fSize);
+        auto vX = Vector(dataX, fN);
+        auto vY = Vector(dataY, fN);
 
         try {
             json jsonResult = {
-                {"type",  typeName},
-                {"size", fSize},
+                {"dtype",  typeName},
+                {"n", fN},
                 {"seed", fSeed},
                 {"range", {fMin,fMax}},
                 {"cpu", Utils::cpuName()},
-                {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
-                {"block_size", fBlockSize},
-                {"grid_size", fGridSize},
                 {"tests", json::array()},
-                {"optimization", Utils::getOptimizationFlag()},
-                {"env", {
-                    {
-                        {"runtime", "C++"},
-                        {"version", OpenCL::getCompilerVersion()},
-                    },
-                    {
-                        {"runtime", "OpenMP"},
-                        {"version", VectorOpenMP<>::getOpenMPVersion()},
-                    },
-                    {
-                        {"runtime", "OpenBLAS"},
-                        {"version", VectorBLAS<>::getOpenBLASVersion()},
-                    },
-                    {
-                        {"runtime", "OpenCL"},
-                        {"version", OpenCL::getDeviceVersion(OpenCL::defaultDevice())},
-                    },
-                    {
-                        {"runtime", "CLBlast"},
-                        {"version", VectorCLBlast<>::getCLBlastVersion()},
-                    },
-                }},
             };
-
             if (fCorrect) {
                 auto runtime = "C++*";
                 std::cerr << "Running " << runtime << ".." << std::endl;
@@ -141,6 +114,7 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"version", OpenCL::getCompilerVersion()},
                 });
             }
             if (fCPU) {
@@ -153,7 +127,8 @@ int main(int argc, char **argv) {
                 jsonResult["tests"].push_back({
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
-                    {"runtime", runtime}, 
+                    {"runtime", runtime},
+                    {"version", OpenCL::getCompilerVersion()},
                 });
             }
             if (fOpenMP) {
@@ -168,6 +143,7 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"version", VectorOpenMP<>::getOpenMPVersion()},
                 });
             }
             if (fOpenBLAS) {
@@ -182,6 +158,7 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"version", VectorBLAS<>::getOpenBLASVersion()},
                 });
             }
             if (fOpenCL) {
@@ -198,6 +175,10 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"version", OpenCL::getDeviceVersion(OpenCL::defaultDevice())},
+                    {"block_size", fBlockSize},
+                    {"grid_size", fGridSize},
+                    {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
                 });
             }
             if (fClBlast) {
@@ -214,6 +195,8 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"version", VectorCLBlast<>::getCLBlastVersion()},
+                    {"gpu", OpenCL::getDeviceName(OpenCL::defaultDevice())},
                 });
             }
             std::cout << jsonResult.dump(4) << std::endl;

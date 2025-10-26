@@ -43,7 +43,7 @@
             "program": "${workspaceFolder}\\gemm_debug.exe",
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "args": ["-a"],
+            "args": ["-a", "-m", "3" , "-n", "3", "-k", "2"],
             "environment": [
                 {
                     "name": "Path",

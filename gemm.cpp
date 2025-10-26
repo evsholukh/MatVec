@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 
         try {
             json jsonResult = {
-                {"type", typeName},
+                {"dtype", typeName},
                 {"mnk", {fM, fN, fK}},
                 {"seed", fSeed},
                 {"range", {fMin, fMax}},
