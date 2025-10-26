@@ -76,14 +76,11 @@ int main(int argc, char **argv) {
 
         try {
             json jsonResult = {
-                {"type", typeName},
-                {"M", fM},
-                {"N", fN},
-                {"K", fK},
+                {"dtype", typeName},
+                {"mnk", {fM, fN, fK}},
                 {"seed", fSeed},
                 {"range", {fMin, fMax}},
                 {"cpu", Utils::cpuName()},
-                {"gpu", CUDA::getDeviceName()},
                 {"tests", json::array()},
             };
             if (fcuBLAS) {
@@ -101,6 +98,7 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"gpu", CUDA::getDeviceName()},
                 });
             }
             if (fCUDA) {
@@ -118,6 +116,7 @@ int main(int argc, char **argv) {
                     {"gflops", metric.gflops()},
                     {"result", metric.result()},
                     {"runtime", runtime},
+                    {"gpu", CUDA::getDeviceName()},
                 });
             }
             std::cout << jsonResult.dump(4) << std::endl;

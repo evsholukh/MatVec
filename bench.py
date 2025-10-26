@@ -15,10 +15,10 @@ exec_gemm = ["gemm.exe", "gemm_cuda.exe"]
 dtypes = ["--float", "--double"]
 seed_flags = ["--seed", "42"]
 
-cpu_dot_n = [str(10**3*i) for i in range(1, 9)]
+cpu_dot_n = [str(10**8*i) for i in range(1, 7)]
 
-cpu_gemm_n = [str(2**i) for i in range(4, 7)]
-gpu_gemm_n = [str(2**i) for i in range(4, 7)]
+cpu_gemm_n = [str(2**i) for i in range(4, 11)]
+gpu_gemm_n = [str(2**i) for i in range(7, 14)]
 
 dot_cpu_cmds = []
 for size in cpu_dot_n:
@@ -61,7 +61,7 @@ def run_json(args):
 
 def run_json_bulk(*args_arr):
     total = []
-    N = 10
+    N = 1
     for k, v in enumerate(args_arr):
         try:
             logging.info(f'[{k+1}/{len(args_arr)}] {" ".join(v)}', )
